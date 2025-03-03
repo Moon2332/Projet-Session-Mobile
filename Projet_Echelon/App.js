@@ -5,7 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './ecrans/Main/Home';
 import Parameters from './ecrans/Main/Parameters';
-import Notifications from './ecrans/Main/Notifications';
+import Notifications from './ecrans/Main/Notification';
+import Picture from './ecrans/Main/Picture';
 
 export default function App() {
   const Onglets = createBottomTabNavigator({
@@ -13,13 +14,21 @@ export default function App() {
     screens: {
       Parameters: {
         screen: Parameters,
+        options: {
+          headerShown: false,
+        },
       },
       Home: {
         screen: Home,
+        options: {
+          headerShown: false,
+        },
       },
-     
       Notifications: {
         screen: Notifications,
+        options: {
+          headerShown: false,
+        },
       }
     },
   });
@@ -40,10 +49,6 @@ export default function App() {
   const Navigation = createStaticNavigation(Onglets);
   return (
     <Navigation />
-    // <View style={styles.container}>
-    //   <Text>Open up App.js to start working on your app!</Text>
-    //   <StatusBar style="auto" />
-    // </View>
   );
 }
 

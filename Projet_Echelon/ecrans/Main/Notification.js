@@ -16,13 +16,15 @@ const Notification = () => {
         { id: '9', type: 'Update', date: '2023-10-09', time: '06:00 PM' },
     ];
 
+    const navigation = useNavigation();
+
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Notification</Text>
             <FlatList
                 data={notifications}
                 renderItem={({ item }) => (
-                    <Pressable>
+                    <Pressable onPress={() => navigation.navigate('Picture')}>
                         <View style={styles.card}>
                             <Text style={styles.cardText}>Type: {item.type}</Text>
                             <Text style={styles.cardText}>Date: {item.date}</Text>

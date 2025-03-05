@@ -15,6 +15,9 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { faBell, faGear, faHouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import Mapping from './ecrans/Main/Mapping';
+import MappingSaved from './ecrans/Main/Mapping_Saved';
+import MappingCreate from './ecrans/Main/Mapping_Create';
 
 export default function App() {
   const { t } = useTranslation();

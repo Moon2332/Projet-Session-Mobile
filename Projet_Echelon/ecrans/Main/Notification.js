@@ -15,6 +15,7 @@ const Notification = () => {
         { id: '8', type: 'Reminder', date: '2023-10-08', time: '05:00 PM' },
         { id: '9', type: 'Update', date: '2023-10-09', time: '06:00 PM' },
     ];
+    //Swap this with mqtt alerts
 
     const navigation = useNavigation();
 

@@ -1,0 +1,79 @@
+{
+    "subtitle": "Toujours veiller sur toi",
+    "titles_pages": {
+        "authentification": "Authentification",
+        "create": "Créer un compte",
+        "parameters": "Paramètres"
+    },
+    "Account": {
+        "no_account": "Pas de compte",
+        "buttons": {
+            "start": "Commencer",
+            "signin": "Se connecter",
+            "create": "Créer",
+            "create_account": "Créer un compte",
+            "signout": "Déconnexion",
+            "notification": "Notifications",
+            "return": "Retour",
+            "account": "Compte"
+        }
+    },
+    "InputFields": {
+        "email": "Courriel",
+        "password": "Mot de passe",
+        "confirm_password": "Confirmer mot de passe",
+        "firstname": "Prénom",
+        "lastname": "Nom"
+    },
+    "Errors": {
+        "required_fields": {
+            "lastname": "Le nom est obligatoire",
+            "firstname": "Le prénom est obligatoire",
+            "email": {
+                "empty": "Le courriel est obligatoire",
+                "invalid": "Le courriel n'est pas valide"
+            },
+            "password": "Le mot de passe est obligatoire",
+            "confirm_password": "La confirmation du mot de passe est obligatoire"
+        },
+        "password_constraints": {
+            "greater_than_8": "Le mot de passe doit comporter au moins 8 caractères.",
+            "upper_case": "Le mot de passe doit contenir au moins une lettre majuscule.",
+            "lower_case": "Le mot de passe doit contenir au moins une lettre minuscule.",
+            "special_caracter": "Le mot de passe doit contenir au moins un caractère spécial.",
+            "number": "Le mot de passe doit contenir au moins un chiffre.",
+            "mismatch": "Les mots de passe ne correspondent pas."
+        }
+    },
+    "Parameters": {
+        "language": {
+            "english": "Anglais",
+            "french": "Français",
+            "spanish": "Spanish"
+        },
+        "police": {
+            "small": "Petit",
+            "medium": "Moyen",
+            "large": "Large"
+        },
+        "mode": {
+            "light": "Clair",
+            "dark": "Sombre"
+        },
+        "label": {
+            "language": "Langue",
+            "mode": "Mode",
+            "police": "Taille de la police"
+        }
+    },
+    "Home": {
+        "buttons": {
+            "launch": "Lancez Echelon",
+            "mapping" : "Route",
+            "deactivate": "Désactiver"
+        },
+        "title": {
+            "activated": "ECHELON IS ACTIVATED"
+        }
+    }
+}

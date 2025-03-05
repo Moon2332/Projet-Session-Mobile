@@ -51,7 +51,7 @@ export default function App() {
 
   const Navigation = createStaticNavigation(Onglets);
   return (
-    <MappingCreate/>
+    <Navigation />
   );
 }
 

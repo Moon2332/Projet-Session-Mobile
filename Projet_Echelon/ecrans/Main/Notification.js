@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet,FlatList,Pressable } from 'react-native';
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
 
 
 const Notification = () => {
@@ -29,7 +29,7 @@ const Notification = () => {
                         <View style={styles.card}>
                             <Text style={styles.cardText}>Type: {item.type}</Text>
                             <Text style={styles.cardText}>Date: {item.date}</Text>
-                            <Text style={styles.cardText}>Time: {item.time}</Text>
+                            <Text style={styles.cardText}>Temps: {item.time}</Text>
                         </View>
                     </Pressable>
                 )}

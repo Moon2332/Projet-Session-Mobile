@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet,FlatList,Pressable } from 'react-native';
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
 
 
 const Notification = () => {
@@ -15,6 +15,7 @@ const Notification = () => {
         { id: '8', type: 'Reminder', date: '2023-10-08', time: '05:00 PM' },
         { id: '9', type: 'Update', date: '2023-10-09', time: '06:00 PM' },
     ];
+    //Swap this with mqtt alerts
 
     const navigation = useNavigation();
 
@@ -28,7 +29,7 @@ const Notification = () => {
                         <View style={styles.card}>
                             <Text style={styles.cardText}>Type: {item.type}</Text>
                             <Text style={styles.cardText}>Date: {item.date}</Text>
-                            <Text style={styles.cardText}>Time: {item.time}</Text>
+                            <Text style={styles.cardText}>Temps: {item.time}</Text>
                         </View>
                     </Pressable>
                 )}
@@ -45,12 +46,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#111111',
         paddingTop: 50,
-    },
-    text: {
-        fontSize: 36,
-        color: '#ffffff',
-        fontFamily: 'serif',
-        marginBottom: 20,
     },
     card: {
         minWidth: '70%',

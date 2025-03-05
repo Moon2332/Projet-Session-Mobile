@@ -7,6 +7,9 @@ import Home from './ecrans/Main/Home';
 import Parameters from './ecrans/Main/Parameters';
 import Notifications from './ecrans/Main/Notification';
 import Picture from './ecrans/Main/Picture';
+import Mapping from './ecrans/Main/Mapping';
+import MappingSaved from './ecrans/Main/Mapping_Saved';
+import MappingCreate from './ecrans/Main/Mapping_Create';
 
 export default function App() {
   const Onglets = createBottomTabNavigator({

@@ -23,10 +23,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#111111',
 
     },
-    text: {
-        fontSize: 20,
-        color: '#000',
-    },
     ButtonText: {
         fontSize: 16,
         color: '#ffffff',

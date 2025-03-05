@@ -47,12 +47,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#111111',
         paddingTop: 50,
     },
-    text: {
-        fontSize: 36,
-        color: '#ffffff',
-        fontFamily: 'serif',
-        marginBottom: 20,
-    },
     card: {
         minWidth: '70%',
         padding: 20,

@@ -5,7 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './ecrans/Main/Home';
 import Parameters from './ecrans/Main/Parameters';
-import Notifications from './ecrans/Main/Notifications';
+import Notifications from './ecrans/Main/Notification';
+import Picture from './ecrans/Main/Picture';
 import NotificationsMod from './ecrans/Autres/Notifications';
 import Intro from './ecrans/Account/Intro';
 import SignUp from './ecrans/Account/SignUp';
@@ -84,6 +85,9 @@ export default function App() {
         options: {
           headerShown: false,
         },
+        options: {
+          headerShown: false,
+        },
       },
       Home: {
         screen: Home,
@@ -93,6 +97,9 @@ export default function App() {
       },
       Notifications: {
         screen: Notifications,
+        options: {
+          headerShown: false,
+        },
       }
     },
   });

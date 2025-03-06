@@ -4,13 +4,13 @@ import { useNavigation } from '@react-navigation/native';
 
 const Mapping = () => {
 
-    //const navigation = useNavigation();
+    const navigation = useNavigation();
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.Button}><Text style={styles.ButtonText}>Utiliser un Chemin Sauvegardé</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.Button}><Text style={styles.ButtonText}>Modifier un Chemin</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.Button}><Text style={styles.ButtonText}>Créer un Nouveau Chemin</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("MappingSaved")} style={styles.Button}><Text style={styles.ButtonText}>Utiliser un Chemin Sauvegardé</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("MappingEdit")} style={styles.Button}><Text style={styles.ButtonText}>Modifier un Chemin</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("MappingCreate")} style={styles.Button}><Text style={styles.ButtonText}>Créer un Nouveau Chemin</Text></TouchableOpacity>
         </View>
     );
 };

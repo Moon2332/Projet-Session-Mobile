@@ -178,22 +178,26 @@ const styles = StyleSheet.create({
     padding: 10
   },
   inputContainer: {
-    justifyContent: "center"
+    justifyContent: "center",
+    fontFamily:"serif"
   },
   title: {
     fontSize: 80,
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily:"serif"
   },
   title_pages: {
     fontSize: 40,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 50
+    marginBottom: 50,
+    fontFamily:"serif"
   },
   subtitle: {
     fontSize: 30,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily:"serif"
   },
   image: {
     height: 300,
@@ -208,14 +212,16 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   txtButton: {
-    fontSize: 20
+    fontSize: 20,
+    fontFamily:"serif"
   },
   noAccountRow: {
     flexDirection: 'row'
   },
   txtNoAccount: {
     color: 'blue',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    fontFamily:"serif"
   },
   eyeIcon: {
     position: 'absolute',

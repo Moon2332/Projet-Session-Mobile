@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, TextInput } from 'react-native'
 
 const MappingCreate = () => {
     const [items, setItems] = useState([]);
@@ -23,6 +23,14 @@ const MappingCreate = () => {
         });
     };
 
+    const saveItems = async () => {
+        try {
+            console.log('Commands saved successfully');
+        } catch (e) {
+            console.error('Error saving commands', e);
+        }
+    };
+
     const renderItem = ({ item, index }) => (
         <View style={styles.itemContainer}>
             <TouchableOpacity onLongPress={() => removeItem(index)} >
@@ -43,6 +51,9 @@ const MappingCreate = () => {
 
     return (
         <View style={styles.container}>
+            <TouchableOpacity onPress={saveItems} style={styles.saveButton}>
+                <Text style={styles.saveButtonText}>Save</Text>
+            </TouchableOpacity>
             <FlatList
                 data={items}
                 renderItem={renderItem}
@@ -84,9 +95,23 @@ const styles = StyleSheet.create({
         backgroundColor: '#111111',
         paddingTop: 50,
     },
+    saveButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        backgroundColor: '#FF5733',
+        padding: 10,
+        borderRadius: 5,
+    },
+    saveButtonText: {
+        color: '#ffffff',
+        fontWeight: 'bold',
+        fontFamily:"serif"
+    },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
+        fontFamily:"serif"
     },
     horizontalScrollView: {
         flex: 1,
@@ -105,6 +130,7 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         fontSize: 16,
         marginRight: 10,
+        fontFamily:"serif"
     },
     input: {
         height: 40,
@@ -113,6 +139,7 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         borderRadius: 5,
         textAlign: 'center',
+        fontFamily:"serif"
     },
     Button: {
         height: 50,

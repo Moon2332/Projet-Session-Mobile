@@ -1,58 +1,56 @@
-import { StyleSheet, Text, View, Switch, TouchableOpacity, SafeAreaView } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Dropdown } from 'react-native-element-dropdown'
-import { useTranslation } from 'react-i18next'
-import { useNavigation } from '@react-navigation/native'
-import { useParams } from '../../useParams'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
-import { faArrowUpRightFromSquare, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { StyleSheet, Text, View, Switch, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dropdown } from 'react-native-element-dropdown';
+import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
+import { useParams } from '../../useParams';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import { faArrowUpRightFromSquare, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { logout } from '../../api/user';
 
-
 const Parameters = () => {
-  const { t } = useTranslation()
-  const navigation = useNavigation()
+  const { t } = useTranslation();
+  const navigation = useNavigation();
 
-  const { fontSize, mode, langue, updateFontSize, updateMode, updateLanguage } = useParams()
+  const { fontSize, mode, langue, updateFontSize, updateMode, updateLanguage } = useParams();
 
-  const [fontS, setFontSize] = useState(fontSize.toString())
-  const [modeU, setMode] = useState(mode)
-  const [lang, setLangue] = useState(langue)
+  const [fontS, setFontSize] = useState(fontSize.toString());
+  const [modeU, setMode] = useState(mode);
+  const [lang, setLangue] = useState(langue);
 
   const langues = [
     { value: 'en', label: t("Parameters.language.english") },
     { value: 'fr', label: t("Parameters.language.french") },
     { value: 'es', label: t("Parameters.language.spanish") }
-  ]
+  ];
 
   const polices = [
     { value: "16", label: t("Parameters.police.small") },
     { value: "22", label: t("Parameters.police.medium") },
     { value: "30", label: t("Parameters.police.large") },
-  ]
+  ];
 
   useEffect(() => {
     const stocker = async () => {
       try {
         if (modeU !== mode) {
-          updateMode(modeU)
+          updateMode(modeU);
         }
         if (fontS !== fontSize.toString()) {
-          updateFontSize(fontS)
-          console.log(fontS)
+          updateFontSize(parseInt(fontS)); // Convert fontS to a number
+          console.log(fontS);
         }
         if (lang !== langue) {
-          updateLanguage(lang)
+          updateLanguage(lang);
         }
       } catch (e) {
         console.error(t("Errors.save.save"), e);
       }
     };
 
-    stocker()
-  }, [modeU, fontS, lang, mode, fontSize, langue])
-
+    stocker();
+  }, [modeU, fontS, lang, mode, fontSize, langue]);
 
   const dynamicStyles = {
     container: {
@@ -72,35 +70,35 @@ const Parameters = () => {
     buttonSignOut: {
       backgroundColor: modeU ? '#FF5733' : '#C70039',
     },
-  }
+  };
 
   const signout = async () => {
     try {
       const response = await logout();
       navigation.reset({
-        index:0,
-        routes:[
+        index: 0,
+        routes: [
           {
-            name:'Auth',
-            params:{
-              screen:'Intro',
-              params:{
+            name: 'Auth',
+            params: {
+              screen: 'Intro',
+              params: {
                 success: t(response.message)
               }
             }
           }
         ]
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <SafeAreaView style={[styles.container, dynamicStyles.container]}>
       <View style={[styles.container, dynamicStyles.container]}>
         <View style={styles.section}>
-          <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: (parseInt(fontS) + 4).toString() }]}>
+          <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
             {t("Parameters.label.police")}
           </Text>
           <Dropdown
@@ -111,13 +109,13 @@ const Parameters = () => {
             value={fontS}
             onChange={item => setFontSize(item.value)}
             style={[styles.dropdown, dynamicStyles.dropdown]}
-            itemTextStyle={{ fontSize: fontS.toString() }}
-            selectedTextStyle={{ fontSize: fontS.toString() }}
-            />
+            itemTextStyle={{ fontSize: parseInt(fontS) }}
+            selectedTextStyle={{ fontSize: parseInt(fontS) }}
+          />
         </View>
 
         <View style={styles.section}>
-          <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: (parseInt(fontS) + 4).toString() }]}>
+          <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
             {t("Parameters.label.language")}
           </Text>
           <Dropdown
@@ -128,13 +126,13 @@ const Parameters = () => {
             value={lang}
             onChange={item => setLangue(item.value)}
             style={[styles.dropdown, dynamicStyles.dropdown]}
-            itemTextStyle={{ fontSize: fontS.toString() }}
-            selectedTextStyle={{ fontSize: fontS.toString() }}
+            itemTextStyle={{ fontSize: parseInt(fontS) }}
+            selectedTextStyle={{ fontSize: parseInt(fontS) }}
           />
         </View>
 
         <View style={styles.switchSection}>
-          <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: (parseInt(fontS) + 4).toString() }]}>
+          <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
             {modeU ? t("Parameters.mode.light") : t("Parameters.mode.dark")}
           </Text>
           <Switch value={modeU} onValueChange={(newValue) => setMode(newValue)} />
@@ -144,31 +142,31 @@ const Parameters = () => {
           style={[styles.buttonNotification, dynamicStyles.buttonNotification]}
           onPress={() => navigation.navigate("Account")}
         >
-          <Text style={{ fontSize: (parseInt(fontS) + 4).toString() }}>{t("Account.buttons.account")}</Text>
-          <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={(parseInt(fontS) + 4)} />
+          <Text style={{ fontSize: parseInt(fontS) + 4 }}>{t("Account.buttons.account")}</Text>
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={parseInt(fontS) + 4} />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.buttonNotification, dynamicStyles.buttonNotification]}
           onPress={() => navigation.navigate("NotificationMod")}
         >
-          <Text style={{ fontSize: (parseInt(fontS) + 4).toString() }}>{t("Account.buttons.notification")}</Text>
-          <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={(parseInt(fontS) + 4)} />
+          <Text style={{ fontSize: parseInt(fontS) + 4 }}>{t("Account.buttons.notification")}</Text>
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={parseInt(fontS) + 4} />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.buttonSignOut, dynamicStyles.buttonSignOut]}
           onPress={() => signout()}
         >
-          <FontAwesomeIcon icon={faRightFromBracket} size={(parseInt(fontS) + 10)} />
-          <Text style={{ fontSize: (parseInt(fontS) + 4).toString(), marginLeft: 10 }}>{t("Account.buttons.signout")}</Text>
+          <FontAwesomeIcon icon={faRightFromBracket} size={parseInt(fontS) + 10} />
+          <Text style={{ fontSize: parseInt(fontS) + 4, marginLeft: 10 }}>{t("Account.buttons.signout")}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default Parameters
+export default Parameters;
 
 const styles = StyleSheet.create({
   container: {
@@ -194,6 +192,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 10,
     color: '#333',
+    fontFamily:"serif"
   },
   dropdown: {
     height: 50,
@@ -222,4 +221,4 @@ const styles = StyleSheet.create({
     marginTop: '30%',
     alignSelf: 'center',
   },
-})
+});

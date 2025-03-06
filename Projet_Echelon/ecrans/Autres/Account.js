@@ -333,19 +333,23 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10
     },
     inputContainer: {
-        justifyContent: "center"
+        justifyContent: "center",
+        fontFamily:"serif"
     },
     title: {
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily:"serif"
     },
     title_pages: {
         fontWeight: 'bold',
         textAlign: 'center',
-        marginBottom: 10
+        marginBottom: 10,
+        fontFamily:"serif"
     },
     subtitle: {
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily:"serif"
     },
     image: {
         height: 300,
@@ -368,14 +372,16 @@ const styles = StyleSheet.create({
         margin: 20
     },
     txtButton: {
-        marginLeft: 10
+        marginLeft: 10,
+        fontFamily:"serif"
     },
     noAccountRow: {
         flexDirection: 'row'
     },
     txtNoAccount: {
         color: 'blue',
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
+        fontFamily:"serif"
     },
     buttonContainer: {
         flexDirection: 'column',

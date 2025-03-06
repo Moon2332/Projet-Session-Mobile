@@ -22,11 +22,18 @@ class UsersSeeder extends Seeder
               'lastname' => 'Rayan',
             ],
             [
-                'email' => 'nic@gmail.com',
-                'password' => Hash::make('Secret1234!'),
-                'firstname' => 'Amon',
-                'lastname' => 'Mano',
-              ]
+              'email' => 'nic@gmail.com',
+              'password' => Hash::make('Secret1234!'),
+              'firstname' => 'Amon',
+              'lastname' => 'Mano',
+            ],
+            [
+              'email' => 'Toad@toadmail.com',
+              'password' => Hash::make('root'),
+              'firstname' => 'Wise',
+              'lastname' => 'Toad',
+            ],
+
         ]);
     }
 }

@@ -111,6 +111,12 @@ export default function App() {
 
   const RootStack = createNativeStackNavigator({
     initialRouteName: landingPage,
+    screenOptions: {
+      headerStyle: {
+        backgroundColor: 'black',
+      },
+      headerTintColor: 'white',
+    },
     screens: {
       Auth: {
         screen: authStack,
@@ -136,13 +142,25 @@ export default function App() {
           headerShown: false,
         },
       },
+      Picture:{
+        screen: Picture
+      },
+      Mapping: {
+        screen: Mapping,
+      },
+      MappingCreate: {
+        screen: MappingCreate,
+      },
+      MappingSaved: {
+        screen: MappingSaved,
+      }
     },
   })
 
   const Navigation = createStaticNavigation(RootStack);
 
   return (
-    <ParamsProvider>
+    <ParamsProvider >
       <Navigation />
     </ParamsProvider>
   );

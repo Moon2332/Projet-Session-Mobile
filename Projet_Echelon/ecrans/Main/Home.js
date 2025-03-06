@@ -4,7 +4,7 @@ import { useParams } from '../../useParams';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCircleStop, faPlay, faRoute, faStop } from '@fortawesome/free-solid-svg-icons';
+import { faCircleStop, faPlay, faRoute } from '@fortawesome/free-solid-svg-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Home = () => {
@@ -12,7 +12,7 @@ const Home = () => {
   const navigation = useNavigation();
   const { fontSize, mode, langue } = useParams();
 
-  const [isActivated, setIsActivated] = useState(false)
+  const [isActivated, setIsActivated] = useState(false);
 
   const dynamicStyles = {
     container: {
@@ -23,11 +23,11 @@ const Home = () => {
     },
     launchButton: {
       backgroundColor: mode ? '#33FF57' : '#3ACF29',
-      fontSize: (parseInt(fontSize) + 10).toString(),
+      fontSize: parseInt(fontSize) + 10, // Convert fontSize to a number
     },
     mappingButton: {
       backgroundColor: mode ? '#FF5733' : '#C70039',
-      fontSize: (parseInt(fontSize) + 14).toString(),
+      fontSize: parseInt(fontSize) + 14, // Convert fontSize to a number
     },
   };
 
@@ -51,6 +51,7 @@ const Home = () => {
 
             <TouchableOpacity
               style={[styles.mappingButton, dynamicStyles.mappingButton]}
+              onPress={() => navigation.navigate('Mapping')}
             >
               <FontAwesomeIcon icon={faRoute} size={35} color={mode ? '#333' : '#fff'} />
               <Text style={{ fontSize: dynamicStyles.mappingButton.fontSize, marginLeft: 10, color: dynamicStyles.textLabel.color }}>
@@ -98,7 +99,8 @@ const styles = StyleSheet.create({
     fontSize: 50,
     marginBottom: 50,
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily:"serif"
   },
   image: {
     width: 300,

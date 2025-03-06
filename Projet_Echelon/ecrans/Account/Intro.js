@@ -1,7 +1,6 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import i18next from 'i18next'
-import { login } from '../../api/user';
 import '../../i18n'
 import { useTranslation } from 'react-i18next'
 import { useNavigation } from '@react-navigation/native'
@@ -9,8 +8,10 @@ import CustomInput from '../../composants/CustomInput'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
+import { login } from '../../api/user';
+import Toast from 'react-native-toast-message';
 
-const Intro = () => {
+const Intro = ({route}) => {
   const { t, i18n } = useTranslation()
   const navigation = useNavigation()
 
@@ -58,22 +59,39 @@ const Intro = () => {
   const submitForm = async () => {
     if (validateForm()) {
       try {
-      const response = await login(email, password);
-      console.log("Response" + response)
-      navigation.reset({
-        index:0,
-        routes:[
-          {
-            name:'Menu',
-            params:{screen:'Home'}
-          }
-        ]
-      })
-    } catch (error) {
-      console.log("Error - " + error.message)
-    }
+            const response = await login(email, password);
+            console.log("Response" + response)
+            navigation.reset({
+              index:0,
+              routes:[
+                {
+                  name:'Menu',
+                  params:{screen:'Home'}
+                }
+              ]
+            })
+      } catch (error) {
+        console.log("Error - " + error)
+        const parsedData = JSON.parse(error.message);
+        Toast.show({
+          type: 'error',
+          text1: t(parsedData.message),
+          text2: t(parsedData.message2)
+        });
+      }
     }
   }
+
+  useEffect(() => {
+    if(route.params) {
+      if(route.params.success) {
+        Toast.show({
+          type: 'success',
+          text1: route.params.success,
+        });
+      }
+    }
+  }, [ route ])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -140,7 +158,9 @@ const Intro = () => {
             </View>
           </>
         }
+        <Toast />
       </View>
+      
     </SafeAreaView>
   )
 }

@@ -27,9 +27,9 @@ const Parameters = () => {
   ]
 
   const polices = [
-    { value: "12", label: t("Parameters.police.small") },
-    { value: "16", label: t("Parameters.police.medium") },
-    { value: "20", label: t("Parameters.police.large") },
+    { value: "16", label: t("Parameters.police.small") },
+    { value: "22", label: t("Parameters.police.medium") },
+    { value: "30", label: t("Parameters.police.large") },
   ]
 
   useEffect(() => {
@@ -40,12 +40,13 @@ const Parameters = () => {
         }
         if (fontS !== fontSize.toString()) {
           updateFontSize(fontS)
+          console.log(fontS)
         }
         if (lang !== langue) {
           updateLanguage(lang)
         }
       } catch (e) {
-        console.error("Erreur lors de la sauvegarde", e);
+        console.error(t("Errors.save.save"), e);
       }
     };
 
@@ -76,11 +77,6 @@ const Parameters = () => {
   const signout = async () => {
     try {
       const response = await logout();
-
-      navigation.navigate("Auth", {
-        screen: "Intro", 
-        // params:{success:response.data.message}
-      })
       navigation.reset({
         index:0,
         routes:[
@@ -88,12 +84,13 @@ const Parameters = () => {
             name:'Auth',
             params:{
               screen:'Intro',
-              // params:{success:t('account.logout_success')}
+              params:{
+                success: t(response.message)
+              }
             }
           }
         ]
       })
-
     } catch (error) {
       console.log(error)
     }
@@ -114,7 +111,9 @@ const Parameters = () => {
             value={fontS}
             onChange={item => setFontSize(item.value)}
             style={[styles.dropdown, dynamicStyles.dropdown]}
-          />
+            itemTextStyle={{ fontSize: fontS.toString() }}
+            selectedTextStyle={{ fontSize: fontS.toString() }}
+            />
         </View>
 
         <View style={styles.section}>
@@ -129,6 +128,8 @@ const Parameters = () => {
             value={lang}
             onChange={item => setLangue(item.value)}
             style={[styles.dropdown, dynamicStyles.dropdown]}
+            itemTextStyle={{ fontSize: fontS.toString() }}
+            selectedTextStyle={{ fontSize: fontS.toString() }}
           />
         </View>
 
@@ -141,10 +142,10 @@ const Parameters = () => {
 
         <TouchableOpacity
           style={[styles.buttonNotification, dynamicStyles.buttonNotification]}
-          onPress={() => navigation.navigate("NotificationMod")}
+          onPress={() => navigation.navigate("Account")}
         >
           <Text style={{ fontSize: (parseInt(fontS) + 4).toString() }}>{t("Account.buttons.account")}</Text>
-          <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={24} />
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={(parseInt(fontS) + 4)} />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -152,14 +153,14 @@ const Parameters = () => {
           onPress={() => navigation.navigate("NotificationMod")}
         >
           <Text style={{ fontSize: (parseInt(fontS) + 4).toString() }}>{t("Account.buttons.notification")}</Text>
-          <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={24} />
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={(parseInt(fontS) + 4)} />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.buttonSignOut, dynamicStyles.buttonSignOut]}
           onPress={() => signout()}
         >
-          <FontAwesomeIcon icon={faRightFromBracket} size={30} />
+          <FontAwesomeIcon icon={faRightFromBracket} size={(parseInt(fontS) + 10)} />
           <Text style={{ fontSize: (parseInt(fontS) + 4).toString(), marginLeft: 10 }}>{t("Account.buttons.signout")}</Text>
         </TouchableOpacity>
       </View>

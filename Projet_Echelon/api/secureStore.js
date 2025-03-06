@@ -1,15 +1,14 @@
 import * as SecureStore from "expo-secure-store";
 
-export const saveLocalUser = async (user) => {
+export const saveUserInfo = async (user) => {
       try {
-        user_json = JSON.stringify(user);
-        await SecureStore.setItemAsync("user_echelon", user_json);
+        await SecureStore.setItemAsync("user_echelon", JSON.stringify(user));
       } catch (e) {
         console.error("Erreur lors de la sauvegarde", e);
       }
 };
 
-export const getLocalUser = async () => {
+export const getUserInfo = async () => {
   try {
     const user_json = await SecureStore.getItemAsync("user_echelon");
     const user = JSON.parse(user_json)
@@ -21,9 +20,9 @@ export const getLocalUser = async () => {
   }
 };
 
-export const deleteLocalUser = async () => {
+export const deleteUserInfo = async () => {
   try {
-    await SecureStore.deleteItemAsync("user_echelon");
+    await SecureStore.deleteItemAsync("user_echelon")
   } catch (e) {
     console.error("Erreur lors de la suppression", e);
   }

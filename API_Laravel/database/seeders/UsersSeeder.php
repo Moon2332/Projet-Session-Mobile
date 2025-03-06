@@ -20,7 +20,13 @@ class UsersSeeder extends Seeder
               'password' => Hash::make('moon'),
               'firstname' => 'Moon',
               'lastname' => 'Rayan',
-            ]
+            ],
+            [
+                'email' => 'nic@gmail.com',
+                'password' => Hash::make('Secret1234!'),
+                'firstname' => 'Amon',
+                'lastname' => 'Mano',
+              ]
         ]);
     }
 }

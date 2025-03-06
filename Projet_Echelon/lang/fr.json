@@ -1,4 +1,7 @@
 {
+    "Success": "Succès",
+    "Error": "Erreur",
+    "Delete": "Voulez-vous vraiment supprimer votre compte ?",
     "subtitle": "Toujours veiller sur toi",
     "titles_pages": {
         "authentification": "Authentification",
@@ -15,13 +18,20 @@
             "signout": "Déconnexion",
             "notification": "Notifications",
             "return": "Retour",
-            "account": "Compte"
+            "account": "Compte",
+            "save": "Enregistrer",
+            "delete": "Supprimer",
+            "password": "Mot de passe",
+            "cancel": "Annuler"
         }
     },
     "InputFields": {
         "email": "Courriel",
         "password": "Mot de passe",
+        "old_password": "Ancien mot de passe",
+        "new_password": "Nouveau mot de passe",
         "confirm_password": "Confirmer mot de passe",
+        "confirm_new_password": "Confirmer nouveau mot de passe",
         "firstname": "Prénom",
         "lastname": "Nom"
     },
@@ -43,6 +53,30 @@
             "special_caracter": "Le mot de passe doit contenir au moins un caractère spécial.",
             "number": "Le mot de passe doit contenir au moins un chiffre.",
             "mismatch": "Les mots de passe ne correspondent pas."
+        },
+        "save": {
+            "save": "Erreur lors de la sauvegarde"
+        }
+    },
+    "Messages": {
+        "logout": "Déconnecté",
+        "login": {
+            "success": "Connexion réussie",
+            "error": "Erreur lors de la connexion",
+            "error2": "Mot de passe ou courriel érroné(s)"
+        },
+        "password": {
+            "success": "Mot de passe modifiée avec succès",
+            "error": "Erreur lors de la modification du mot de passe"
+        },
+        "no_changes": "Aucune modification donnée",
+        "user": {
+            "success": "Information(s) modifié(e) avec succès",
+            "error": "Erreur lors de la modification de(s) information(s)"
+        },
+        "delete": {
+            "success": "Compte supprimé avec succès",
+            "error": "Erreur lors de la suppression du compte"
         }
     },
     "Parameters": {

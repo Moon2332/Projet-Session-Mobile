@@ -14,5 +14,10 @@ Route::post('signup', [UsersController::class, 'signup'])->name('signup');
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [UsersController::class, 'logout']);
     Route::post('refreshToken', [UsersController::class, 'refreshToken']);
+
+    Route::post('updateUser', [UsersController::class, 'updateUser']);
+    Route::delete('deleteUser', [UsersController::class, 'deleteUser']);
+    Route::post('updatePassword', [UsersController::class, 'updatePassword']);
+
 });
   

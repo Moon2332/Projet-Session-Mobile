@@ -20,24 +20,22 @@ class UsersController extends Controller
         Log::debug("Request" .  $request->validated($request->all()));
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return $this->error('', 'Le courriel ou le mot de passe n\'est pas valide', 401);
+            return response()->json([
+                'message' => 'Messages.login.error',
+                'message2' => 'Messages.login.error2'
+            ], 401);
         }
 
         $user = Auth::user();
-        Log::debug("User - " .$user);
-
-        Log::debug(json_encode([
-            'USER' => $user->email,
-            'TOKEN' => $user->createToken($user->email)->plainTextToken
-        ]));
 
         return response()->json([
+            'message' => 'Messages.login.success',
             'user' => $user,
             'token' => $user->createToken($user->email)->plainTextToken
         ]);
     }
 
-    public function register(RegisterRequest $request)
+    public function signup(SignUpRequest $request)
     {
         $request->validated($request->all());
 
@@ -60,18 +58,70 @@ class UsersController extends Controller
         Auth::user()->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => 'déconnecté'
+            'message' => 'Messages.logout'
         ]);
     }
 
     public function refreshToken()
     {
         $user = Auth::user();
+        Log::debug("USR" .$user);
         $user->currentAccessToken()->delete();
 
-        return $this->success([
+        return response()->json([
         'user' => $user,
-        'token' => $user->createToken('API Token of ' . $user->email)->plainTextToken
+        'token' => $user->createToken($user->email)->plainTextToken
         ]);    
+    }
+
+    public function updateUser(SignUpRequest $request)
+    {
+        try {
+            $request->validated($request->all());
+            $data = $request->all();
+            $id = $data['id'];
+            
+            $user = User::findOrFail($id);
+            
+            $user->firstname = $data['firstname'];
+            $user->lastname = $data['lastname'];
+            $user->email = $data['email'];
+
+            return response()->json([
+                "message" => "Messages.user.success",
+                "user" => $user
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "message" => "Messages.user.error"
+            ], 500);
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!Hash::check($request->old_p, $user->password)) {
+            return response()->json(['message' => 'Messages.password.error'], 422);
+        }
+
+        $user->password = Hash::make($request->new_p);
+        $user->save();
+
+        return response()->json(['message' => 'Messages.password.success'], 200);
+    }
+
+    public function deleteUser()
+    {
+        $user = Auth::user();
+        try {
+            $user->currentAccessToken()->delete();
+            $user->delete();
+            return response()->json(['message' => "Messages.delete.success"], 200);
+        } catch (\Throwable $e) {
+            Log::debug($e);
+            return response()->json(['message' => "Messages.delete.error"], 422);
+        }
     }
 }

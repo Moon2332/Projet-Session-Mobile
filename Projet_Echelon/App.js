@@ -18,6 +18,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Mapping from './ecrans/Main/Mapping';
 import MappingSaved from './ecrans/Main/Mapping_Saved';
 import MappingCreate from './ecrans/Main/Mapping_Create';
+import { refreshToken } from './api/user'
+import Account from './ecrans/Autres/Account';
 
 export default function App() {
   const { t } = useTranslation();
@@ -53,7 +55,7 @@ export default function App() {
   })
 
   const bottomTabs = createBottomTabNavigator({
-    initialRouteName: 'Home',
+    initialRouteName: 'Parameters',
     screenOptions: ({ route }) => ({
       tabBarIcon: ({ color }) => {
         let iconName;
@@ -122,7 +124,18 @@ export default function App() {
           headerShown: false,
         },
       },
-      NotificationMod: NotificationsMod
+      Account: {
+        screen: Account,
+        options: {
+          headerShown: false,
+        },
+      },
+      NotificationMod: {
+        screen: NotificationsMod,
+        options: {
+          headerShown: false,
+        },
+      },
     },
   })
 

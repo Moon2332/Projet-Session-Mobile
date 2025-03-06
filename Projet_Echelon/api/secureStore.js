@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 
 export const saveUserInfo = async (user) => {
@@ -23,6 +24,9 @@ export const getUserInfo = async () => {
 export const deleteUserInfo = async () => {
   try {
     await SecureStore.deleteItemAsync("user_echelon")
+    await AsyncStorage.removeItem('fontSize')
+    await AsyncStorage.removeItem('langue')
+    await AsyncStorage.removeItem('mode')
   } catch (e) {
     console.error("Erreur lors de la suppression", e);
   }

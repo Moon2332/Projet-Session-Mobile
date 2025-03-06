@@ -2,7 +2,8 @@
     "Success": "Success",
     "Error": "Error",
     "Delete": "Are you sure you want to delete your account?",
-    "subtitle": "Always watching over you",
+    "Attention": "Attention! Changing the language will restart the app",
+    "subtitle": "Always watch over you",
     "titles_pages": {
         "authentification": "Authentication",
         "create": "Create an account",
@@ -51,7 +52,7 @@
             "upper_case": "Password must contain at least one uppercase letter.",
             "lower_case": "Password must contain at least one lowercase letter.",
             "special_caracter": "Password must contain at least one special character.",
-            "number": "Password must contain at least one digit.",
+            "number": "Password must contain at least one number.",
             "mismatch": "Passwords do not match."
         },
         "save": {
@@ -59,24 +60,31 @@
         }
     },
     "Messages": {
-        "logout": "Logged out",
+        "logout": {
+            "success": "Successfully logged out",
+            "error": "Error during logout!"
+        },
         "login": {
-            "success": "Login successful",
+            "success": "Successfully logged in",
             "error": "Error during login",
             "error2": "Incorrect email or password"
         },
+        "signup": {
+            "success": "Account created!!",
+            "error": "Error during account creation!"
+        },
         "password": {
-            "success": "Password changed successfully",
-            "error": "Error during password change"
+            "success": "Password successfully changed",
+            "error": "Error while changing password"
         },
         "no_changes": "No changes made",
         "user": {
-            "success": "Information(s) updated successfully",
-            "error": "Error updating information(s)"
+            "success": "Information successfully updated",
+            "error": "Error during information update"
         },
         "delete": {
-            "success": "Account deleted successfully",
-            "error": "Error deleting account"
+            "success": "Account successfully deleted",
+            "error": "Error during account deletion"
         }
     },
     "Parameters": {
@@ -109,5 +117,10 @@
         "title": {
             "activated": "ECHELON IS ACTIVATED"
         }
+    },
+    "Notifications": {
+        "intruder": "Intruder detected",
+        "speed": "ECHELON unusual speed",
+        "obstacle": "Obstacle encountered"
     }
 }

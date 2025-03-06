@@ -2,6 +2,7 @@
     "Success": "Succès",
     "Error": "Erreur",
     "Delete": "Voulez-vous vraiment supprimer votre compte ?",
+    "Attention": "Attention! Changer la langue va redémarrer l'application",
     "subtitle": "Toujours veiller sur toi",
     "titles_pages": {
         "authentification": "Authentification",
@@ -59,11 +60,18 @@
         }
     },
     "Messages": {
-        "logout": "Déconnecté",
+        "logout": {
+            "success": "Déconnexion réussie",
+            "error": "Erreur lors de la déconnexion!"
+        },
         "login": {
             "success": "Connexion réussie",
             "error": "Erreur lors de la connexion",
             "error2": "Mot de passe ou courriel érroné(s)"
+        },
+        "signup": {
+            "success": "Compte créé!!",
+            "error": "Erreur lors de la création du compte!"
         },
         "password": {
             "success": "Mot de passe modifiée avec succès",
@@ -109,5 +117,10 @@
         "title": {
             "activated": "ECHELON IS ACTIVATED"
         }
+    },
+    "Notifications": {
+        "intruder": "Présence d'intru",
+        "speed": "ECHELON vitesse inhabituelle",
+        "obstacle": "Obstacle rencontré(s)"
     }
 }

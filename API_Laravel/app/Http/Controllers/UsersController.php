@@ -15,9 +15,7 @@ class UsersController extends Controller
 
     public function login(LoginRequest $request)
     {
-        Log::debug("IN LOGIN");
         $request->validated($request->all());
-        Log::debug("Request" .  $request->validated($request->all()));
 
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
@@ -35,37 +33,44 @@ class UsersController extends Controller
         ]);
     }
 
-    public function signup(SignUpRequest $request)
+    public function signup(Request $request)
     {
-        $request->validated($request->all());
-
-        $user = User::create([
-        'email' => $request->email,
-        'firstname' => $request->firstname,
-        'lastname' => $request->lastname,
-        'password' => Hash::make($request->password),
-        ]);
-
-
-        return $this->success([
-        'user' => $user,
-        'token' => $user->createToken('API Token of ' . $user->email)->plainTextToken
-        ]);
+        try {
+            $user = User::create([
+                'email' => $request->email,
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'password' => Hash::make($request->password),
+            ]);
+    
+            return response()->json([
+                'message' => 'Messages.signup.success',
+                'user' => $user,
+                'token' => $user->createToken($user->email)->plainTextToken
+            ]);
+        } catch (\Throwable $e) {
+            Log::debug($e);
+            return response()->json(['message' => "Messages.signup.error"], 422);
+        }
     }
 
     public function logout()
     {
-        Auth::user()->currentAccessToken()->delete();
+        try {
+            Auth::user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'message' => 'Messages.logout'
-        ]);
+            return response()->json([
+                'message' => 'Messages.logout'
+            ]);
+        }catch (\Throwable $e) {
+            Log::debug($e);
+            return response()->json(['message' => "Messages.logout.error"], 422);
+        }
     }
 
     public function refreshToken()
     {
         $user = Auth::user();
-        Log::debug("USR" .$user);
         $user->currentAccessToken()->delete();
 
         return response()->json([

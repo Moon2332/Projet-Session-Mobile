@@ -1,0 +1,113 @@
+{
+    "Success": "Success",
+    "Error": "Error",
+    "Delete": "Are you sure you want to delete your account?",
+    "subtitle": "Always watching over you",
+    "titles_pages": {
+        "authentification": "Authentication",
+        "create": "Create an account",
+        "parameters": "Settings"
+    },
+    "Account": {
+        "no_account": "No account",
+        "buttons": {
+            "start": "Start",
+            "signin": "Sign in",
+            "create": "Create",
+            "create_account": "Create an account",
+            "signout": "Sign out",
+            "notification": "Notifications",
+            "return": "Return",
+            "account": "Account",
+            "save": "Save",
+            "delete": "Delete",
+            "password": "Password",
+            "cancel": "Cancel"
+        }
+    },
+    "InputFields": {
+        "email": "Email",
+        "password": "Password",
+        "old_password": "Old password",
+        "new_password": "New password",
+        "confirm_password": "Confirm password",
+        "confirm_new_password": "Confirm new password",
+        "firstname": "First name",
+        "lastname": "Last name"
+    },
+    "Errors": {
+        "required_fields": {
+            "lastname": "Last name is required",
+            "firstname": "First name is required",
+            "email": {
+                "empty": "Email is required",
+                "invalid": "Email is not valid"
+            },
+            "password": "Password is required",
+            "confirm_password": "Password confirmation is required"
+        },
+        "password_constraints": {
+            "greater_than_8": "Password must be at least 8 characters long.",
+            "upper_case": "Password must contain at least one uppercase letter.",
+            "lower_case": "Password must contain at least one lowercase letter.",
+            "special_caracter": "Password must contain at least one special character.",
+            "number": "Password must contain at least one digit.",
+            "mismatch": "Passwords do not match."
+        },
+        "save": {
+            "save": "Error while saving"
+        }
+    },
+    "Messages": {
+        "logout": "Logged out",
+        "login": {
+            "success": "Login successful",
+            "error": "Error during login",
+            "error2": "Incorrect email or password"
+        },
+        "password": {
+            "success": "Password changed successfully",
+            "error": "Error during password change"
+        },
+        "no_changes": "No changes made",
+        "user": {
+            "success": "Information(s) updated successfully",
+            "error": "Error updating information(s)"
+        },
+        "delete": {
+            "success": "Account deleted successfully",
+            "error": "Error deleting account"
+        }
+    },
+    "Parameters": {
+        "language": {
+            "english": "English",
+            "french": "French",
+            "spanish": "Spanish"
+        },
+        "police": {
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+        },
+        "mode": {
+            "light": "Light",
+            "dark": "Dark"
+        },
+        "label": {
+            "language": "Language",
+            "mode": "Mode",
+            "police": "Font size"
+        }
+    },
+    "Home": {
+        "buttons": {
+            "launch": "Launch Echelon",
+            "mapping": "Route",
+            "deactivate": "Deactivate"
+        },
+        "title": {
+            "activated": "ECHELON IS ACTIVATED"
+        }
+    }
+}

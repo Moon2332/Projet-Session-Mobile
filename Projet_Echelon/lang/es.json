@@ -1,0 +1,113 @@
+{
+    "Success": "Éxito",
+    "Error": "Error",
+    "Delete": "¿Estás seguro de que quieres eliminar tu cuenta?",
+    "subtitle": "Siempre cuidándote",
+    "titles_pages": {
+        "authentification": "Autenticación",
+        "create": "Crear una cuenta",
+        "parameters": "Configuración"
+    },
+    "Account": {
+        "no_account": "No tienes cuenta",
+        "buttons": {
+            "start": "Comenzar",
+            "signin": "Iniciar sesión",
+            "create": "Crear",
+            "create_account": "Crear una cuenta",
+            "signout": "Cerrar sesión",
+            "notification": "Notificaciones",
+            "return": "Volver",
+            "account": "Cuenta",
+            "save": "Guardar",
+            "delete": "Eliminar",
+            "password": "Contraseña",
+            "cancel": "Cancelar"
+        }
+    },
+    "InputFields": {
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "old_password": "Contraseña anterior",
+        "new_password": "Nueva contraseña",
+        "confirm_password": "Confirmar contraseña",
+        "confirm_new_password": "Confirmar nueva contraseña",
+        "firstname": "Nombre",
+        "lastname": "Apellido"
+    },
+    "Errors": {
+        "required_fields": {
+            "lastname": "El apellido es obligatorio",
+            "firstname": "El nombre es obligatorio",
+            "email": {
+                "empty": "El correo electrónico es obligatorio",
+                "invalid": "El correo electrónico no es válido"
+            },
+            "password": "La contraseña es obligatoria",
+            "confirm_password": "La confirmación de la contraseña es obligatoria"
+        },
+        "password_constraints": {
+            "greater_than_8": "La contraseña debe tener al menos 8 caracteres.",
+            "upper_case": "La contraseña debe contener al menos una letra mayúscula.",
+            "lower_case": "La contraseña debe contener al menos una letra minúscula.",
+            "special_caracter": "La contraseña debe contener al menos un carácter especial.",
+            "number": "La contraseña debe contener al menos un número.",
+            "mismatch": "Las contraseñas no coinciden."
+        },
+        "save": {
+            "save": "Error al guardar"
+        }
+    },
+    "Messages": {
+        "logout": "Desconectado",
+        "login": {
+            "success": "Inicio de sesión exitoso",
+            "error": "Error al iniciar sesión",
+            "error2": "Correo electrónico o contraseña incorrectos"
+        },
+        "password": {
+            "success": "Contraseña cambiada con éxito",
+            "error": "Error al cambiar la contraseña"
+        },
+        "no_changes": "No se realizaron cambios",
+        "user": {
+            "success": "Información actualizada con éxito",
+            "error": "Error al actualizar la información"
+        },
+        "delete": {
+            "success": "Cuenta eliminada con éxito",
+            "error": "Error al eliminar la cuenta"
+        }
+    },
+    "Parameters": {
+        "language": {
+            "english": "Inglés",
+            "french": "Francés",
+            "spanish": "Español"
+        },
+        "police": {
+            "small": "Pequeño",
+            "medium": "Mediano",
+            "large": "Grande"
+        },
+        "mode": {
+            "light": "Claro",
+            "dark": "Oscuro"
+        },
+        "label": {
+            "language": "Idioma",
+            "mode": "Modo",
+            "police": "Tamaño de la fuente"
+        }
+    },
+    "Home": {
+        "buttons": {
+            "launch": "Lanzar Echelon",
+            "mapping": "Ruta",
+            "deactivate": "Desactivar"
+        },
+        "title": {
+            "activated": "ECHELON ESTÁ ACTIVADO"
+        }
+    }
+}

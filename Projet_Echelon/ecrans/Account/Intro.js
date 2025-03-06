@@ -1,6 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import i18next from 'i18next'
 import '../../i18n'
 import { useTranslation } from 'react-i18next'
 import { useNavigation } from '@react-navigation/native'
@@ -12,7 +11,7 @@ import { login } from '../../api/user';
 import Toast from 'react-native-toast-message';
 
 const Intro = ({route}) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const navigation = useNavigation()
 
   const [visible, setVisible] = useState(true)
@@ -60,7 +59,6 @@ const Intro = ({route}) => {
     if (validateForm()) {
       try {
             const response = await login(email, password);
-            console.log("Response" + response)
             navigation.reset({
               index:0,
               routes:[
@@ -70,6 +68,10 @@ const Intro = ({route}) => {
                 }
               ]
             })
+            Toast.show({
+              type: 'success',
+              text1: t(response.message)
+            });
       } catch (error) {
         console.log("Error - " + error)
         const parsedData = JSON.parse(error.message);

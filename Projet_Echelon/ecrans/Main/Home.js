@@ -6,11 +6,12 @@ import { useNavigation } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleStop, faPlay, faRoute } from '@fortawesome/free-solid-svg-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
-const Home = () => {
+const Home = ({route}) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { fontSize, mode, langue } = useParams();
+  const { fontSize, mode } = useParams();
 
   const [isActivated, setIsActivated] = useState(false);
 
@@ -23,13 +24,22 @@ const Home = () => {
     },
     launchButton: {
       backgroundColor: mode ? '#33FF57' : '#3ACF29',
-      fontSize: parseInt(fontSize) + 10, // Convert fontSize to a number
+      fontSize: (parseInt(fontSize) + 10),
     },
     mappingButton: {
       backgroundColor: mode ? '#FF5733' : '#C70039',
-      fontSize: parseInt(fontSize) + 14, // Convert fontSize to a number
+      fontSize: (parseInt(fontSize) + 14),
     },
   };
+
+  useEffect(() => {
+    if (route.params?.success){
+      Toast.show({
+        type: 'success',
+        text1: t(route.params.success)
+      });
+    }
+  }, [route])
 
   return (
     <SafeAreaView style={[styles.container, dynamicStyles.container]}>
@@ -43,7 +53,7 @@ const Home = () => {
               style={[styles.launchButton, dynamicStyles.launchButton]}
               onPress={() => setIsActivated(true)}
             >
-              <FontAwesomeIcon icon={faPlay} size={35} color={mode ? '#333' : '#fff'} />
+              <FontAwesomeIcon icon={faPlay} size={parseInt(fontSize) + 10} color={mode ? '#333' : '#fff'} />
               <Text style={{ fontSize: dynamicStyles.launchButton.fontSize, color: dynamicStyles.textLabel.color }}>
                 {t("Home.buttons.launch")}
               </Text>
@@ -53,7 +63,7 @@ const Home = () => {
               style={[styles.mappingButton, dynamicStyles.mappingButton]}
               onPress={() => navigation.navigate('Mapping')}
             >
-              <FontAwesomeIcon icon={faRoute} size={35} color={mode ? '#333' : '#fff'} />
+              <FontAwesomeIcon icon={faRoute} size={parseInt(fontSize) + 10} color={mode ? '#333' : '#fff'} />
               <Text style={{ fontSize: dynamicStyles.mappingButton.fontSize, marginLeft: 10, color: dynamicStyles.textLabel.color }}>
                 {t("Home.buttons.mapping")}
               </Text>
@@ -71,7 +81,7 @@ const Home = () => {
               style={[styles.launchButton, dynamicStyles.mappingButton]}
               onPress={() => setIsActivated(false)}
             >
-              <FontAwesomeIcon icon={faCircleStop} size={35} color={mode ? '#333' : '#fff'} />
+              <FontAwesomeIcon icon={faCircleStop} size={parseInt(fontSize) + 10} color={mode ? '#333' : '#fff'} />
               <Text style={{ fontSize: dynamicStyles.mappingButton.fontSize, marginLeft: 10, color: dynamicStyles.textLabel.color }}>
                 {t("Home.buttons.deactivate")}
               </Text>
@@ -79,6 +89,7 @@ const Home = () => {
           </>
         }
       </View>
+        <Toast />
     </SafeAreaView>
   );
 };
@@ -92,6 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f7f7f7',
   },
   containerView: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -109,6 +121,7 @@ const styles = StyleSheet.create({
   },
   launchButton: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-evenly',
     borderColor: '#ccc',
     borderWidth: 2,
@@ -121,8 +134,9 @@ const styles = StyleSheet.create({
   mappingButton: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+    alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 40,
+    paddingVertical: 30,
     marginTop: 20,
     width: 270,
   },

@@ -7,7 +7,6 @@ import Home from './ecrans/Main/Home';
 import Parameters from './ecrans/Main/Parameters';
 import Notifications from './ecrans/Main/Notification';
 import Picture from './ecrans/Main/Picture';
-import NotificationsMod from './ecrans/Autres/Notifications';
 import Intro from './ecrans/Account/Intro';
 import SignUp from './ecrans/Account/SignUp';
 import { ParamsProvider } from './useParams';
@@ -20,6 +19,7 @@ import MappingSaved from './ecrans/Main/Mapping_Saved';
 import MappingCreate from './ecrans/Main/Mapping_Create';
 import { refreshToken } from './api/user'
 import Account from './ecrans/Autres/Account';
+import { deleteUserInfo } from './api/secureStore';
 
 export default function App() {
   const { t } = useTranslation();
@@ -55,7 +55,7 @@ export default function App() {
   })
 
   const bottomTabs = createBottomTabNavigator({
-    initialRouteName: 'Parameters',
+    initialRouteName: 'Home',
     screenOptions: ({ route }) => ({
       tabBarIcon: ({ color }) => {
         let iconName;
@@ -136,24 +136,6 @@ export default function App() {
           headerShown: false,
         },
       },
-      NotificationMod: {
-        screen: NotificationsMod,
-        options: {
-          headerShown: false,
-        },
-      },
-      Picture:{
-        screen: Picture
-      },
-      Mapping: {
-        screen: Mapping,
-      },
-      MappingCreate: {
-        screen: MappingCreate,
-      },
-      MappingSaved: {
-        screen: MappingSaved,
-      }
     },
   })
 

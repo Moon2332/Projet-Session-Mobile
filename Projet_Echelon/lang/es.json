@@ -2,11 +2,12 @@
     "Success": "Éxito",
     "Error": "Error",
     "Delete": "¿Estás seguro de que quieres eliminar tu cuenta?",
-    "subtitle": "Siempre cuidándote",
+    "Attention": "¡Atención! Cambiar el idioma reiniciará la aplicación",
+    "subtitle": "Siempre velando por ti",
     "titles_pages": {
         "authentification": "Autenticación",
         "create": "Crear una cuenta",
-        "parameters": "Configuración"
+        "parameters": "Configuraciones"
     },
     "Account": {
         "no_account": "No tienes cuenta",
@@ -17,7 +18,7 @@
             "create_account": "Crear una cuenta",
             "signout": "Cerrar sesión",
             "notification": "Notificaciones",
-            "return": "Volver",
+            "return": "Regresar",
             "account": "Cuenta",
             "save": "Guardar",
             "delete": "Eliminar",
@@ -59,11 +60,18 @@
         }
     },
     "Messages": {
-        "logout": "Desconectado",
+        "logout": {
+            "success": "Sesión cerrada exitosamente",
+            "error": "¡Error al cerrar sesión!"
+        },
         "login": {
-            "success": "Inicio de sesión exitoso",
+            "success": "Sesión iniciada exitosamente",
             "error": "Error al iniciar sesión",
             "error2": "Correo electrónico o contraseña incorrectos"
+        },
+        "signup": {
+            "success": "¡Cuenta creada!",
+            "error": "Error al crear la cuenta"
         },
         "password": {
             "success": "Contraseña cambiada con éxito",
@@ -97,7 +105,7 @@
         "label": {
             "language": "Idioma",
             "mode": "Modo",
-            "police": "Tamaño de la fuente"
+            "police": "Tamaño de fuente"
         }
     },
     "Home": {
@@ -109,5 +117,10 @@
         "title": {
             "activated": "ECHELON ESTÁ ACTIVADO"
         }
+    },
+    "Notifications": {
+        "intruder": "Intruso detectado",
+        "speed": "ECHELON velocidad inusual",
+        "obstacle": "Obstáculo encontrado"
     }
 }

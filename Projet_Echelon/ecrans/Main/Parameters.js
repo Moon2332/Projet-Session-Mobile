@@ -10,8 +10,8 @@ import { faArrowUpRightFromSquare, faRightFromBracket } from '@fortawesome/free-
 import { logout } from '../../api/user';
 
 const Parameters = () => {
-  const { t } = useTranslation();
-  const navigation = useNavigation();
+  const { t, i18n } = useTranslation()
+  const navigation = useNavigation()
 
   const { fontSize, mode, langue, updateFontSize, updateMode, updateLanguage } = useParams();
 
@@ -38,8 +38,7 @@ const Parameters = () => {
           updateMode(modeU);
         }
         if (fontS !== fontSize.toString()) {
-          updateFontSize(parseInt(fontS)); // Convert fontS to a number
-          console.log(fontS);
+          updateFontSize(fontS)
         }
         if (lang !== langue) {
           updateLanguage(lang);
@@ -129,6 +128,7 @@ const Parameters = () => {
             itemTextStyle={{ fontSize: parseInt(fontS) }}
             selectedTextStyle={{ fontSize: parseInt(fontS) }}
           />
+          <Text style={{color: 'red', fontSize: 12}}>*{t('Attention')}*</Text>
         </View>
 
         <View style={styles.switchSection}>
@@ -143,14 +143,6 @@ const Parameters = () => {
           onPress={() => navigation.navigate("Account")}
         >
           <Text style={{ fontSize: parseInt(fontS) + 4 }}>{t("Account.buttons.account")}</Text>
-          <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={parseInt(fontS) + 4} />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.buttonNotification, dynamicStyles.buttonNotification]}
-          onPress={() => navigation.navigate("NotificationMod")}
-        >
-          <Text style={{ fontSize: parseInt(fontS) + 4 }}>{t("Account.buttons.notification")}</Text>
           <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={parseInt(fontS) + 4} />
         </TouchableOpacity>
 

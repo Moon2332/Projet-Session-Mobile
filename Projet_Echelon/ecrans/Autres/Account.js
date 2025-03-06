@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import i18next from 'i18next'
 import '../../i18n'
@@ -214,107 +214,114 @@ const Account = () => {
         },
         launchButton: {
           backgroundColor: mode ? '#33FF57' : '#3ACF29',
-          fontSize: (parseInt(fontSize) + 10).toString(),
+          fontSize: (parseInt(fontSize) + 10),
         },
         mappingButton: {
           backgroundColor: mode ? '#FF5733' : '#C70039',
-          fontSize: (parseInt(fontSize) + 14).toString(),
+          fontSize: (parseInt(fontSize) + 14),
         },
     };
 
     return (
-        <SafeAreaView style={[styles.container, dynamicStyles.container]}>
-            <View style={styles.containerView}>
-                <TouchableOpacity
-                    style={styles.backButton}
-                    onPress={() => navigation.goBack()}
-                >
-                    <FontAwesomeIcon icon={faArrowLeft} size={(parseInt(fontSize))} />
-                </TouchableOpacity>
-                <Text style={[styles.title_pages, , { fontSize: (parseInt(fontSize) + 10).toString() }]}>{t('Account.buttons.account')}</Text>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? "padding" : 'height'}
+            style={[styles.container, dynamicStyles.container]}
+        >
+            <ScrollView style={styles.scrollview}>
+                <SafeAreaView>
+                    <View style={styles.containerView}>
+                        <TouchableOpacity
+                            style={styles.backButton}
+                            onPress={() => navigation.goBack()}
+                        >
+                            <FontAwesomeIcon icon={faArrowLeft} size={(parseInt(fontSize))} />
+                        </TouchableOpacity>
+                        <Text style={[styles.title_pages, , { fontSize: (parseInt(fontSize) + 10) }]}>{t('Account.buttons.account')}</Text>
 
-                <CustomInput
-                    label={t("InputFields.lastname")}
-                    value={lastName}
-                    onChangeText={(value) => onChangeText(value, setLastName)}
-                    error={error.errorLastName}
-                    fontSize={fontSize}
-                    mode={mode}
-                />
+                        <CustomInput
+                            label={t("InputFields.lastname")}
+                            value={lastName}
+                            onChangeText={(value) => onChangeText(value, setLastName)}
+                            error={error.errorLastName}
+                            fontSize={fontSize}
+                            mode={mode}
+                        />
 
-                <CustomInput
-                    label={t("InputFields.firstname")}
-                    value={firstName}
-                    onChangeText={(value) => onChangeText(value, setFirstName)}
-                    error={error.errorFirstName}
-                    mode={mode}
-                    fontSize={fontSize}
-                />
+                        <CustomInput
+                            label={t("InputFields.firstname")}
+                            value={firstName}
+                            onChangeText={(value) => onChangeText(value, setFirstName)}
+                            error={error.errorFirstName}
+                            mode={mode}
+                            fontSize={fontSize}
+                        />
 
-                <CustomInput
-                    label={t("InputFields.email")}
-                    value={email}
-                    onChangeText={(value) => onChangeText(value, setEmail)}
-                    keyboardType='email-address'
-                    fontSize={fontSize}
-                    mode={mode}
-                    error={error.errorEmail}
-                />
+                        <CustomInput
+                            label={t("InputFields.email")}
+                            value={email}
+                            onChangeText={(value) => onChangeText(value, setEmail)}
+                            keyboardType='email-address'
+                            fontSize={fontSize}
+                            mode={mode}
+                            error={error.errorEmail}
+                        />
 
-                <CustomModal
-                    visible={visible}
-                    setVisible={setVisible}
-                    password={password}
-                    setPassword={(value) => onChangeText(value, setPassword)}
-                    passwordA={passwordA}
-                    setPasswordA={(value) => onChangeText(value, setPasswordA)}
-                    passwordC={passwordC}
-                    setPasswordC={(value) => onChangeText(value, setPasswordC)}
-                    error={error}
-                    setError={setError}
-                    onPressSave={editPassword}
-                    fontSize={fontSize}
-                    mode={mode}
-                />
+                        <CustomModal
+                            visible={visible}
+                            setVisible={setVisible}
+                            password={password}
+                            setPassword={(value) => onChangeText(value, setPassword)}
+                            passwordA={passwordA}
+                            setPasswordA={(value) => onChangeText(value, setPasswordA)}
+                            passwordC={passwordC}
+                            setPasswordC={(value) => onChangeText(value, setPasswordC)}
+                            error={error}
+                            setError={setError}
+                            onPressSave={editPassword}
+                            fontSize={fontSize}
+                            mode={mode}
+                        />
 
-                <AlertModal
-                    visible={visibleAlert}
-                    setVisible={setVisibleAlert}
-                    onPressConfirm={drop}
-                    mode={mode}
-                    message={t("Delete")}
-                />
+                        <AlertModal
+                            visible={visibleAlert}
+                            setVisible={setVisibleAlert}
+                            onPressConfirm={drop}
+                            mode={mode}
+                            message={t("Delete")}
+                        />
 
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity 
-                        onPress={() => edit()} 
-                        style={styles.button}
-                    >
-                        <FontAwesomeIcon icon={faFloppyDisk} size={(parseInt(fontSize) + 4)} />
-                        <Text style={[styles.txtButton, { fontSize: (parseInt(fontSize) + 4).toString() }]}>{t("Account.buttons.save")}</Text>
-                    </TouchableOpacity>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity 
+                                onPress={() => edit()} 
+                                style={styles.button}
+                            >
+                                <FontAwesomeIcon icon={faFloppyDisk} size={(parseInt(fontSize) + 4)} />
+                                <Text style={[styles.txtButton, { fontSize: (parseInt(fontSize) + 4)}]}>{t("Account.buttons.save")}</Text>
+                            </TouchableOpacity>
 
-                    <TouchableOpacity 
-                        onPress={() => setVisible(true)} 
-                        style={styles.button}
-                    >
-                        <FontAwesomeIcon icon={faPenToSquare} size={(parseInt(fontSize) + 4)} />
-                        <Text style={[styles.txtButton, { fontSize: (parseInt(fontSize) + 4).toString() }]}>{t("Account.buttons.password")}</Text>
-                    </TouchableOpacity>
+                            <TouchableOpacity 
+                                onPress={() => setVisible(true)} 
+                                style={styles.button}
+                            >
+                                <FontAwesomeIcon icon={faPenToSquare} size={(parseInt(fontSize) + 4)} />
+                                <Text style={[styles.txtButton, { fontSize: (parseInt(fontSize) + 4) }]}>{t("Account.buttons.password")}</Text>
+                            </TouchableOpacity>
 
-                    <TouchableOpacity 
-                        onPress={() => setVisibleAlert(true)} 
-                        style={styles.button}
-                    >
-                        <FontAwesomeIcon icon={faTrashCan} size={(parseInt(fontSize) + 4)} />
-                        <Text style={[styles.txtButton, { fontSize: (parseInt(fontSize) + 4).toString() }]}>{t("Account.buttons.delete")}</Text>
-                    </TouchableOpacity>
+                            <TouchableOpacity 
+                                onPress={() => setVisibleAlert(true)} 
+                                style={styles.button}
+                            >
+                                <FontAwesomeIcon icon={faTrashCan} size={(parseInt(fontSize) + 4)} />
+                                <Text style={[styles.txtButton, { fontSize: (parseInt(fontSize) + 4) }]}>{t("Account.buttons.delete")}</Text>
+                            </TouchableOpacity>
 
-                </View>
-            </View>
-            <Toast />
+                        </View>
+                    </View>
+                    <Toast />
 
-        </SafeAreaView >
+                </SafeAreaView >
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
 

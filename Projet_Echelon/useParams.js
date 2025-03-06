@@ -19,7 +19,7 @@ export const ParamsProvider = ({ children }) => {
     useEffect(() => {
         const fetchSettings = async () => {
           try {
-            setFontSize(await AsyncStorage.getItem("fontSize") || 12)
+            setFontSize(await AsyncStorage.getItem("fontSize") || 16)
       
             setMode(await AsyncStorage.getItem("mode") === "true" ? true : false)
     

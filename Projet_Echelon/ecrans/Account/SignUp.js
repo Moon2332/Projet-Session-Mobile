@@ -1,17 +1,17 @@
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, ScrollView } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, ScrollView } from 'react-native'
 import React, { useState } from 'react'
-import i18next from 'i18next'
 import '../../i18n'
 import { useTranslation } from 'react-i18next'
 import { useNavigation } from '@react-navigation/native'
 import CustomInput from '../../composants/CustomInput'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
+import { useParams } from '../../useParams'
+import { signup, login } from '../../api/user'
 
 const SignUp = () => {
-    const { t, i18n } = useTranslation()
+    const { t } = useTranslation()
     const navigation = useNavigation()
+    const { fontSize, mode, langue } = useParams();
 
     const [lastName, setLastName] = useState("")
     const [firstName, setFirstName] = useState("")
@@ -19,23 +19,15 @@ const SignUp = () => {
     const [password, setPassword] = useState("")
     const [passwordC, setPasswordC] = useState("")
     const [error, setError] = useState([]);
-    const [isError, setisError] = useState([]);
+    const [isError, setIsError] = useState(false);
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
     const [isPasswordCVisible, setIsPasswordCVisible] = useState(false)
 
-    const togglePasswordVisibility = () => {
-        setIsPasswordVisible(prevState => !prevState)
-    }
-
-    const togglePasswordCVisibility = () => {
-        setIsPasswordCVisible(prevState => !prevState)
-    }
-
     const onChangeText = (value, setInput) => {
         setInput(value);
 
-        if (isError)
+        if(isError)
             validateForm();
     }
 
@@ -83,16 +75,42 @@ const SignUp = () => {
             tempErrors.errorPasswordC = t('Errors.required_fields.confirm_password');
         else if (password !== passwordC)
             tempErrors.errorPasswordC = t('Errors.password_constraints.mismatch');
-        
-        setError(tempErrors);
-        setisError(Object.keys(tempErrors).length === 0)
+
+        setError(tempErrors)
+        setIsError(Object.keys(tempErrors).length === 0)
 
         return Object.keys(tempErrors).length === 0;
     }
 
-    const submitForm = () => {
+    const submitForm = async () => {
+        console.log("CALLED")
         if (validateForm()) {
-            console.log("yess")
+            console.log("CALLED FORM OK")
+            const response = await signup(email, firstName, lastName, password)
+            try {
+                await login(email, password);
+                navigation.reset({
+                    index: 0,
+                    routes: [
+                        {
+                            name: 'Menu',
+                            params: { 
+                                screen: 'Home',
+                                params: {
+                                    success: response.message 
+                                }
+                            }
+                        }
+                    ]
+                })
+            } catch (error) {
+                const parsedData = JSON.parse(error.message);
+                Toast.show({
+                    type: 'error',
+                    text1: t(parsedData.message),
+                    text2: t(parsedData.message2)
+                });
+            }
         }
     }
 
@@ -113,6 +131,8 @@ const SignUp = () => {
                                 value={lastName}
                                 onChangeText={(value) => onChangeText(value, setLastName)}
                                 error={error.errorLastName}
+                                mode={mode}
+                                fontSize={fontSize}
                             />
 
                             <CustomInput
@@ -120,6 +140,8 @@ const SignUp = () => {
                                 value={firstName}
                                 onChangeText={(value) => onChangeText(value, setFirstName)}
                                 error={error.errorFirstName}
+                                mode={mode}
+                                fontSize={fontSize}
                             />
 
                             <CustomInput
@@ -128,29 +150,39 @@ const SignUp = () => {
                                 onChangeText={(value) => onChangeText(value, setEmail)}
                                 keyboardType='email-address'
                                 error={error.errorEmail}
+                                mode={mode}
+                                fontSize={fontSize}
                             />
 
                             <CustomInput
                                 label={t("InputFields.password")}
                                 value={password}
                                 onChangeText={(value) => onChangeText(value, setPassword)}
-                                isPassword={!isPasswordVisible}
                                 error={error.errorPassword}
+                                mode={mode}
+                                toggleVisibility={() => setIsPasswordVisible(!isPasswordVisible)}
+                                isPasswordVisible={isPasswordVisible}
+                                showEyeIcon={true}
+                                fontSize={fontSize}
                             />
-                            <TouchableOpacity onPress={() => togglePasswordVisibility()} style={styles.eyeIcon1}>
+                            {/* <TouchableOpacity onPress={() => togglePasswordVisibility()} style={styles.eyeIcon1}>
                                 <FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeSlash} size={24} />
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
                             <CustomInput
                                 label={t("InputFields.confirm_password")}
                                 value={passwordC}
                                 onChangeText={(value) => onChangeText(value, setPasswordC)}
-                                isPassword={!isPasswordCVisible}
                                 error={error.errorPasswordC}
+                                mode={mode}
+                                fontSize={fontSize}
+                                toggleVisibility={() => setIsPasswordCVisible(!isPasswordCVisible)}
+                                isPasswordVisible={isPasswordCVisible}
+                                showEyeIcon={true}
                             />
-                            <TouchableOpacity onPress={() => togglePasswordCVisibility()} style={styles.eyeIcon2}>
+                            {/* <TouchableOpacity onPress={() => togglePasswordCVisibility()} style={styles.eyeIcon2}>
                                 <FontAwesomeIcon icon={isPasswordCVisible ? faEye : faEyeSlash} size={24} />
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </View>
 
                         <View style={styles.buttonContainer}>
@@ -169,7 +201,7 @@ const SignUp = () => {
                             </TouchableOpacity>
                         </View>
 
-                        
+
                     </View>
                 </SafeAreaView>
             </ScrollView>

@@ -15,8 +15,8 @@ export const login = async (email, password) => {
         "Content-Type": "application/json",
       },
     });
-    
     const data = await response.json();
+    
     if(response.status === 200){
       saveUser(data)
       return data;
@@ -89,27 +89,30 @@ export const logout = async () => {
 export const refreshToken = async () => {
   try {
     const user = await getUserInfo();
-    
-    const response = await fetch(`${baseUrl}refreshToken`, {
-      method: 'POST',
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-    
-    const data = await response.json();
-
-    if(response.status === 200){
-      saveUser(data)
-      return data;
+    console.log(user)
+    if (!user || !user.token) {
+      return null;
     }
-    else
-      throw new Error(data.message);
-
+    else{
+      const response = await fetch(`${baseUrl}refreshToken`, {
+        method: 'POST',
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const data = await response.json();
+  
+      if(response.status === 200){
+        saveUser(data)
+        return data;
+      }
+      else
+        throw new Error(data.message);
+    }
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error("In refresh token" + error.message);
   }
 }
 

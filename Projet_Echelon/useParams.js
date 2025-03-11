@@ -14,6 +14,8 @@ export const ParamsProvider = ({ children }) => {
     const [fontSize, setFontSize] = useState("")
     const [mode, setMode] = useState(true)
     const [langue, setLangue] = useState("")
+    const [speedUnit, setSpeedUnit] = useState("");
+
     const { i18n } = useTranslation()
 
     useEffect(() => {
@@ -24,6 +26,8 @@ export const ParamsProvider = ({ children }) => {
             setMode(await AsyncStorage.getItem("mode") === "true" ? true : false)
     
             setLangue(await AsyncStorage.getItem("langue") || 'fr')
+
+            setSpeedUnit(await AsyncStorage.getItem("speedUnit") || "m/s")
           } catch (e) {
             console.log("Error in app" + e)
           }
@@ -50,8 +54,13 @@ export const ParamsProvider = ({ children }) => {
         i18n.changeLanguage(c)
     }
 
+    const updateSpeedUnit = async (c) => {
+        await AsyncStorage.setItem("speeedUnit", c);
+        setSpeedUnit(c);
+    };
+
     return (
-        <ParamsContext.Provider value={{ fontSize, mode, langue, updateFontSize, updateMode, updateLanguage }}>
+        <ParamsContext.Provider value={{ fontSize, mode, langue, speedUnit, updateFontSize, updateMode, updateLanguage, updateSpeedUnit }}>
             {children}
         </ParamsContext.Provider>
     )

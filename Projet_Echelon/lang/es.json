@@ -1,7 +1,7 @@
 {
     "Success": "Éxito",
     "Error": "Error",
-    "Delete": "¿Estás seguro de que quieres eliminar tu cuenta?",
+    "Delete": "¿Está seguro de que quiere eliminar su cuenta?",
     "Attention": "¡Atención! Cambiar el idioma reiniciará la aplicación",
     "subtitle": "Siempre velando por ti",
     "titles_pages": {
@@ -10,7 +10,7 @@
         "parameters": "Configuraciones"
     },
     "Account": {
-        "no_account": "No tienes cuenta",
+        "no_account": "No hay cuenta",
         "buttons": {
             "start": "Comenzar",
             "signin": "Iniciar sesión",
@@ -18,7 +18,7 @@
             "create_account": "Crear una cuenta",
             "signout": "Cerrar sesión",
             "notification": "Notificaciones",
-            "return": "Regresar",
+            "return": "Volver",
             "account": "Cuenta",
             "save": "Guardar",
             "delete": "Eliminar",
@@ -61,17 +61,17 @@
     },
     "Messages": {
         "logout": {
-            "success": "Sesión cerrada exitosamente",
+            "success": "Cierre de sesión exitoso",
             "error": "¡Error al cerrar sesión!"
         },
         "login": {
-            "success": "Sesión iniciada exitosamente",
+            "success": "Inicio de sesión exitoso",
             "error": "Error al iniciar sesión",
             "error2": "Correo electrónico o contraseña incorrectos"
         },
         "signup": {
             "success": "¡Cuenta creada!",
-            "error": "Error al crear la cuenta"
+            "error": "¡Error al crear la cuenta!"
         },
         "password": {
             "success": "Contraseña cambiada con éxito",
@@ -79,8 +79,8 @@
         },
         "no_changes": "No se realizaron cambios",
         "user": {
-            "success": "Información actualizada con éxito",
-            "error": "Error al actualizar la información"
+            "success": "Información modificada con éxito",
+            "error": "Error al modificar la información"
         },
         "delete": {
             "success": "Cuenta eliminada con éxito",
@@ -99,19 +99,24 @@
             "large": "Grande"
         },
         "mode": {
-            "light": "Claro",
-            "dark": "Oscuro"
+            "light": "Modo claro",
+            "dark": "Modo oscuro"
         },
         "label": {
             "language": "Idioma",
             "mode": "Modo",
+            "unit": "Unidad de velocidad",
             "police": "Tamaño de fuente"
+        },
+        "unit": {
+            "metersPerSecond": "m/s",
+            "kilometersPerHour": "km/h"
         }
     },
     "Home": {
         "buttons": {
             "launch": "Lanzar Echelon",
-            "mapping": "Ruta",
+            "mapping" : "Ruta",
             "deactivate": "Desactivar"
         },
         "title": {

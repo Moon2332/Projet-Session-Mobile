@@ -43,7 +43,7 @@ const CustomInput = ({
       transform: [{ translateY: -12 }],
     },
     errorText: {
-      color: 'red',
+      color: '#E74C3C',
       fontSize: fontSize,
       marginTop: 5,
     },

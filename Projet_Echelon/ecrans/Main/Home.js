@@ -17,10 +17,10 @@ const Home = ({route}) => {
 
   const dynamicStyles = {
     container: {
-      backgroundColor: mode ? '#f7f7f7' : '#333',
+      backgroundColor: mode ? '#f0f4f8' : '#181818',
     },
     textLabel: {
-      color: mode ? '#333' : '#fff',
+      color: mode ? '#2f3640' : '#ecf0f1',
     },
     launchButton: {
       backgroundColor: mode ? '#33FF57' : '#3ACF29',
@@ -39,7 +39,7 @@ const Home = ({route}) => {
         text1: t(route.params.success)
       });
     }
-  }, [route])
+  }, [route]);
 
   return (
     <SafeAreaView style={[styles.container, dynamicStyles.container]}>
@@ -74,7 +74,7 @@ const Home = ({route}) => {
         { 
           isActivated &&
           <>
-            <Text style={styles.title}>{ t("Home.title.activated")}</Text>
+            <Text style={[styles.title, dynamicStyles.textLabel]}>{ t("Home.title.activated")}</Text>
             <Image source={require("../../assets/R.png")} style={styles.image} />
 
             <TouchableOpacity
@@ -89,7 +89,7 @@ const Home = ({route}) => {
           </>
         }
       </View>
-        <Toast />
+      <Toast />
     </SafeAreaView>
   );
 };
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     fontWeight: 'bold',
     textAlign: 'center',
-    fontFamily:"serif"
+    fontFamily:"serif",
   },
   image: {
     width: 300,

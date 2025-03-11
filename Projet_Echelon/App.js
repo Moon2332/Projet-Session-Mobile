@@ -11,38 +11,40 @@ import Intro from './ecrans/Account/Intro';
 import SignUp from './ecrans/Account/SignUp';
 import { ParamsProvider } from './useParams';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { faBell, faGear, faHouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Mapping from './ecrans/Main/Mapping';
 import MappingSaved from './ecrans/Main/Mapping_Saved';
 import MappingCreate from './ecrans/Main/Mapping_Create';
-import { refreshToken } from './api/user'
+import { refreshToken } from './api/user';
 import Account from './ecrans/Autres/Account';
 import { deleteUserInfo } from './api/secureStore';
 
 export default function App() {
-  const { t } = useTranslation();
   const [landingPage, setLandingPage] = useState("Auth");
 
   useEffect(() => {
     isUserLoggedIn();
-  }, [])
+  }, []);
 
   const isUserLoggedIn = async () => {
     try {
       const response = await refreshToken();
-      setLandingPage("Menu")
+
+      if (response !== null)
+        setLandingPage("Menu");
+      else
+        setLandingPage("Auth");
     } catch (error) {
-      console.log(error)
-      setLandingPage("Auth")
+      console.log(error);
+      setLandingPage("Auth");
     }
-  }
+  };
 
   const authStack = createNativeStackNavigator({
     initialRouteName: "Intro",
     screenOptions: {
-      headerShown: false
+      headerShown: false,
     },
     screens: {
       Intro: {
@@ -50,9 +52,9 @@ export default function App() {
       },
       SignUp: {
         screen: SignUp,
-      }
+      },
     },
-  })
+  });
 
   const bottomTabs = createBottomTabNavigator({
     initialRouteName: 'Home',
@@ -60,36 +62,34 @@ export default function App() {
       tabBarIcon: ({ color }) => {
         let iconName;
         if (route.name === "Home") {
-          iconName = faHouse
+          iconName = faHouse;
         } else if (route.name === "Parameters") {
-          iconName = faGear
-        }  else if (route.name === "Notifications") {
-          iconName = faBell
-        } 
+          iconName = faGear;
+        } else if (route.name === "Notifications") {
+          iconName = faBell;
+        }
 
         return <FontAwesomeIcon icon={iconName} size={35} color={color} />;
       },
       tabBarActiveTintColor: "green",
       tabBarInactiveTintColor: "gray",
       tabBarShowLabel: false,
-      tabBarActiveBackgroundColor: "black",
-      tabBarInactiveBackgroundColor: "black",
+      tabBarActiveBackgroundColor: "#2d3436",
+      tabBarInactiveBackgroundColor: "#2d3436",
       tabBarLabelPosition: "below-icon",
       tabBarStyle: {
         borderTopWidth: 0,
         elevation: 0,
         shadowOpacity: 0,
+        backgroundColor: "#1e272e",
       },
       tabBarIconStyle: {
-        margin: 5
-      }
+        margin: 5,
+      },
     }),
     screens: {
       Parameters: {
         screen: Parameters,
-        options: {
-          headerShown: false,
-        },
         options: {
           headerShown: false,
         },
@@ -105,7 +105,7 @@ export default function App() {
         options: {
           headerShown: false,
         },
-      }
+      },
     },
   });
 
@@ -113,7 +113,7 @@ export default function App() {
     initialRouteName: landingPage,
     screenOptions: {
       headerStyle: {
-        backgroundColor: 'black',
+        backgroundColor: '#2d3436',
       },
       headerTintColor: 'white',
     },
@@ -137,7 +137,7 @@ export default function App() {
         },
       },
     },
-  })
+  });
 
   const Navigation = createStaticNavigation(RootStack);
 
@@ -151,7 +151,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#2d3436',
     alignItems: 'center',
     justifyContent: 'center',
   },

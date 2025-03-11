@@ -2,8 +2,8 @@
     "Success": "Success",
     "Error": "Error",
     "Delete": "Are you sure you want to delete your account?",
-    "Attention": "Attention! Changing the language will restart the app",
-    "subtitle": "Always watch over you",
+    "Attention": "Warning! Changing the language will restart the application",
+    "subtitle": "Always watching over you",
     "titles_pages": {
         "authentification": "Authentication",
         "create": "Create an account",
@@ -18,7 +18,7 @@
             "create_account": "Create an account",
             "signout": "Sign out",
             "notification": "Notifications",
-            "return": "Return",
+            "return": "Back",
             "account": "Account",
             "save": "Save",
             "delete": "Delete",
@@ -56,16 +56,16 @@
             "mismatch": "Passwords do not match."
         },
         "save": {
-            "save": "Error while saving"
+            "save": "Error saving"
         }
     },
     "Messages": {
         "logout": {
-            "success": "Successfully logged out",
+            "success": "Logout successful",
             "error": "Error during logout!"
         },
         "login": {
-            "success": "Successfully logged in",
+            "success": "Login successful",
             "error": "Error during login",
             "error2": "Incorrect email or password"
         },
@@ -75,16 +75,16 @@
         },
         "password": {
             "success": "Password successfully changed",
-            "error": "Error while changing password"
+            "error": "Error during password change"
         },
         "no_changes": "No changes made",
         "user": {
-            "success": "Information successfully updated",
-            "error": "Error during information update"
+            "success": "Information(s) successfully modified",
+            "error": "Error modifying information(s)"
         },
         "delete": {
             "success": "Account successfully deleted",
-            "error": "Error during account deletion"
+            "error": "Error deleting account"
         }
     },
     "Parameters": {
@@ -99,19 +99,24 @@
             "large": "Large"
         },
         "mode": {
-            "light": "Light",
-            "dark": "Dark"
+            "light": "Light mode",
+            "dark": "Dark mode"
         },
         "label": {
             "language": "Language",
             "mode": "Mode",
+            "unit": "Speed unit",
             "police": "Font size"
+        },
+        "unit": {
+            "metersPerSecond": "m/s",
+            "kilometersPerHour": "km/h"
         }
     },
     "Home": {
         "buttons": {
             "launch": "Launch Echelon",
-            "mapping": "Route",
+            "mapping" : "Route",
             "deactivate": "Deactivate"
         },
         "title": {

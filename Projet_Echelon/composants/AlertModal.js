@@ -55,6 +55,9 @@ const AlertModal = ({
     cancelButton: {
       backgroundColor: mode ? '#FF5733' : '#C70039', 
     },
+    saveButton: {
+      backgroundColor: mode ? '#4CAF50' : '#218838',
+    },
     iconContainer: {
       flexDirection: 'row',
       alignContent: 'center',
@@ -87,7 +90,7 @@ const AlertModal = ({
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                style={dynamicStyles.button}
+                style={[dynamicStyles.button, dynamicStyles.saveButton]}
                 onPress={() => onPressConfirm()}
                 >
                 <Text style={dynamicStyles.buttonText}>Yes</Text>

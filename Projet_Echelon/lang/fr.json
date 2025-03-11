@@ -99,13 +99,18 @@
             "large": "Large"
         },
         "mode": {
-            "light": "Clair",
-            "dark": "Sombre"
+            "light": "Mode clair",
+            "dark": "Mode sombre"
         },
         "label": {
             "language": "Langue",
             "mode": "Mode",
+            "unit": "Unité de la vitesse",
             "police": "Taille de la police"
+        },
+        "unit": {
+            "metersPerSecond": "m/s",
+            "kilometersPerHour": "km/h"
         }
     },
     "Home": {

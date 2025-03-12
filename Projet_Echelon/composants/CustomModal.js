@@ -60,6 +60,9 @@ const CustomModal = ({
     cancelButton: {
       backgroundColor: mode ? '#FF5733' : '#C70039',
     },
+    saveButton: {
+      backgroundColor: mode ? '#4CAF50' : '#218838',
+    },
   };
 
   return (
@@ -106,7 +109,6 @@ const CustomModal = ({
               fontSize={fontSize}
             />
 
-            {/* Buttons */}
             <View style={dynamicStyles.buttonsContainer}>
               <TouchableOpacity
                 style={[dynamicStyles.buttons, dynamicStyles.cancelButton]}
@@ -116,7 +118,7 @@ const CustomModal = ({
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={dynamicStyles.buttons}
+                style={[dynamicStyles.buttons, dynamicStyles.saveButton]}
                 onPress={onPressSave}
               >
                 <Text style={dynamicStyles.buttonText}>{t('Account.buttons.save')}</Text>

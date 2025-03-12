@@ -24,12 +24,13 @@ class UsersController extends Controller
         }
 
         $user = Auth::user();
+        Log::debug("USERRRR " . $user);
 
         return response()->json([
             'message' => 'Messages.login.success',
             'user' => $user,
             'token' => $user->createToken($user->email)->plainTextToken
-        ]);
+        ], 200);
     }
 
     public function signup(Request $request)
@@ -59,7 +60,7 @@ class UsersController extends Controller
             Auth::user()->currentAccessToken()->delete();
 
             return response()->json([
-                'message' => 'Messages.logout'
+                'message' => 'Messages.logout.success'
             ]);
         }catch (\Throwable $e) {
             Log::debug($e);
@@ -75,17 +76,17 @@ class UsersController extends Controller
         return response()->json([
         'user' => $user,
         'token' => $user->createToken($user->email)->plainTextToken
-        ]);    
+        ], 200);    
     }
 
-    public function updateUser(SignUpRequest $request)
+    public function updateUser(Request $request)
     {
         try {
-            $request->validated($request->all());
             $data = $request->all();
             $id = $data['id'];
             
             $user = User::findOrFail($id);
+            Log::debug("USR" . $user);
             
             $user->firstname = $data['firstname'];
             $user->lastname = $data['lastname'];

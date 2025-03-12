@@ -1,23 +1,23 @@
-import { StyleSheet, Text, View, Switch, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Switch, TouchableOpacity, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useParams } from '../../useParams';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { faArrowUpRightFromSquare, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { logout } from '../../api/user';
 
 const Parameters = () => {
-  const { t, i18n } = useTranslation()
-  const navigation = useNavigation()
+  const { t, i18n } = useTranslation();
+  const navigation = useNavigation();
 
-  const { fontSize, mode, langue, updateFontSize, updateMode, updateLanguage } = useParams();
+  const { fontSize, mode, langue, speedUnit, updateFontSize, updateMode, updateLanguage, updateSpeedUnit } = useParams();
 
   const [fontS, setFontSize] = useState(fontSize.toString());
   const [modeU, setMode] = useState(mode);
   const [lang, setLangue] = useState(langue);
+  const [speed, setSpeedUnit] = useState(speedUnit);
 
   const langues = [
     { value: 'en', label: t("Parameters.language.english") },
@@ -31,6 +31,11 @@ const Parameters = () => {
     { value: "30", label: t("Parameters.police.large") },
   ];
 
+  const speedUnits = [
+    { value: 'm/s', label: t("Parameters.unit.metersPerSecond") },
+    { value: 'km/h', label: t("Parameters.unit.kilometersPerHour") },
+  ];
+
   useEffect(() => {
     const stocker = async () => {
       try {
@@ -38,10 +43,13 @@ const Parameters = () => {
           updateMode(modeU);
         }
         if (fontS !== fontSize.toString()) {
-          updateFontSize(fontS)
+          updateFontSize(fontS);
         }
         if (lang !== langue) {
           updateLanguage(lang);
+        }
+        if (speed !== speedUnit) {
+          updateSpeedUnit(speed);
         }
       } catch (e) {
         console.error(t("Errors.save.save"), e);
@@ -49,25 +57,25 @@ const Parameters = () => {
     };
 
     stocker();
-  }, [modeU, fontS, lang, mode, fontSize, langue]);
+  }, [modeU, fontS, lang, speed]);
 
   const dynamicStyles = {
     container: {
-      backgroundColor: modeU ? '#f7f7f7' : '#333',
+      backgroundColor: modeU ? '#f0f4f8' : '#181818',
     },
     textLabel: {
-      color: modeU ? '#333' : '#fff',
+      color: modeU ? '#2f3640' : '#ecf0f1',
     },
     dropdown: {
-      borderColor: modeU ? '#ccc' : '#444',
-      backgroundColor: modeU ? '#fff' : '#444',
+      borderColor: modeU ? '#dfe4ea' : '#7f8c8d',
+      backgroundColor: modeU ? '#ffffff' : '#34495e',
     },
     buttonNotification: {
-      borderColor: modeU ? '#ccc' : '#444',
-      backgroundColor: modeU ? '#fff' : '#444',
+      borderColor: modeU ? '#dfe4ea' : '#7f8c8d',
+      backgroundColor: modeU ? '#4cd137' : '#e74c3c',
     },
     buttonSignOut: {
-      backgroundColor: modeU ? '#FF5733' : '#C70039',
+      backgroundColor: modeU ? '#ff9f43' : '#e74c3c',
     },
   };
 
@@ -82,11 +90,11 @@ const Parameters = () => {
             params: {
               screen: 'Intro',
               params: {
-                success: t(response.message)
-              }
-            }
-          }
-        ]
+                success: t(response.message),
+              },
+            },
+          },
+        ],
       });
     } catch (error) {
       console.log(error);
@@ -94,67 +102,94 @@ const Parameters = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, dynamicStyles.container]}>
-      <View style={[styles.container, dynamicStyles.container]}>
-        <View style={styles.section}>
-          <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
-            {t("Parameters.label.police")}
-          </Text>
-          <Dropdown
-            data={polices}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            value={fontS}
-            onChange={item => setFontSize(item.value)}
-            style={[styles.dropdown, dynamicStyles.dropdown]}
-            itemTextStyle={{ fontSize: parseInt(fontS) }}
-            selectedTextStyle={{ fontSize: parseInt(fontS) }}
-          />
-        </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? "padding" : 'height'}
+      style={[styles.container, dynamicStyles.container]}
+    >
+      <ScrollView style={styles.scrollview}>
+        <SafeAreaView>
+          <View style={styles.containerView}>
+            <View style={styles.section}>
+              <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
+                {t("Parameters.label.police")}
+              </Text>
+              <Dropdown
+                data={polices}
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                value={fontS}
+                onChange={item => setFontSize(item.value)}
+                style={[styles.dropdown, dynamicStyles.dropdown]}
+                itemTextStyle={{ fontSize: parseInt(fontS) }}
+                selectedTextStyle={{ fontSize: parseInt(fontS) }}
+              />
+            </View>
 
-        <View style={styles.section}>
-          <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
-            {t("Parameters.label.language")}
-          </Text>
-          <Dropdown
-            data={langues}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            value={lang}
-            onChange={item => setLangue(item.value)}
-            style={[styles.dropdown, dynamicStyles.dropdown]}
-            itemTextStyle={{ fontSize: parseInt(fontS) }}
-            selectedTextStyle={{ fontSize: parseInt(fontS) }}
-          />
-          <Text style={{color: 'red', fontSize: 12}}>*{t('Attention')}*</Text>
-        </View>
+            <View style={styles.section}>
+              <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
+                {t("Parameters.label.language")}
+              </Text>
+              <Dropdown
+                data={langues}
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                value={lang}
+                onChange={item => setLangue(item.value)}
+                style={[styles.dropdown, dynamicStyles.dropdown]}
+                itemTextStyle={{ fontSize: parseInt(fontS) }}
+                selectedTextStyle={{ fontSize: parseInt(fontS) }}
+              />
+              {/* <Text style={{ color: 'red', fontSize: 12 }}>*{t('Attention')}*</Text> */}
+            </View>
 
-        <View style={styles.switchSection}>
-          <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
-            {modeU ? t("Parameters.mode.light") : t("Parameters.mode.dark")}
-          </Text>
-          <Switch value={modeU} onValueChange={(newValue) => setMode(newValue)} />
-        </View>
+            <View style={styles.section}>
+              <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
+                {t("Parameters.label.unit")}
+              </Text>
+              <Dropdown
+                data={speedUnits}
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                value={speed} 
+                onChange={item => setSpeedUnit(item.value)}
+                style={[styles.dropdown, dynamicStyles.dropdown]}
+                itemTextStyle={{ fontSize: parseInt(fontS) }}
+                selectedTextStyle={{ fontSize: parseInt(fontS) }}
+              />
+            </View>
 
-        <TouchableOpacity
-          style={[styles.buttonNotification, dynamicStyles.buttonNotification]}
-          onPress={() => navigation.navigate("Account")}
-        >
-          <Text style={{ fontSize: parseInt(fontS) + 4 }}>{t("Account.buttons.account")}</Text>
-          <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={parseInt(fontS) + 4} />
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.buttonSignOut, dynamicStyles.buttonSignOut]}
-          onPress={() => signout()}
-        >
-          <FontAwesomeIcon icon={faRightFromBracket} size={parseInt(fontS) + 10} />
-          <Text style={{ fontSize: parseInt(fontS) + 4, marginLeft: 10 }}>{t("Account.buttons.signout")}</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+            <View style={styles.switchSection}>
+              <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
+                {modeU ? t("Parameters.mode.light") : t("Parameters.mode.dark")}
+              </Text>
+              <Switch value={modeU} onValueChange={(newValue) => setMode(newValue)} />
+            </View>
+
+            <TouchableOpacity
+              style={[styles.buttonNotification, dynamicStyles.buttonNotification]}
+              onPress={() => navigation.navigate("Account")}
+            >
+              <Text style={{ fontSize: parseInt(fontS) + 4 }}>{t("Account.buttons.account")}</Text>
+              <FontAwesomeIcon icon={faArrowUpRightFromSquare} size={parseInt(fontS) + 4} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.buttonSignOut, dynamicStyles.buttonSignOut]}
+              onPress={() => signout()}
+            >
+              <FontAwesomeIcon icon={faRightFromBracket} size={parseInt(fontS) + 10} />
+              <Text style={{ fontSize: parseInt(fontS) + 4, marginLeft: 10 }}>
+                {t("Account.buttons.signout")}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -163,12 +198,12 @@ export default Parameters;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f7f7f7',
+  },
+  scrollview: {
+      padding: 10,
   },
   containerView: {
-    justifyContent: 'center',
-    alignItems: 'center',
+      paddingHorizontal: 10,
   },
   section: {
     marginBottom: 20,
@@ -184,33 +219,33 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 10,
     color: '#333',
-    fontFamily:"serif"
+    fontFamily: "serif",
   },
   dropdown: {
     height: 50,
     borderWidth: 2,
     borderRadius: 8,
-    borderColor: '#ccc',
+    borderColor: '#cccccc',
     paddingHorizontal: 10,
     backgroundColor: '#fff',
   },
   buttonNotification: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderColor: '#ccc',
+    borderColor: '#cccccc',
     borderWidth: 2,
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 10,
     marginTop: 20,
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
   },
   buttonSignOut: {
     flexDirection: 'row',
     borderRadius: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    marginTop: '30%',
+    marginTop: '25%',
     alignSelf: 'center',
   },
 });

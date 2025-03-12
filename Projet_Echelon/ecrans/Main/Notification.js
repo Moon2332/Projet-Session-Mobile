@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet,FlatList,Pressable } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import { useParams } from '../../useParams';
 
 const Notification = () => {
     const notifications = [
@@ -15,21 +15,36 @@ const Notification = () => {
         { id: '8', type: 'Reminder', date: '2023-10-08', time: '05:00 PM' },
         { id: '9', type: 'Update', date: '2023-10-09', time: '06:00 PM' },
     ];
-    //Swap this with mqtt alerts
 
     const navigation = useNavigation();
+    const { mode } = useParams();
+
+    const dynamicStyles = {
+        container: {
+            backgroundColor: mode ? '#f0f4f8' : '#181818',
+        },
+        textLabel: {
+        color: mode ? '#2f3640' : '#ecf0f1',
+        },
+        card: {
+            backgroundColor: mode ? '#ffffff' : '#444',
+        },
+        cardText: {
+            color: mode ? '#333' : '#fff',
+        },
+    };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>Notification</Text>
+        <View style={[styles.container, dynamicStyles.container]}>
+            <Text style={[styles.text, dynamicStyles.textLabel]}>Notification</Text>
             <FlatList
                 data={notifications}
                 renderItem={({ item }) => (
                     <Pressable onPress={() => navigation.navigate('Picture')}>
-                        <View style={styles.card}>
-                            <Text style={styles.cardText}>Type: {item.type}</Text>
-                            <Text style={styles.cardText}>Date: {item.date}</Text>
-                            <Text style={styles.cardText}>Temps: {item.time}</Text>
+                        <View style={[styles.card, dynamicStyles.card]}>
+                            <Text style={[styles.cardText, dynamicStyles.cardText]}>Type: {item.type}</Text>
+                            <Text style={[styles.cardText, dynamicStyles.cardText]}>Date: {item.date}</Text>
+                            <Text style={[styles.cardText, dynamicStyles.cardText]}>Temps: {item.time}</Text>
                         </View>
                     </Pressable>
                 )}
@@ -44,14 +59,18 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#111111',
         paddingTop: 50,
+    },
+    text: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        fontFamily: 'serif',
     },
     card: {
         minWidth: '70%',
         padding: 20,
         marginVertical: 10,
-        backgroundColor: '#333333',
         borderRadius: 5,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -61,7 +80,6 @@ const styles = StyleSheet.create({
     },
     cardText: {
         fontSize: 16,
-        color: '#ffffff',
         fontFamily: 'serif',
     },
 });

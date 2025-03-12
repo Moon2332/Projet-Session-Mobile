@@ -136,15 +136,37 @@ export default function App() {
           headerShown: false,
         },
       },
+      Mapping: {
+        screen: Mapping,
+        options: {
+          headerShown:true
+        }
+      },
+      MappingSaved: {
+        screen: MappingSaved,
+        options: {
+          headerShown:true
+        }
+      },
+      MappingCreate: {
+        screen: MappingCreate,
+        options: {
+          headerShown:true
+        }
+      },
+      
     },
   });
 
   const Navigation = createStaticNavigation(RootStack);
 
   return (
-    <ParamsProvider >
-      <Navigation />
-    </ParamsProvider>
+    <>
+      <StatusBar style="dark" backgroundColor="#111111" />
+      <ParamsProvider >
+        <Navigation />
+      </ParamsProvider>
+    </>
   );
 }
 

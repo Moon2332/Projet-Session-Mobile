@@ -1,63 +1,109 @@
-import React, { useEffect } from "react";
-import { View, Button } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { View, Button, StyleSheet, Text } from "react-native";
 import init from "react_native_mqtt";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const mqttTest = () => {
-  var client = null;
+  const clientRef = useRef(null); 
+
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [positionData, setPositionData] = useState([]); 
 
   useEffect(() => {
-     init({
-       size: 10000,
-       storageBackend: AsyncStorage,
-       defaultExpires: 1000 * 3600 * 24,
-       enableCache: true,
-       reconnect: true,
-       sync: {},
-     });
+    init({
+      size: 10000,
+      storageBackend: AsyncStorage,
+      defaultExpires: 1000 * 3600 * 24,
+      enableCache: true,
+      reconnect: true,
+      sync: {},
+    });
 
-    client = new Paho.MQTT.Client("172.16.87.91", 9002, "Mr.bean"); //make sure corret ip and port
-    // console.log("client", client);
-    client.onConnectionLost = onConnectionLost;
-    client.onMessageArrived = onMessageArrived;
-    
+    clientRef.current = new Paho.MQTT.Client("172.16.74.69", 9002, "uname1");
+
+    clientRef.current.onConnectionLost = onConnectionLost;
+    clientRef.current.onMessageArrived = onMessageArrived;
   }, []);
 
   const connect = () => {
-    console.log("onConnect");
-    client.connect({ onSuccess: onSuccess, useSSL: false, onFailure: onFailure });
+    console.log("Connecting...");
+    clientRef.current.connect({
+      onSuccess: onSuccess,
+      useSSL: false,
+      onFailure: onFailure
+    });
   };
 
   const onSuccess = () => {
-    console.log("onSuccess");
-    client.subscribe("test/topic", { qos: 0 });
+    console.log("Connected successfully!");
+    clientRef.current.subscribe("test/topic", { qos: 0 });
+    clientRef.current.subscribe("sql/mobile/return/positions", { qos: 0 });
+
+    // Request position data from the server
+    sendData("traybot/sql/getAllPosition", "ඞ");
   };
 
   const onFailure = (e) => {
-    console.log("onFailure", e);
-
+    console.log("Connection failed", e);
   };
 
   const onConnectionLost = (responseObject) => {
     if (responseObject.errorCode !== 0) {
-      console.log("onConnectionLost:" + responseObject.errorMessage);
+      console.log("Connection lost:", responseObject.errorMessage);
     }
   };
 
   const onMessageArrived = (message) => {
-    console.log("onMessageArrived:" + message.payloadString);
+    console.log("Message received on topic:", message.destinationName);
+    console.log("Message:", message.payloadString);
+
+    if (message.destinationName === "sql/mobile/return/positions") {
+      try {
+        const parsedData = JSON.parse(message.payloadString); 
+        if (Array.isArray(parsedData)) {
+          const formattedData = parsedData.map(([id, name]) => ({
+            label: name,      
+            value: id.toString(), 
+          }));
+
+          setPositionData(formattedData);
+        }
+      } catch (error) {
+        console.error("Error parsing MQTT data:", error);
+      }
+    }
+};
+
+  const sendData = (topic, data) => {
+    if (clientRef.current && clientRef.current.isConnected()) {
+      clientRef.current.publish(topic, data, 0, false);
+    } else {
+      console.warn("MQTT client is not connected. Cannot send data.");
+    }
   };
 
-  const sendData = () => {
-    client.publish("test/topic", "data", 0, false);
-  };
-
+  /*
   return (
     <View>
       <Button title="Se connecter" onPress={connect} />
-      <Button title="Send Data" onPress={sendData} />
+      <Button title="Send Data" onPress={() => sendData("traybot/pi/goToPosition", selectedValue)} />
+
+      <View style={styles.container}>
+        <Text style={styles.text}>Select an option:</Text>
+        <Dropdown
+          data={positionData}
+          labelField="label"
+          valueField="value"
+          value={selectedValue}
+          onChange={(item) => setSelectedValue(item.value)}
+          style={styles.dropdown}
+        />
+        {selectedValue && <Text>You selected: {selectedValue}</Text>}
+      </View>
     </View>
   );
+  */
+
 };
 
 export default mqttTest;

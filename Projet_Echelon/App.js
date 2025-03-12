@@ -36,7 +36,7 @@ export default function App() {
       else
         setLandingPage("Auth");
     } catch (error) {
-      console.log(error);
+      console.log("Erron in APP.js" + error)
       setLandingPage("Auth");
     }
   };

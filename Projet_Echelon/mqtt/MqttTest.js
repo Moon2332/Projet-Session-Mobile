@@ -38,9 +38,6 @@ const mqttTest = () => {
     console.log("Connected successfully!");
     clientRef.current.subscribe("test/topic", { qos: 0 });
     clientRef.current.subscribe("sql/mobile/return/positions", { qos: 0 });
-
-    // Request position data from the server
-    sendData("traybot/sql/getAllPosition", "ඞ");
   };
 
   const onFailure = (e) => {
@@ -56,22 +53,6 @@ const mqttTest = () => {
   const onMessageArrived = (message) => {
     console.log("Message received on topic:", message.destinationName);
     console.log("Message:", message.payloadString);
-
-    if (message.destinationName === "sql/mobile/return/positions") {
-      try {
-        const parsedData = JSON.parse(message.payloadString); 
-        if (Array.isArray(parsedData)) {
-          const formattedData = parsedData.map(([id, name]) => ({
-            label: name,      
-            value: id.toString(), 
-          }));
-
-          setPositionData(formattedData);
-        }
-      } catch (error) {
-        console.error("Error parsing MQTT data:", error);
-      }
-    }
 };
 
   const sendData = (topic, data) => {

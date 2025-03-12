@@ -4,7 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const useMQTTClient = (clientId, host, port, topics) => {
   const clientRef = useRef(null);
-  const [positions, setPositions] = useState([]);
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
@@ -67,33 +66,13 @@ const useMQTTClient = (clientId, host, port, topics) => {
     }
   };
 
-  const requestPosition = () => {
-    sendData("traybot/sql/getAllPosition", "ඞ");
-  };
-
   const onMessageArrived = (message) => {
     console.log("onMessageArrived:", message.payloadString);
     console.log("Message received on topic:", message.destinationName);
-
-    if (message.destinationName === "sql/mobile/return/positions") {
-      try {
-        const parsedData = JSON.parse(message.payloadString); 
-        if (Array.isArray(parsedData)) {
-          const formattedData = parsedData.map(([id, name]) => ({
-            label: name,      
-            value: id.toString(), 
-          }));
-
-          setPositions(formattedData);
-        }
-      } catch (error) {
-        console.error("Error parsing MQTT data:", error);
-      }
-    }
   };
 
 
-  return { sendData, requestPosition, positions, connected };
+  return { sendData, connected };
 };
 
 export default useMQTTClient;

@@ -94,6 +94,7 @@ export const refreshToken = async () => {
       return null;
     }
     else{
+      console.log("There is a user")
       const response = await fetch(`${baseUrl}refreshToken`, {
         method: 'POST',
         headers: {

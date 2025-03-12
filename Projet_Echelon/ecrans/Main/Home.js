@@ -7,14 +7,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleStop, faPlay, faRoute } from '@fortawesome/free-solid-svg-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
-
+import useMQTTClient from '../../mqtt/mqttServices'
 const Home = ({route}) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { fontSize, mode } = useParams();
 
   const [isActivated, setIsActivated] = useState(false);
-
+  const {sendData, connected } = useMQTTClient('UNAME2', '172.16.74.69', 9002, ["test/topic"])
+  console.log(connected)
   const dynamicStyles = {
     container: {
       backgroundColor: mode ? '#f0f4f8' : '#181818',

@@ -14,8 +14,19 @@ const Home = ({route}) => {
   const { fontSize, mode } = useParams();
 
   const [isActivated, setIsActivated] = useState(false);
-  const {sendData, connected } = useMQTTClient('UNAME2', '172.16.74.69', 9002, ["test/topic"])
-  console.log(connected)
+  const [imageData, setImageData] = useState(null);  
+  const [textData, setTextData] = useState(null);
+
+  const {sendData, connected } = useMQTTClient('UNAME2', '192.168.2.237', 9002, ["echelon"], (message) => {
+    if (message.type === 'image') {
+      setImageData(message.data);
+    } else if (message.type === 'text') {
+      console.log("text")
+      setImageData(null)
+      setTextData(message.data);
+    }
+  });
+
   const dynamicStyles = {
     container: {
       backgroundColor: mode ? '#f0f4f8' : '#181818',
@@ -42,6 +53,26 @@ const Home = ({route}) => {
     }
   }, [route]);
 
+  const handleActivate = () => {
+    try {
+      sendData("echelon", "Start")
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsActivated(true)
+    }
+  }
+
+  const handleDeactivate = () => {
+    try {
+      sendData("echelon", "Stop")
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsActivated(false)
+    }
+  }
+
   return (
     <SafeAreaView style={[styles.container, dynamicStyles.container]}>
       <View style={styles.containerView}>
@@ -52,7 +83,8 @@ const Home = ({route}) => {
             
             <TouchableOpacity
               style={[styles.launchButton, dynamicStyles.launchButton]}
-              onPress={() => setIsActivated(true)}
+              // onPress={() => setIsActivated(true)}
+              onPress={() => handleActivate()}
             >
               <FontAwesomeIcon icon={faPlay} size={parseInt(fontSize) + 10} color={mode ? '#333' : '#fff'} />
               <Text style={{ fontSize: dynamicStyles.launchButton.fontSize, color: dynamicStyles.textLabel.color }}>
@@ -78,9 +110,17 @@ const Home = ({route}) => {
             <Text style={[styles.title, dynamicStyles.textLabel]}>{ t("Home.title.activated")}</Text>
             <Image source={require("../../assets/R.png")} style={styles.image} />
 
+            {imageData ? (
+              <Image source={{ uri: `data:image/png;base64,${imageData}` }} style={styles.image} />
+            ) : (
+              (
+                <Text style={styles.textMessage}>{textData}</Text>
+              ) 
+            )}
+
             <TouchableOpacity
               style={[styles.launchButton, dynamicStyles.mappingButton]}
-              onPress={() => setIsActivated(false)}
+              onPress={() => handleDeactivate()}
             >
               <FontAwesomeIcon icon={faCircleStop} size={parseInt(fontSize) + 10} color={mode ? '#333' : '#fff'} />
               <Text style={{ fontSize: dynamicStyles.mappingButton.fontSize, marginLeft: 10, color: dynamicStyles.textLabel.color }}>

@@ -166,7 +166,7 @@ const Parameters = () => {
               <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
                 {modeU ? t("Parameters.mode.light") : t("Parameters.mode.dark")}
               </Text>
-              <Switch value={modeU} onValueChange={(newValue) => setMode(newValue)} />
+              <Switch value={modeU} onValueChange={(newValue) => setMode(newValue)}  />
             </View>
 
             <TouchableOpacity
@@ -204,6 +204,9 @@ const styles = StyleSheet.create({
   },
   containerView: {
       paddingHorizontal: 10,
+      justifyContent: "center",
+      alignContent:"center",
+      paddingVertical: '10%'
   },
   section: {
     marginBottom: 20,

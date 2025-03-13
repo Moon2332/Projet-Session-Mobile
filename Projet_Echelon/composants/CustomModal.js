@@ -55,7 +55,7 @@ const CustomModal = ({
     },
     buttonText: {
       color: mode ? '#FFFFFF' : '#000000',
-      fontSize: parseInt(fontSize)
+      fontSize: fontSize
     },
     cancelButton: {
       backgroundColor: mode ? '#FF5733' : '#C70039',

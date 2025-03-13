@@ -246,12 +246,12 @@ const Account = () => {
             <ScrollView style={styles.scrollview}>
                 <SafeAreaView>
                     <View style={styles.containerView}>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             style={styles.backButton}
                             onPress={() => navigation.goBack()}
                         >
                             <FontAwesomeIcon icon={faArrowLeft} size={parseInt(fontSize)} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         <Text style={[styles.title_pages, { fontSize: (parseInt(fontSize) + 10) }]}>
                             {t('Account.buttons.account')}
                         </Text>
@@ -261,7 +261,7 @@ const Account = () => {
                             value={lastName}
                             onChangeText={(value) => onChangeText(value, setLastName)}
                             error={error.errorLastName}
-                            fontSize={fontSize}
+                            fontSize={parseInt(fontSize)}
                             mode={mode}
                         />
 
@@ -271,7 +271,7 @@ const Account = () => {
                             onChangeText={(value) => onChangeText(value, setFirstName)}
                             error={error.errorFirstName}
                             mode={mode}
-                            fontSize={fontSize}
+                            fontSize={parseInt(fontSize)}
                         />
 
                         <CustomInput
@@ -279,7 +279,7 @@ const Account = () => {
                             value={email}
                             onChangeText={(value) => onChangeText(value, setEmail)}
                             keyboardType='email-address'
-                            fontSize={fontSize}
+                            fontSize={parseInt(fontSize)}
                             mode={mode}
                             error={error.errorEmail}
                         />
@@ -296,7 +296,7 @@ const Account = () => {
                             error={error}
                             setError={setError}
                             onPressSave={editPassword}
-                            fontSize={fontSize}
+                            fontSize={parseInt(fontSize)}
                             mode={mode}
                         />
 
@@ -361,6 +361,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 10,
+        paddingVertical: 10
     },
     inputContainer: {
         justifyContent: "center",

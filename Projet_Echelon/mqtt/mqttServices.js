@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import init from "react_native_mqtt";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const useMQTTClient = (clientId, host, port, topics) => {
+const useMQTTClient = (clientId, host, port, topics, onMessageReceived) => {
   const clientRef = useRef(null);
   const [connected, setConnected] = useState(false);
 
@@ -67,8 +67,24 @@ const useMQTTClient = (clientId, host, port, topics) => {
   };
 
   const onMessageArrived = (message) => {
-    console.log("onMessageArrived:", message.payloadString);
-    console.log("Message received on topic:", message.destinationName);
+    try {
+      const messagePayload = message.payloadString;
+      if (isBase64(messagePayload)) {
+        onMessageReceived({ type: 'image', data: messagePayload });
+      } else {
+        onMessageReceived({ type: 'text', data: messagePayload });
+      }
+    } catch (error) {
+      console.error("Error handling message:", error);
+    }
+  };
+
+  const isBase64 = (str) => {
+    try {
+      return btoa(atob(str)) === str;
+    } catch (e) {
+      return false;
+    }
   };
 
 

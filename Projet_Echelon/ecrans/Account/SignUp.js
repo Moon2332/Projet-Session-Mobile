@@ -225,7 +225,8 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         justifyContent: "center",
-        fontFamily:"serif"
+        fontFamily:"serif",
+        width: '90%',
     },
     title: {
         fontSize: 80,

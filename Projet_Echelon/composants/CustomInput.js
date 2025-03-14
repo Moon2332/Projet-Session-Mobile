@@ -19,7 +19,7 @@ const CustomInput = ({
   const dynamicStyles = {
     inputContainer: {
       marginBottom: 15,
-      width: 320
+      width: '100%',
     },
     label: {
       fontSize: fontSize,
@@ -61,7 +61,7 @@ const CustomInput = ({
         />
         {showEyeIcon && (
           <TouchableOpacity onPress={toggleVisibility} style={dynamicStyles.eyeIconContainer}>
-            <FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeSlash} size={(fontSize + 4)} color={mode ? '#333' : '#000'} />
+            <FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeSlash} size={fontSize + 4} color={mode ? '#333' : '#000'} />
           </TouchableOpacity>
         )}
       </View>

@@ -14,12 +14,12 @@ import { useEffect, useState } from 'react';
 import { faBell, faGear, faHouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Mapping from './ecrans/Main/Mapping';
-import MappingSaved from './ecrans/Main/Mapping_Saved';
 import MappingCreate from './ecrans/Main/Mapping_Create';
 import { refreshToken } from './api/user';
 import Account from './ecrans/Autres/Account';
 import { deleteUserInfo } from './api/secureStore';
-
+import MappingEdit from './ecrans/Main/Mapping_Edit';
+import { MQTTProvider } from './useMQTT';
 export default function App() {
   const [landingPage, setLandingPage] = useState("Auth");
 
@@ -104,6 +104,41 @@ export default function App() {
         screen: Notifications,
         options: {
           headerShown: false,
+          tabBarLabelStyle: {
+            fontSize: 16,
+            fontFamily: 'Georgia',
+            fontWeight: 300,
+          }
+        },
+      },
+    },
+  });
+
+  const mappingStack = createNativeStackNavigator({
+    initialRouteName: 'Mapping',
+    screenOptions: {
+      headerStyle: {
+        backgroundColor: '#2d3436',
+      },
+      headerTintColor: 'white',
+    },
+    screens: {
+      Mapping: {
+        screen: Mapping,
+        options: {
+          headerShown: true,
+        },
+      },
+      MappingCreate: {
+        screen: MappingCreate,
+        options: {
+          headerShown: true,
+        },
+      },
+      MappingEdit: {
+        screen: MappingEdit,
+        options: {
+          headerShown: true,
         },
       },
     },
@@ -136,25 +171,12 @@ export default function App() {
           headerShown: false,
         },
       },
-      Mapping: {
-        screen: Mapping,
+      MappingStack: {
+        screen: mappingStack,
         options: {
-          headerShown:true
-        }
+          headerShown: false,
+        },
       },
-      MappingSaved: {
-        screen: MappingSaved,
-        options: {
-          headerShown:true
-        }
-      },
-      MappingCreate: {
-        screen: MappingCreate,
-        options: {
-          headerShown:true
-        }
-      },
-      
     },
   });
 
@@ -162,10 +184,12 @@ export default function App() {
 
   return (
     <>
-      <StatusBar style="dark" backgroundColor="#111111" />
-      <ParamsProvider >
-        <Navigation />
-      </ParamsProvider>
+      {/* <StatusBar style="dark" backgroundColor="#111111" /> */}
+      <MQTTProvider>
+        <ParamsProvider >
+          <Navigation />
+        </ParamsProvider>
+      </MQTTProvider>
     </>
   );
 }

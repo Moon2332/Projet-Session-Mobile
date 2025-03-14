@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleStop, faPlay, faRoute } from '@fortawesome/free-solid-svg-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
-import useMQTTClient from '../../mqtt/mqttServices'
+import { useMQTT } from '../../useMQTT';
+
 const Home = ({route}) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -17,15 +18,23 @@ const Home = ({route}) => {
   const [imageData, setImageData] = useState(null);  
   const [textData, setTextData] = useState(null);
 
-  const {sendData, connected } = useMQTTClient('UNAME2', '192.168.2.237', 9002, ["echelon"], (message) => {
-    if (message.type === 'image') {
-      setImageData(message.data);
-    } else if (message.type === 'text') {
-      console.log("text")
-      setImageData(null)
-      setTextData(message.data);
+  const { client, connected, sendMessage } = useMQTT();
+
+  useEffect(() => {
+    if (client && connected) {
+      console.log('HomeScreen: MQTT Client is connected');
     }
-  });
+  }, [client, connected]);
+
+  // const {sendData, connected } = useMQTTClient('UNAME2', '192.168.2.237', 9002, ["echelon"], (message) => {
+  //   if (message.type === 'image') {
+  //     setImageData(message.data);
+  //   } else if (message.type === 'text') {
+  //     console.log("text")
+  //     setImageData(null)
+  //     setTextData(message.data);
+  //   }
+  // });
 
   const dynamicStyles = {
     container: {
@@ -55,7 +64,7 @@ const Home = ({route}) => {
 
   const handleActivate = () => {
     try {
-      sendData("echelon", "Start")
+      sendMessage("echelon", "Start")
     } catch (error) {
       console.log(error)
     } finally {
@@ -65,7 +74,7 @@ const Home = ({route}) => {
 
   const handleDeactivate = () => {
     try {
-      sendData("echelon", "Stop")
+      sendMessage("echelon", "Stop")
     } catch (error) {
       console.log(error)
     } finally {
@@ -83,7 +92,6 @@ const Home = ({route}) => {
             
             <TouchableOpacity
               style={[styles.launchButton, dynamicStyles.launchButton]}
-              // onPress={() => setIsActivated(true)}
               onPress={() => handleActivate()}
             >
               <FontAwesomeIcon icon={faPlay} size={parseInt(fontSize) + 10} color={mode ? '#333' : '#fff'} />
@@ -94,7 +102,7 @@ const Home = ({route}) => {
 
             <TouchableOpacity
               style={[styles.mappingButton, dynamicStyles.mappingButton]}
-              onPress={() => navigation.navigate('Mapping')}
+              onPress={() => navigation.navigate({ name: 'MappingStack', params: { screen: 'Mapping' }})}
             >
               <FontAwesomeIcon icon={faRoute} size={parseInt(fontSize) + 10} color={mode ? '#333' : '#fff'} />
               <Text style={{ fontSize: dynamicStyles.mappingButton.fontSize, marginLeft: 10, color: dynamicStyles.textLabel.color }}>

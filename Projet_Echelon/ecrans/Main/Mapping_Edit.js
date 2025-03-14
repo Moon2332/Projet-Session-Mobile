@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity } from 'react-native';
-import useBD from '../../useBD'; 
+import useBD from '../../useBD';
 import { useNavigation } from '@react-navigation/native';
 import { useParams } from '../../useParams';
 import { useTranslation } from 'react-i18next';
@@ -14,10 +14,10 @@ const MappingEdit = ({ route }) => {
 
     const [title, setTitle] = useState("");
     const [editedInstructions, setEditedInstructions] = useState([]);
-    const [isChanged, setIsChanged] = useState(false); // Track changes
+    const [isChanged, setIsChanged] = useState(false);
 
     const { item_edit } = route.params;
-    
+
     useEffect(() => {
         navigation.setOptions({
             headerTitle: t("titles_pages.mapping_edit"),
@@ -27,18 +27,19 @@ const MappingEdit = ({ route }) => {
 
         const parsedOrders = JSON.parse(item_edit.orders);
         setEditedInstructions(parsedOrders);
-        setTitle(item_edit.title); 
+        setTitle(item_edit.title);
+
     }, [route.params]);
 
     const updateInstructionValue = (index, newValue) => {
         setEditedInstructions(prevItems => {
             const updatedItems = [...prevItems];
             updatedItems[index].value = newValue;
-            setIsChanged(true); // Set to true when there's a change
+            setIsChanged(true);
             return updatedItems;
         });
     }
-    
+
     const saveUpdatedInstructions = () => {
         try {
             const instructionsData = editedInstructions.map(item => ({
@@ -48,7 +49,7 @@ const MappingEdit = ({ route }) => {
 
             editInstruction(item_edit.title, instructionsData, item_edit.id);
             navigation.popTo('Mapping', { modifier: "modifier" });
-            setIsChanged(false); // Reset after saving
+            setIsChanged(false);
         } catch (e) {
             console.error('Error updating instructions:', e);
         }
@@ -57,17 +58,29 @@ const MappingEdit = ({ route }) => {
     const removeItem = (index) => {
         setEditedInstructions(prevItems => {
             const updatedItems = prevItems.filter((_, i) => i !== index);
-            
+
             if (updatedItems.length === 0) {
-                deleteInstruction(item_edit.id); 
+                deleteInstruction(item_edit.id);
 
                 navigation.popTo('Mapping', { modifier: "delete" });
             }
 
-            setIsChanged(true); // Set to true when an item is removed
+            setIsChanged(true);
             return updatedItems;
         });
     };
+
+    const removeInstruction = async () => {
+        try {
+            const response = await deleteInstruction(item_edit.id)
+            navigation.popTo('Mapping', { modifier: "delete" })
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: t(error)
+            });
+        }
+    }
 
     const renderInstructionItem = ({ item, index }) => (
         <TouchableOpacity onLongPress={() => removeItem(index)}>
@@ -88,14 +101,14 @@ const MappingEdit = ({ route }) => {
             backgroundColor: mode ? '#f0f4f8' : '#181818',
         },
         textLabel: {
-            color: mode ? '#ecf0f1' : '#2f3640',  
+            color: mode ? '#ecf0f1' : '#2f3640',
             fontSize: parseInt(fontSize)
         },
         flatlistContainer: {
             backgroundColor: mode ? '#333333' : '#f0f4f8',
         },
         card: {
-            backgroundColor: mode  ? '#444444' : '#ffffff',
+            backgroundColor: mode ? '#444444' : '#ffffff',
             shadowColor: mode ? '#fff' : '#000',
         },
         cardText: {
@@ -107,11 +120,11 @@ const MappingEdit = ({ route }) => {
             color: mode ? '#ffffff' : '#2f3640',
         },
         Button: {
-            backgroundColor: mode ? '#333333' : '#eeeeee',  
+            backgroundColor: mode ? '#333333' : '#eeeeee',
         },
         ButtonText: {
             fontSize: parseInt(fontSize),
-            color: mode ? '#ffffff' : '#2f3640', 
+            color: mode ? '#ffffff' : '#2f3640',
         },
     };
 
@@ -124,13 +137,23 @@ const MappingEdit = ({ route }) => {
                 style={styles.flatList}
             />
 
-            <TouchableOpacity 
-                onPress={() => saveUpdatedInstructions()} 
-                style={[styles.saveButton, !isChanged && { opacity: 0.1 }]}
-                disabled={!isChanged}
-            >
-                <Text style={styles.saveButtonText}>{t("Account.buttons.save")}</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                    onPress={() => saveUpdatedInstructions()}
+                    style={[styles.saveButton, !isChanged && { opacity: 0.1 }]}
+                    disabled={!isChanged}
+                >
+                    <Text style={styles.saveButtonText}>{t("Account.buttons.save")}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={() => removeInstruction()}
+                    style={styles.saveButton}
+                    disabled={!isChanged}
+                >
+                    <Text style={styles.saveButtonText}>{t("Account.buttons.delete")}</Text>
+                </TouchableOpacity>
+            </View>
 
             <Toast />
         </View>
@@ -156,6 +179,14 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     itemContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: 5,
+        backgroundColor: '#f0f0f0',
+        padding: 10,
+        borderRadius: 5,
+    },
+    buttonContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         margin: 5,

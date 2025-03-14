@@ -5,8 +5,9 @@ import useBD from '../../useBD';
 import { useNavigation } from '@react-navigation/native';
 import { useParams } from '../../useParams';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Toast from 'react-native-toast-message';
+import { useMQTT } from '../../useMQTT';
 
 const Mapping = ({ route }) => {
 
@@ -15,6 +16,15 @@ const Mapping = ({ route }) => {
 
     const { fontSize, mode } = useParams();
     const { instructions, getInstructions, deleteInstruction } = useBD();
+
+    const { client, connected, sendMessage } = useMQTT();
+    
+      useEffect(() => {
+        if (client && connected) {
+          console.log('Mapping: MQTT Client is connected');
+        }
+      }, [client, connected]);
+    
 
     useEffect(() => {
         getInstructions();
@@ -69,30 +79,26 @@ const Mapping = ({ route }) => {
         }
     }, [route.params])
 
-    const removeInstruction = async (item) => {
-        try {
-            const response = await deleteInstruction(item.id)
-            Toast.show({
-                type: 'success',
-                text1: t(response)
-            });
-        } catch (error) {
-            Toast.show({
-                type: 'error',
-                text1: t(error)
-            });
-        }
+    const useRoute = ({item}) => {
+        sendMessage("echelon", JSON.stringify(item))
     }
 
     const renderItem = ({ item }) => {
         return (
-            <TouchableOpacity
-                style={[styles.card, dynamicStyles.card]}
-                onPress={() => navigation.navigate("MappingEdit", { item_edit: item })}
-                onLongPress={() => removeInstruction(item)}
-            >
-                <Text style={[styles.cardText, dynamicStyles.cardText]}>{item.title}</Text>
-            </TouchableOpacity>
+            <View style={styles.itemContainer}>
+                <TouchableOpacity
+                    style={[styles.card, dynamicStyles.card]}
+                    onPress={() => useRoute(item)}
+                >
+                    <Text style={[styles.cardText, dynamicStyles.cardText]}>{item.title}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("MappingEdit", { item_edit: item })}
+                >
+                    <FontAwesomeIcon icon={faPenToSquare} size={20} color='green' />
+                </TouchableOpacity>
+            </View>
         )
     }
 
@@ -151,6 +157,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#111111',
+    },
+    itemContainer: {
+
     },
     title: {
         fontSize: 24,

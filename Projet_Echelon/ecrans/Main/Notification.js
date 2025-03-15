@@ -50,16 +50,16 @@ const Notification = () => {
                 if (!lastFetched) {
                     setLastFetched(date);
                     addNotification(type, image, date);
-                    setNb(nb + 1);
-                    // setChange(true)
+                    // setChange(true);
+                    setNb((prevNb) => (prevNb + 1));
                     setNotifications((prev) => [...prev, { ...newNotification, formatted_date: formattedDate, time }])
                 } else {
                     if (new Date(date) > new Date(lastFetched)) {
                         addNotification(type, image, date);
                         setLastFetched(date); 
                         // setChange(true)
-                    setNotifications((prev) => [...prev, { ...newNotification, formatted_date: formattedDate, time }])
-                    setNb(nb + 1); 
+                        setNb((prevNb) => (prevNb + 1));
+                        setNotifications((prev) => [...prev, { ...newNotification, formatted_date: formattedDate, time }])
                     }
                 }
             } 
@@ -94,7 +94,7 @@ const Notification = () => {
     }, [nb]);
 
     const renderItem = ({ item }) => {
-        console.log(item)
+        // console.log(item)
         return (
             <Pressable onPress={() => navigation.navigate('Picture')}>
             <View style={[styles.card, dynamicStyles.card]}>

@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStaticNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -6,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './ecrans/Main/Home';
 import Parameters from './ecrans/Main/Parameters';
 import Notifications from './ecrans/Main/Notification';
-import Picture from './ecrans/Main/Picture';
+import Picture from './ecrans/Autres/Picture';
 import Intro from './ecrans/Account/Intro';
 import SignUp from './ecrans/Account/SignUp';
 import { ParamsProvider } from './useParams';
@@ -14,12 +13,13 @@ import { useEffect, useState } from 'react';
 import { faBell, faGear, faHouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Mapping from './ecrans/Main/Mapping';
-import MappingCreate from './ecrans/Main/Mapping_Create';
+import MappingCreate from './ecrans/Autres/Mapping_Create';
 import { refreshToken } from './api/user';
 import Account from './ecrans/Autres/Account';
 import { deleteUserInfo } from './api/secureStore';
-import MappingEdit from './ecrans/Main/Mapping_Edit';
+import MappingEdit from './ecrans/Autres/Mapping_Edit';
 import { MQTTProvider } from './useMQTT';
+
 export default function App() {
   const [landingPage, setLandingPage] = useState("Auth");
 
@@ -28,6 +28,7 @@ export default function App() {
   }, []);
 
   const isUserLoggedIn = async () => {
+    // deleteUserInfo()
     try {
       const response = await refreshToken();
 
@@ -184,7 +185,6 @@ export default function App() {
 
   return (
     <>
-      {/* <StatusBar style="dark" backgroundColor="#111111" /> */}
       <MQTTProvider>
         <ParamsProvider >
           <Navigation />

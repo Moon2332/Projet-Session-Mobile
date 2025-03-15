@@ -57,7 +57,7 @@ export const MQTTProvider = ({ children }) => {
   };
 
   const onMessageArrived = (message) => {
-    console.log('Message arrived: ', message.payloadString);
+    // console.log('Message arrived: ', message.payloadString);
   };
 
   const sendMessage = (topic, message) => {

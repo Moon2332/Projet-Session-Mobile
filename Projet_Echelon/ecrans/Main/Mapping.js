@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import useBD from '../../useBD';
 import { useNavigation } from '@react-navigation/native';
 import { useParams } from '../../useParams';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Toast from 'react-native-toast-message';
 import { useMQTT } from '../../useMQTT';
 
@@ -29,9 +29,11 @@ const Mapping = ({ route }) => {
     useEffect(() => {
         getInstructions();
         console.log("In use effect mapping", instructions);
+    }, []);
 
+    useLayoutEffect(() => {
         navigation.setOptions({
-            headerTitle: t("titles_pages.mapping"),
+          headerTitle: t("titles_pages.mapping"),
             headerTitleAlign: "left",
             headerTitleStyle: {fontSize: parseInt(fontSize) + 10},
             headerRight: () => (
@@ -40,7 +42,7 @@ const Mapping = ({ route }) => {
                 </TouchableOpacity>
             ),
         });
-    }, []);
+      }, [navigation]);
 
     useEffect(() => {
         console.log(route.params?.message)

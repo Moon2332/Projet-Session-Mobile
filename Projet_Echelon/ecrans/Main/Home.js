@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useParams } from '../../useParams';
 import { useTranslation } from 'react-i18next';
@@ -25,17 +25,7 @@ const Home = ({route}) => {
       console.log('HomeScreen: MQTT Client is connected');
     }
   }, [client, connected]);
-
-  // const {sendData, connected } = useMQTTClient('UNAME2', '192.168.2.237', 9002, ["echelon"], (message) => {
-  //   if (message.type === 'image') {
-  //     setImageData(message.data);
-  //   } else if (message.type === 'text') {
-  //     console.log("text")
-  //     setImageData(null)
-  //     setTextData(message.data);
-  //   }
-  // });
-
+  
   const dynamicStyles = {
     container: {
       backgroundColor: mode ? '#f0f4f8' : '#181818',
@@ -102,7 +92,7 @@ const Home = ({route}) => {
 
             <TouchableOpacity
               style={[styles.mappingButton, dynamicStyles.mappingButton]}
-              onPress={() => navigation.navigate({ name: 'MappingStack', params: { screen: 'Mapping' }})}
+              onPress={() => navigation.navigate('MappingStack', { screen: 'Mapping' })}
             >
               <FontAwesomeIcon icon={faRoute} size={parseInt(fontSize) + 10} color={mode ? '#333' : '#fff'} />
               <Text style={{ fontSize: dynamicStyles.mappingButton.fontSize, marginLeft: 10, color: dynamicStyles.textLabel.color }}>

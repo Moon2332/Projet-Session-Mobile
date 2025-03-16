@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   title: {
-    fontSize: 70,
+    fontSize: 64,
     fontWeight: 'bold',
     textAlign: 'center',
     fontFamily:"serif"

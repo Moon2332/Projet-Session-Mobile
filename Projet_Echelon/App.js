@@ -19,6 +19,7 @@ import Account from './ecrans/Autres/Account';
 import { deleteUserInfo } from './api/secureStore';
 import MappingEdit from './ecrans/Main/Mapping_Edit';
 import { MQTTProvider } from './useMQTT';
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
   const [landingPage, setLandingPage] = useState("Auth");
@@ -185,6 +186,7 @@ export default function App() {
 
   return (
     <>
+      <StatusBar style="dark" backgroundColor="#111111" />
         <ParamsProvider >
           <MQTTProvider>
             <Navigation />

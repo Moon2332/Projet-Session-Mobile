@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     },
     flatList: {
         height: '60%',
-        marginVertical: 20,
+        marginVertical: 30,
     },
 });
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, Alert } from 'react-native';
 import useBD from '../../useBD';
 import { useNavigation } from '@react-navigation/native';
 import { useParams } from '../../useParams';
@@ -56,18 +56,33 @@ const MappingEdit = ({ route }) => {
     };
 
     const removeItem = (index) => {
-        setEditedInstructions(prevItems => {
-            const updatedItems = prevItems.filter((_, i) => i !== index);
-
-            if (updatedItems.length === 0) {
-                deleteInstruction(item_edit.id);
-
-                navigation.popTo('Mapping', { modifier: "delete" });
-            }
-
-            setIsChanged(true);
-            return updatedItems;
-        });
+        if (editedInstructions.length === 1) {
+            Alert.alert(
+                t("Account.confirmation"),
+                t("Account.delete_last_item_warning"),
+                [
+                    {
+                        text: t("Account.buttons.no"),
+                        onPress: () => {},
+                    },
+                    {
+                        text: t("Account.buttons.yes"),
+                        onPress: () => {
+                            deleteInstruction(item_edit.id);
+                            setEditedInstructions([]);
+                            navigation.popTo('Mapping', { modifier: "delete" });
+                        },
+                    },
+                ],
+                { cancelable: true }
+            );
+        } else {
+            setEditedInstructions(prevItems => {
+                const updatedItems = prevItems.filter((_, i) => i !== index);
+                setIsChanged(true);
+                return updatedItems;
+            });
+        }
     };
 
     const removeInstruction = async () => {
@@ -187,7 +202,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     buttonContainer: {
-        flexDirection: 'row',
+        flexDirection: 'column',
+        width: '80%',
         alignItems: 'center',
         margin: 5,
         backgroundColor: '#f0f0f0',
@@ -213,7 +229,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
         width: '100%',
-        marginBottom: 30,
+        marginBottom: 10,
         justifyContent: 'center',
         alignItems: 'center',
     },

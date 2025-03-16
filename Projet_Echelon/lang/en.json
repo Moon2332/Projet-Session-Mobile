@@ -1,24 +1,32 @@
 {
     "Success": "Success",
     "Error": "Error",
-    "Delete": "Are you sure you want to delete your account?",
-    "Attention": "Warning! Changing the language will restart the application",
+    "Delete": "Do you really want to delete your account?",
+    "Attention": "Attention! Changing the language will restart the application",
     "subtitle": "Always watching over you",
     "titles_pages": {
         "authentification": "Authentication",
         "create": "Create an account",
-        "parameters": "Settings"
+        "parameters": "Settings",
+        "mapping": "Route List",
+        "mapping_add": "Add a route",
+        "mapping_edit": "Edit a route",
+        "notifications": "Notifications"
     },
     "Account": {
         "no_account": "No account",
+        "confirmation": "Confirmation",
+        "delete_last_item_warning": "Deleting this will automatically delete the route. Will you proceed ?",
         "buttons": {
+            "yes": "Yes",
+            "no": "No",
             "start": "Start",
-            "signin": "Sign in",
+            "signin": "Sign In",
             "create": "Create",
             "create_account": "Create an account",
-            "signout": "Sign out",
+            "signout": "Sign Out",
             "notification": "Notifications",
-            "return": "Back",
+            "return": "Return",
             "account": "Account",
             "save": "Save",
             "delete": "Delete",
@@ -34,10 +42,16 @@
         "confirm_password": "Confirm password",
         "confirm_new_password": "Confirm new password",
         "firstname": "First name",
-        "lastname": "Last name"
+        "lastname": "Last name",
+        "placeholder": "Enter route name",
+        "forward": "Move forward",
+        "backward": "Move backward",
+        "left": "Turn left",
+        "right": "Turn right"
     },
     "Errors": {
         "required_fields": {
+            "placeholder": "Name is required",
             "lastname": "Last name is required",
             "firstname": "First name is required",
             "email": {
@@ -56,35 +70,56 @@
             "mismatch": "Passwords do not match."
         },
         "save": {
-            "save": "Error saving"
+            "save": "Error saving",
+            "instructions": "Error saving instructions",
+            "notifications": "Error saving notifications"
+        },
+        "mapping": {
+            "add": "Error saving the route",
+            "edit": "Error modifying the route",
+            "delete": "Error deleting the route"
         }
     },
     "Messages": {
         "logout": {
-            "success": "Logout successful",
-            "error": "Error during logout!"
+            "success": "Successfully logged out",
+            "error": "Error logging out!"
         },
         "login": {
-            "success": "Login successful",
-            "error": "Error during login",
-            "error2": "Incorrect email or password"
+            "success": "Successfully logged in",
+            "error": "Error logging in",
+            "error2": "Incorrect password or email"
         },
         "signup": {
-            "success": "Account created!!",
-            "error": "Error during account creation!"
+            "success": "Account created!",
+            "error": "Error creating account!"
         },
         "password": {
-            "success": "Password successfully changed",
-            "error": "Error during password change"
+            "success": "Password changed successfully",
+            "error": "Error changing password"
         },
         "no_changes": "No changes made",
         "user": {
-            "success": "Information(s) successfully modified",
-            "error": "Error modifying information(s)"
+            "success": "Information(s) updated successfully",
+            "error": "Error updating information(s)"
         },
         "delete": {
             "success": "Account successfully deleted",
             "error": "Error deleting account"
+        },
+        "instructions": {
+            "success": "Route saved successfully",
+            "error": "Error creating the route",
+            "delete": "Item deleted successfully"
+        },
+        "notifications": {
+            "success": "Notifications saved successfully",
+            "error": "Error saving notifications"
+        },
+        "mapping": {
+            "add": "Route saved successfully",
+            "edit": "Item modified successfully",
+            "delete": "Item deleted successfully"
         }
     },
     "Parameters": {
@@ -116,7 +151,7 @@
     "Home": {
         "buttons": {
             "launch": "Launch Echelon",
-            "mapping" : "Route",
+            "mapping": "Route",
             "deactivate": "Deactivate"
         },
         "title": {
@@ -124,7 +159,7 @@
         }
     },
     "Notifications": {
-        "intruder": "Intruder detected",
+        "intruder": "Intruder presence",
         "speed": "ECHELON unusual speed",
         "obstacle": "Obstacle encountered"
     }

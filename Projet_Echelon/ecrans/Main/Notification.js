@@ -11,62 +11,73 @@ const Notification = () => {
     const { fontSize, mode } = useParams();
     const navigation = useNavigation();
 
-    const { client, connected } = useMQTT();
+    const { client, connected, notifications_mqtt } = useMQTT();
     const [lastFetched, setLastFetched] = useState(null);
 
     const { notifications, addNotification } = useBD()
     const [notifs, setNotifications] = useState([])
-    const [change, setChange] = useState(false)
     const [nb, setNb] = useState(0)
 
     useEffect(() => {
-        // setNotifications([])
         const formatDate = (date) => {
             const d = new Date(date);
-            const formattedDate = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;
-            return formattedDate;
+            return `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;
         };
-        
+    
         const formatTime = (date) => {
             const d = new Date(date);
             return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}:${d.getSeconds().toString().padStart(2, '0')}`;
         };
-
+    
         if (client && connected) {
             console.log('Notifications: MQTT Client is connected');
-            client.subscribe('echelon', { qos: 0 });
-
+            
             client.onMessageArrived = (message) => {
+                console.log('Notifications: In onMessageArrived');
+    
+                // Parse the message
                 const newNotification = JSON.parse(message.payloadString);
-                // console.log("New notification received:", newNotification);
-
+                console.log("New notification received:", newNotification);
+    
                 const type = newNotification.type;
-                const image = newNotification.image || null
-                const date = newNotification.date
-
+                const image = newNotification.image || null;
+                const date = newNotification.date;
+    
+                // Format the date and time using the functions
                 const formattedDate = formatDate(date);
                 const time = formatTime(date);
-
+    
                 if (!lastFetched) {
                     setLastFetched(date);
                     addNotification(type, image, date);
-                    // setChange(true);
                     setNb((prevNb) => (prevNb + 1));
-                    setNotifications((prev) => [...prev, { ...newNotification, formatted_date: formattedDate, time }])
+                    setNotifications((prev) => [...prev, { ...newNotification, formatted_date: formattedDate, time }]);
                 } else {
                     if (new Date(date) > new Date(lastFetched)) {
                         addNotification(type, image, date);
-                        setLastFetched(date); 
-                        // setChange(true)
+                        setLastFetched(date);
                         setNb((prevNb) => (prevNb + 1));
-                        setNotifications((prev) => [...prev, { ...newNotification, formatted_date: formattedDate, time }])
+                        setNotifications((prev) => [...prev, { ...newNotification, formatted_date: formattedDate, time }]);
                     }
                 }
-            } 
+            }
         } else {
-            setNotifications([])
+            setNotifications([]);
         }
-    }, [client, connected]);
+    }, [notifications_mqtt]);
+    
+
+    useEffect(() => {
+        if (nb > 0) {
+            navigation.setOptions({
+                tabBarBadge: nb
+            });
+        } else {
+            navigation.setOptions({
+                tabBarBadge: null
+            });
+        }
+    }, [nb]);
 
     const dynamicStyles = {
         container: {
@@ -83,28 +94,17 @@ const Notification = () => {
         },
     };
 
-    useEffect(() => {
-        // if (change) {
-            // setNotifications(notifications);
-            // setChange(false)
-            navigation.setOptions({
-                tabBarBadge: nb
-            })
-        // }
-    }, [nb]);
-
     const renderItem = ({ item }) => {
-        // console.log(item)
         return (
             <Pressable onPress={() => navigation.navigate('Picture')}>
-            <View style={[styles.card, dynamicStyles.card]}>
-                <Text style={[styles.cardText, dynamicStyles.cardText]}>Type: {item.type}</Text>
-                <Text style={[styles.cardText, dynamicStyles.cardText]}>Date: {item.formatted_date}</Text>
-                <Text style={[styles.cardText, dynamicStyles.cardText]}>Temps: {item.time}</Text>
-            </View>
+                <View style={[styles.card, dynamicStyles.card]}>
+                    <Text style={[styles.cardText, dynamicStyles.cardText]}>Type: {item.type}</Text>
+                    <Text style={[styles.cardText, dynamicStyles.cardText]}>Date: {item.formatted_date}</Text>
+                    <Text style={[styles.cardText, dynamicStyles.cardText]}>Temps: {item.time}</Text>
+                </View>
             </Pressable>
-        )
-    }
+        );
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -112,7 +112,7 @@ const Notification = () => {
                 <FlatList
                     data={notifs}
                     renderItem={renderItem}
-                    keyExtractor={(item, index) => index}
+                    keyExtractor={(item, index) => index.toString()}
                     style={styles.flatlist}
                 />
             </View>

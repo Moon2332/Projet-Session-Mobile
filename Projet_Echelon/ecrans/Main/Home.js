@@ -8,6 +8,7 @@ import { faCircleStop, faPlay, faRoute } from '@fortawesome/free-solid-svg-icons
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import { useMQTT } from '../../useMQTT';
+import useBD from '../../useBD';
 
 const Home = ({route}) => {
   const { t } = useTranslation();

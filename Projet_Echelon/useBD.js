@@ -48,23 +48,6 @@ const useBD = () => {
     }
   };
 
-  const createNotificationTables = async () => {
-    try {
-      const resultat = await bdNotifications.current.execAsync(
-        `
-          CREATE TABLE IF NOT EXISTS notifications(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            type TEXT, 
-            image TEXT,
-            date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-          );
-        `
-      );
-    } catch (e) {
-      console.log("Error creating notifications table", e);
-    }
-  };
-
   const getInstructions = async () => {
     if (bdInstructions.current) {
       try {
@@ -116,6 +99,23 @@ const useBD = () => {
     } catch (e) {
       console.log("Error deleting instruction", e);
       return "Errors.mapping.delete"
+    }
+  };
+
+  const createNotificationTables = async () => {
+    try {
+      const resultat = await bdNotifications.current.execAsync(
+        `
+          CREATE TABLE IF NOT EXISTS notifications(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            type TEXT, 
+            image TEXT,
+            date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+        `
+      );
+    } catch (e) {
+      console.log("Error creating notifications table", e);
     }
   };
 

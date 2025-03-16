@@ -9,6 +9,7 @@ export const useMQTT = () => useContext(MQTTContext);
 export const MQTTProvider = ({ children }) => {
   const [client, setClient] = useState(null);
   const [connected, setConnected] = useState(false);
+  const [notifications_mqtt, setNotifications_mqtt] = useState([])
 
   useEffect(() => {
     if (client === null) {
@@ -21,28 +22,31 @@ export const MQTTProvider = ({ children }) => {
         sync: {},
       });
 
-      const mqttClient = new Paho.MQTT.Client('192.168.2.237', 9002, 'UNAME2');
+      const mqttClient = new Paho.MQTT.Client('172.16.207.140', 9002, 'UNAME2');
       mqttClient.onConnectionLost = onConnectionLost;
       mqttClient.onMessageArrived = onMessageArrived;
       mqttClient.connect({
-        onSuccess: onConnectSuccess,
+        onSuccess: () => {
+          console.log('Connected successfully!');
+          setConnected(true);
+
+          mqttClient.subscribe('echelon', {
+            qos: 0,
+            onSuccess: () => {
+              console.log('Subscribed to echelon topic');
+            },
+            onFailure: (error) => {
+              console.log('Failed to subscribe to echelon topic', error);
+            },
+          });
+        },
         onFailure: onConnectFailure,
       });
+      
 
       setClient(mqttClient);
     }
-
-    return () => {
-      if (client && client.isConnected()) {
-        client.disconnect();
-      }
-    };
   }, []);
-
-  const onConnectSuccess = () => {
-    console.log('Connected successfully!');
-    setConnected(true);
-  };
 
   const onConnectFailure = (error) => {
     console.log('Connection failed', error);
@@ -54,13 +58,33 @@ export const MQTTProvider = ({ children }) => {
       console.log('Connection lost: ' + responseObject.errorMessage);
       setConnected(false);
     }
+
+    setTimeout(() => {
+      if (client) {
+          console.log("Attempting to reconnect...");
+          client.connect({
+              onSuccess: () => {
+                  console.log("Reconnected!");
+                  client.subscribe('echelon');
+              },
+              onFailure: onConnectFailure,
+          });
+      }
+  }, 5000);
   };
 
   const onMessageArrived = (message) => {
-    // console.log('Message arrived: ', message.payloadString);
+    console.log("Message arrived:", message.payloadString);
+    if (message.payloadString === "Start" || message.payloadString === "Stop"){
+      //
+    } else {
+      const newNotification = JSON.parse(message.payloadString);
+      setNotifications_mqtt((prevNotifications) => [...prevNotifications, newNotification]);
+    }
   };
 
   const sendMessage = (topic, message) => {
+    console.log("Sending message to topic:", topic, message);
     if (client && client.isConnected()) {
       client.publish(topic, message, 0, false);
     } else {
@@ -69,7 +93,7 @@ export const MQTTProvider = ({ children }) => {
   };
 
   return (
-    <MQTTContext.Provider value={{ client, connected, sendMessage }}>
+    <MQTTContext.Provider value={{ client, connected, notifications_mqtt, sendMessage, setNotifications_mqtt }}>
       {children}
     </MQTTContext.Provider>
   );

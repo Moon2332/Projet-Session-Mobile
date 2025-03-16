@@ -185,11 +185,11 @@ export default function App() {
 
   return (
     <>
-      <MQTTProvider>
         <ParamsProvider >
-          <Navigation />
+          <MQTTProvider>
+            <Navigation />
+          </MQTTProvider>
         </ParamsProvider>
-      </MQTTProvider>
     </>
   );
 }

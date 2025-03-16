@@ -1,24 +1,32 @@
 {
     "Success": "Éxito",
     "Error": "Error",
-    "Delete": "¿Está seguro de que quiere eliminar su cuenta?",
+    "Delete": "¿Realmente desea eliminar su cuenta?",
     "Attention": "¡Atención! Cambiar el idioma reiniciará la aplicación",
-    "subtitle": "Siempre velando por ti",
+    "subtitle": "Siempre vigilando sobre ti",
     "titles_pages": {
         "authentification": "Autenticación",
         "create": "Crear una cuenta",
-        "parameters": "Configuraciones"
+        "parameters": "Configuraciones",
+        "mapping": "Lista de rutas",
+        "mapping_add": "Agregar una ruta",
+        "mapping_edit": "Editar una ruta",
+        "notifications": "Notificaciones"
     },
     "Account": {
         "no_account": "No hay cuenta",
+        "confirmation": "Confirmación",
+        "delete_last_item_warning": "Eliminar esto eliminará automáticamente la ruta. ¿Procederá?",
         "buttons": {
+            "yes": "Sí",
+            "no": "No",
             "start": "Comenzar",
             "signin": "Iniciar sesión",
             "create": "Crear",
             "create_account": "Crear una cuenta",
             "signout": "Cerrar sesión",
             "notification": "Notificaciones",
-            "return": "Volver",
+            "return": "Regresar",
             "account": "Cuenta",
             "save": "Guardar",
             "delete": "Eliminar",
@@ -34,10 +42,16 @@
         "confirm_password": "Confirmar contraseña",
         "confirm_new_password": "Confirmar nueva contraseña",
         "firstname": "Nombre",
-        "lastname": "Apellido"
+        "lastname": "Apellido",
+        "placeholder": "Ingrese el nombre de la ruta",
+        "forward": "Avanzar",
+        "backward": "Retroceder",
+        "left": "Girar a la izquierda",
+        "right": "Girar a la derecha"
     },
     "Errors": {
         "required_fields": {
+            "placeholder": "El nombre es obligatorio",
             "lastname": "El apellido es obligatorio",
             "firstname": "El nombre es obligatorio",
             "email": {
@@ -56,13 +70,20 @@
             "mismatch": "Las contraseñas no coinciden."
         },
         "save": {
-            "save": "Error al guardar"
+            "save": "Error al guardar",
+            "instructions": "Error al guardar las instrucciones",
+            "notifications": "Error al guardar las notificaciones"
+        },
+        "mapping": {
+            "add": "Error al guardar la ruta",
+            "edit": "Error al modificar la ruta",
+            "delete": "Error al eliminar la ruta"
         }
     },
     "Messages": {
         "logout": {
             "success": "Cierre de sesión exitoso",
-            "error": "¡Error al cerrar sesión!"
+            "error": "Error al cerrar sesión"
         },
         "login": {
             "success": "Inicio de sesión exitoso",
@@ -74,17 +95,31 @@
             "error": "¡Error al crear la cuenta!"
         },
         "password": {
-            "success": "Contraseña cambiada con éxito",
+            "success": "Contraseña cambiada exitosamente",
             "error": "Error al cambiar la contraseña"
         },
         "no_changes": "No se realizaron cambios",
         "user": {
-            "success": "Información modificada con éxito",
-            "error": "Error al modificar la información"
+            "success": "Información actualizada exitosamente",
+            "error": "Error al actualizar la información"
         },
         "delete": {
-            "success": "Cuenta eliminada con éxito",
+            "success": "Cuenta eliminada exitosamente",
             "error": "Error al eliminar la cuenta"
+        },
+        "instructions": {
+            "success": "Ruta guardada exitosamente",
+            "error": "Error al crear la ruta",
+            "delete": "Elemento eliminado exitosamente"
+        },
+        "notifications": {
+            "success": "Notificaciones guardadas exitosamente",
+            "error": "Error al guardar las notificaciones"
+        },
+        "mapping": {
+            "add": "Ruta guardada exitosamente",
+            "edit": "Elemento modificado exitosamente",
+            "delete": "Elemento eliminado exitosamente"
         }
     },
     "Parameters": {
@@ -95,7 +130,7 @@
         },
         "police": {
             "small": "Pequeño",
-            "medium": "Mediano",
+            "medium": "Medio",
             "large": "Grande"
         },
         "mode": {
@@ -116,7 +151,7 @@
     "Home": {
         "buttons": {
             "launch": "Lanzar Echelon",
-            "mapping" : "Ruta",
+            "mapping": "Ruta",
             "deactivate": "Desactivar"
         },
         "title": {
@@ -124,8 +159,8 @@
         }
     },
     "Notifications": {
-        "intruder": "Intruso detectado",
-        "speed": "ECHELON velocidad inusual",
+        "intruder": "Presencia de intruso",
+        "speed": "Velocidad inusual de ECHELON",
         "obstacle": "Obstáculo encontrado"
     }
 }

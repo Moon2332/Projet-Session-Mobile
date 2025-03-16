@@ -37,8 +37,8 @@ const Mapping = ({ route }) => {
             headerTitleAlign: "left",
             headerTitleStyle: {fontSize: parseInt(fontSize) + 10},
             headerRight: () => (
-                <TouchableOpacity onPress={() => navigation.navigate("MappingCreate")} style={{marginBottom: 20}}>
-                    <FontAwesomeIcon icon={faPlus} size={parseInt(fontSize)} color='green' />
+                <TouchableOpacity onPress={() => navigation.navigate("MappingCreate")}>
+                    <FontAwesomeIcon icon={faPlus} size={parseInt(fontSize) + 10} color='green'/>
                 </TouchableOpacity>
             ),
         });
@@ -81,15 +81,18 @@ const Mapping = ({ route }) => {
         }
     }, [route.params])
 
-    const useRoute = ({item}) => {
-        sendMessage("echelon", JSON.stringify(item))
+    const useRoute = (item) => {
+        sendMessage("echelon", item.orders)
+        console.log("item", item.orders)
+        console.log("toute" + JSON.stringify(item.orders))
     }
 
-    const renderItem = ({ item }) => {
+    const renderItem = ({ item, index }) => {
+        const isOdd = instructions.length % 2 !== 0;
+        const isLastItem = index === instructions.length - 1;
         return (
-            <View style={styles.itemContainer}>
+            <View style={[styles.card, dynamicStyles.card, (isOdd && isLastItem) && styles.firstColumn]}>
                 <TouchableOpacity
-                    style={[styles.card, dynamicStyles.card]}
                     onPress={() => useRoute(item)}
                 >
                     <Text style={[styles.cardText, dynamicStyles.cardText]}>{item.title}</Text>
@@ -106,7 +109,7 @@ const Mapping = ({ route }) => {
 
     const listEmptyComponent = () => {
         return (
-            <Text>{t('Liste vide')}</Text>
+            <Text>Empty</Text>
         )
     }
 
@@ -120,9 +123,6 @@ const Mapping = ({ route }) => {
         },
         flatlistContainer: {
             backgroundColor: mode ? '#f0f4f8' : '#333333',
-        },
-        flatlistContentContainer: {
-            alignItems: 'center',
         },
         card: {
             backgroundColor: mode ? '#ffffff' : '#444444',
@@ -143,10 +143,11 @@ const Mapping = ({ route }) => {
                 data={instructions}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
-                style={[styles.flatlist, dynamicStyles.flatlistContainer]}
+                style={dynamicStyles.flatlistContainer}
                 numColumns={2}
-                contentContainerStyle={dynamicStyles.flatlistContentContainer}
+                contentContainerStyle={styles.flatlistContentContainer}
                 ListEmptyComponent={listEmptyComponent}
+                removeClippedSubviews={false}
             />
             <Toast />
         </View>
@@ -156,29 +157,19 @@ const Mapping = ({ route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#111111',
     },
-    itemContainer: {
-
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        color: '#fff',
-    },
     flatlist: {
-        width: '100%',
+        flex: 1,
     },
     flatlistContentContainer: {
+        flex: 1,
         alignItems: 'center',
     },
     card: {
         width: '45%',
-        padding: 20,
-        margin: 10,
+        padding: 10,
+        margin: 5,
         backgroundColor: '#333333',
         borderRadius: 5,
         shadowColor: '#000',
@@ -186,13 +177,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 5,
         elevation: 3,
-        justifyContent: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
         alignItems: 'center',
     },
     cardText: {
         color: '#ffffff',
         fontFamily: 'serif',
-        textAlign: 'center'
     },
     ButtonText: {
         color: '#ffffff',
@@ -207,6 +198,9 @@ const styles = StyleSheet.create({
         borderColor: '#ffffff',
         borderWidth: 0.2,
         minWidth: "80%",
+    },
+    firstColumn: {
+        width: '92.5%', 
     },
 });
 

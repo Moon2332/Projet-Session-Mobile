@@ -2,25 +2,29 @@
     "Success": "Succès",
     "Error": "Erreur",
     "Delete": "Voulez-vous vraiment supprimer votre compte ?",
-    "Attention": "Attention! Changer la langue va redémarrer l'application",
-    "subtitle": "Toujours veiller sur toi",
+    "Attention": "Attention ! Changer la langue redémarrera l'application",
+    "subtitle": "Toujours à vos côtés",
     "titles_pages": {
         "authentification": "Authentification",
         "create": "Créer un compte",
         "parameters": "Paramètres",
-        "mapping": "Liste de routes",
-        "mapping_add": "Ajouter une route",
-        "mapping_edit": "Modifier une route",
+        "mapping": "Liste des itinéraires",
+        "mapping_add": "Ajouter un itinéraire",
+        "mapping_edit": "Modifier un itinéraire",
         "notifications": "Notifications"
     },
     "Account": {
-        "no_account": "Pas de compte",
+        "no_account": "Aucun compte",
+        "confirmation": "Confirmation",
+        "delete_last_item_warning": "La suppression de cet élément entraînera la suppression de l'itinéraire. Voulez-vous continuer ?",
         "buttons": {
-            "start": "Commencer",
+            "yes": "Oui",
+            "no": "Non",
+            "start": "Démarrer",
             "signin": "Se connecter",
             "create": "Créer",
             "create_account": "Créer un compte",
-            "signout": "Déconnexion",
+            "signout": "Se déconnecter",
             "notification": "Notifications",
             "return": "Retour",
             "account": "Compte",
@@ -31,103 +35,103 @@
         }
     },
     "InputFields": {
-        "email": "Courriel",
+        "email": "Email",
         "password": "Mot de passe",
         "old_password": "Ancien mot de passe",
         "new_password": "Nouveau mot de passe",
-        "confirm_password": "Confirmer mot de passe",
-        "confirm_new_password": "Confirmer nouveau mot de passe",
+        "confirm_password": "Confirmer le mot de passe",
+        "confirm_new_password": "Confirmer le nouveau mot de passe",
         "firstname": "Prénom",
         "lastname": "Nom",
-        "placeholder":"Entrez le nom de la route",
-        "forward": "Avance",
-        "backward": "Recule",
-        "left": "Tourne à gauche",
-        "right": "Tourne à droite"
+        "placeholder": "Entrez le nom de l'itinéraire",
+        "forward": "Avancer",
+        "backward": "Reculer",
+        "left": "Tourner à gauche",
+        "right": "Tourner à droite"
     },
     "Errors": {
         "required_fields": {
-            "placeholder": "Le nom est obligatoire",
-            "lastname": "Le nom est obligatoire",
-            "firstname": "Le prénom est obligatoire",
+            "placeholder": "Le nom est requis",
+            "lastname": "Le nom de famille est requis",
+            "firstname": "Le prénom est requis",
             "email": {
-                "empty": "Le courriel est obligatoire",
-                "invalid": "Le courriel n'est pas valide"
+                "empty": "L'email est requis",
+                "invalid": "L'email n'est pas valide"
             },
-            "password": "Le mot de passe est obligatoire",
-            "confirm_password": "La confirmation du mot de passe est obligatoire"
+            "password": "Le mot de passe est requis",
+            "confirm_password": "La confirmation du mot de passe est requise"
         },
         "password_constraints": {
             "greater_than_8": "Le mot de passe doit comporter au moins 8 caractères.",
-            "upper_case": "Le mot de passe doit contenir au moins une lettre majuscule.",
-            "lower_case": "Le mot de passe doit contenir au moins une lettre minuscule.",
+            "upper_case": "Le mot de passe doit contenir au moins une majuscule.",
+            "lower_case": "Le mot de passe doit contenir au moins une minuscule.",
             "special_caracter": "Le mot de passe doit contenir au moins un caractère spécial.",
             "number": "Le mot de passe doit contenir au moins un chiffre.",
             "mismatch": "Les mots de passe ne correspondent pas."
         },
         "save": {
-            "save": "Erreur lors de la sauvegarde",
-            "instructions" : "Erreur lors de la sauvegarde des instructions",
-            "notifications" : "Erreur lors de la sauvegarde des notifications"
+            "save": "Erreur lors de l'enregistrement",
+            "instructions": "Erreur lors de l'enregistrement des instructions",
+            "notifications": "Erreur lors de l'enregistrement des notifications"
         },
         "mapping": {
-            "add": "Erreuer lors de la sauvegarde de la route",
-            "edit": "Erreur lors de la mdificationde la route",
-            "delete": "Erreur lors de la suppression de la route"
+            "add": "Erreur lors de l'enregistrement de l'itinéraire",
+            "edit": "Erreur lors de la modification de l'itinéraire",
+            "delete": "Erreur lors de la suppression de l'itinéraire"
         }
     },
     "Messages": {
         "logout": {
             "success": "Déconnexion réussie",
-            "error": "Erreur lors de la déconnexion!"
+            "error": "Erreur lors de la déconnexion !"
         },
         "login": {
             "success": "Connexion réussie",
             "error": "Erreur lors de la connexion",
-            "error2": "Mot de passe ou courriel érroné(s)"
+            "error2": "Mot de passe ou email incorrect"
         },
         "signup": {
-            "success": "Compte créé!!",
-            "error": "Erreur lors de la création du compte!"
+            "success": "Compte créé !",
+            "error": "Erreur lors de la création du compte !"
         },
         "password": {
-            "success": "Mot de passe modifiée avec succès",
+            "success": "Mot de passe modifié avec succès",
             "error": "Erreur lors de la modification du mot de passe"
         },
-        "no_changes": "Aucune modification donnée",
+        "no_changes": "Aucun changement effectué",
         "user": {
-            "success": "Information(s) modifié(e) avec succès",
-            "error": "Erreur lors de la modification de(s) information(s)"
+            "success": "Informations mises à jour avec succès",
+            "error": "Erreur lors de la mise à jour des informations"
         },
         "delete": {
             "success": "Compte supprimé avec succès",
             "error": "Erreur lors de la suppression du compte"
         },
         "instructions": {
-            "success": "Route sauvegarder avec succèss",
-            "error": "Erreur lors de la création de la route",
-            "delete": "Élément supprimé avec succèss"
+            "success": "Itinéraire enregistré avec succès",
+            "error": "Erreur lors de la création de l'itinéraire",
+            "delete": "Élément supprimé avec succès"
         },
         "notifications": {
-            "success": "Notifications sauvegarder avec succèss",
-            "error": "Erreur lors de la sauvegarde des notifications"
+            "success": "Notifications enregistrées avec succès",
+            "error": "Erreur lors de l'enregistrement des notifications"
         },
         "mapping": {
-            "add": "Route sauvegarder avec succèss",
-            "edit": "Élément modifié avec succèss",
-            "delete": "Élément supprimé avec succèss"
+            "add": "Itinéraire enregistré avec succès",
+            "edit": "Élément modifié avec succès",
+            "delete": "Élément supprimé avec succès"
         }
     },
     "Parameters": {
         "language": {
             "english": "Anglais",
             "french": "Français",
-            "spanish": "Spanish"
+            "spanish": "Espagnol"
         },
         "police": {
             "small": "Petit",
-            "medium": "Moyen",
-            "large": "Large"
+            "medium": "Moyenne",
+            "large": "Grand"
         },
         "mode": {
             "light": "Mode clair",
@@ -136,7 +140,7 @@
         "label": {
             "language": "Langue",
             "mode": "Mode",
-            "unit": "Unité de la vitesse",
+            "unit": "Unité de vitesse",
             "police": "Taille de la police"
         },
         "unit": {
@@ -146,17 +150,17 @@
     },
     "Home": {
         "buttons": {
-            "launch": "Lancez Echelon",
-            "mapping" : "Route",
+            "launch": "Lancer Echelon",
+            "mapping": "Itinéraire",
             "deactivate": "Désactiver"
         },
         "title": {
-            "activated": "ECHELON IS ACTIVATED"
+            "activated": "ECHELON EST ACTIVÉ"
         }
     },
     "Notifications": {
-        "intruder": "Présence d'intru",
-        "speed": "ECHELON vitesse inhabituelle",
-        "obstacle": "Obstacle rencontré(s)"
+        "intruder": "Présence d'un intrus",
+        "speed": "Vitesse inhabituelle d'ECHELON",
+        "obstacle": "Obstacle rencontré"
     }
 }

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import init from 'react_native_mqtt';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -7,12 +7,13 @@ const MQTTContext = createContext();
 export const useMQTT = () => useContext(MQTTContext);
 
 export const MQTTProvider = ({ children }) => {
-  const [client, setClient] = useState(null);
+  const clientRef = useRef(null);
   const [connected, setConnected] = useState(false);
   const [notifications_mqtt, setNotifications_mqtt] = useState([])
+  console.log(notifications_mqtt)
 
   useEffect(() => {
-    if (client === null) {
+    if (!clientRef.current) {
       init({
         size: 10000,
         storageBackend: AsyncStorage,
@@ -24,7 +25,15 @@ export const MQTTProvider = ({ children }) => {
 
       const mqttClient = new Paho.MQTT.Client('172.16.207.140', 9002, 'UNAME2');
       mqttClient.onConnectionLost = onConnectionLost;
-      mqttClient.onMessageArrived = onMessageArrived;
+      mqttClient.onMessageArrived = (message) => {
+        console.log("Message arrived:", message.payloadString);
+        if (message.payloadString === "Start" || message.payloadString === "Stop"){
+          //
+        } else {
+          const newNotification = JSON.parse(message.payloadString);
+          setNotifications_mqtt((prevNotifications) => [...prevNotifications, newNotification]);
+        }
+      };
       mqttClient.connect({
         onSuccess: () => {
           console.log('Connected successfully!');
@@ -44,7 +53,7 @@ export const MQTTProvider = ({ children }) => {
       });
       
 
-      setClient(mqttClient);
+      clientRef.current = mqttClient;
     }
   }, []);
 
@@ -58,19 +67,6 @@ export const MQTTProvider = ({ children }) => {
       console.log('Connection lost: ' + responseObject.errorMessage);
       setConnected(false);
     }
-
-    setTimeout(() => {
-      if (client) {
-          console.log("Attempting to reconnect...");
-          client.connect({
-              onSuccess: () => {
-                  console.log("Reconnected!");
-                  client.subscribe('echelon');
-              },
-              onFailure: onConnectFailure,
-          });
-      }
-  }, 5000);
   };
 
   const onMessageArrived = (message) => {
@@ -85,15 +81,15 @@ export const MQTTProvider = ({ children }) => {
 
   const sendMessage = (topic, message) => {
     console.log("Sending message to topic:", topic, message);
-    if (client && client.isConnected()) {
-      client.publish(topic, message, 0, false);
+    if (clientRef.current && clientRef.current.isConnected()) {
+      clientRef.current.publish(topic, message, 0, false);
     } else {
       console.log('Not connected, cannot send message');
     }
   };
 
   return (
-    <MQTTContext.Provider value={{ client, connected, notifications_mqtt, sendMessage, setNotifications_mqtt }}>
+    <MQTTContext.Provider value={{ client: clientRef.current, connected, notifications_mqtt, sendMessage, setNotifications_mqtt }}>
       {children}
     </MQTTContext.Provider>
   );

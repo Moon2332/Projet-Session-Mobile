@@ -36,6 +36,8 @@ const Notification = () => {
                 console.log('Notifications: In onMessageArrived');
     
                 // Parse the message
+                if (message.payloadString !== "Start" && message.payloadString !== "Stop"){
+
                 const newNotification = JSON.parse(message.payloadString);
                 console.log("New notification received:", newNotification);
     
@@ -60,6 +62,7 @@ const Notification = () => {
                         setNotifications((prev) => [...prev, { ...newNotification, formatted_date: formattedDate, time }]);
                     }
                 }
+            }
             }
         } else {
             setNotifications([]);

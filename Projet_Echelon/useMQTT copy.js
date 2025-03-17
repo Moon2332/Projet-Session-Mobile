@@ -24,6 +24,9 @@ export const MQTTProvider = ({ children }) => {
       });
 
       const mqttClient = new Paho.MQTT.Client('172.16.207.140', 9002, 'UNAME2');
+
+
+      clientRef.current.onMessageArrived = onMessageArrived; //ADDED 
       mqttClient.onConnectionLost = onConnectionLost;
       mqttClient.onMessageArrived = (message) => {
         console.log("Message arrived:", message.payloadString);
@@ -54,7 +57,6 @@ export const MQTTProvider = ({ children }) => {
       
 
       clientRef.current = mqttClient;
-
     }
   }, []);
 
@@ -70,17 +72,17 @@ export const MQTTProvider = ({ children }) => {
     }
   };
 
-  const onMessageArrived = (message) => {
+  const onMessageArrived = (message) => { //Was not declared
     console.log("Message arrived:", message.payloadString);
     if (message.payloadString === "Start" || message.payloadString === "Stop"){
-      //
+      //NOTHING IS HAPPENIONG HERE
     } else {
       const newNotification = JSON.parse(message.payloadString);
       setNotifications_mqtt((prevNotifications) => [...prevNotifications, newNotification]);
     }
   };
 
-  const sendMessage = (topic, message) => {
+  const sendMessage = (topic, message) => { 
     console.log("Sending message to topic:", topic, message);
     if (clientRef.current && clientRef.current.isConnected()) {
       clientRef.current.publish(topic, message, 0, false);
@@ -95,3 +97,12 @@ export const MQTTProvider = ({ children }) => {
     </MQTTContext.Provider>
   );
 };
+
+
+
+
+//mosquitto_sub -h 172.16.207.140 -p 9002 -t "echelon" -v
+// USE THIS TO CHECK IF THE PI IS THE PROBLEM
+
+//mosquitto_pub -h 172.16.207.140 -p 9002 -t "echelon" -m '{"test": "hello"}'
+// TEST THIS TO SEE IF MQTT CAN READ

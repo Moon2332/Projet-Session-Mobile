@@ -35,11 +35,11 @@ const Home = ({route}) => {
       color: mode ? '#2f3640' : '#ecf0f1',
     },
     launchButton: {
-      backgroundColor: mode ? '#33FF57' : '#3ACF29',
+      backgroundColor: mode ? '#33FF57' : '#333333',
       fontSize: (parseInt(fontSize) + 10),
     },
     mappingButton: {
-      backgroundColor: mode ? '#FF5733' : '#C70039',
+      backgroundColor: mode ? '#FF5733' : '#d40f15',
       fontSize: (parseInt(fontSize) + 14),
     },
   };
@@ -79,7 +79,7 @@ const Home = ({route}) => {
         { 
           !isActivated &&
           <>
-            <Image source={require("../../assets/R.png")} style={styles.image} />
+            <Image source={require("../../assets/Echelon.png")} style={styles.image} />
             
             <TouchableOpacity
               style={[styles.launchButton, dynamicStyles.launchButton]}
@@ -155,8 +155,10 @@ const styles = StyleSheet.create({
     fontFamily:"serif",
   },
   image: {
-    width: 300,
-    height: 300,
+    width: 200,
+    height: 200,
+    resizeMode: 'contain',
+    marginVertical: 20,
     marginBottom: 30,
   },
   launchButton: {

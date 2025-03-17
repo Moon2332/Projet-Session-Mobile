@@ -107,7 +107,7 @@ const Home = ({route}) => {
           isActivated &&
           <>
             <Text style={[styles.title, dynamicStyles.textLabel]}>{ t("Home.title.activated")}</Text>
-            <Image source={require("../../assets/R.png")} style={styles.image} />
+            <Image source={require("../../assets/EchelonActive.png")} style={styles.image} />
 
             {imageData ? (
               <Image source={{ uri: `data:image/png;base64,${imageData}` }} style={styles.image} />

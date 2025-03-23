@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './ecrans/Main/Home';
 import Parameters from './ecrans/Main/Parameters';
 import Notifications from './ecrans/Main/Notification';
-import Picture from './ecrans/Main/Picture';
 import Intro from './ecrans/Account/Intro';
 import SignUp from './ecrans/Account/SignUp';
 import { ParamsProvider } from './useParams';
@@ -20,28 +19,30 @@ import { deleteUserInfo } from './api/secureStore';
 import MappingEdit from './ecrans/Main/Mapping_Edit';
 import { MQTTProvider } from './useMQTT';
 import { StatusBar } from 'expo-status-bar';
+import store from './store/store';
+import { Provider } from 'react-redux';
 
 export default function App() {
   const [landingPage, setLandingPage] = useState("Auth");
 
   useEffect(() => {
+    const isUserLoggedIn = async () => {
+      // deleteUserInfo()
+      try {
+        const response = await refreshToken();
+        console.log("Response in APP.js", response)
+        // if (response !== null)
+          setLandingPage("Menu");
+        // else
+        //   setLandingPage("Auth");
+      } catch (error) {
+        console.log("Erron in APP.js" + error)
+        setLandingPage("Auth");
+      }
+    };
+
     isUserLoggedIn();
   }, []);
-
-  const isUserLoggedIn = async () => {
-    // deleteUserInfo()
-    try {
-      const response = await refreshToken();
-
-      if (response !== null)
-        setLandingPage("Menu");
-      else
-        setLandingPage("Auth");
-    } catch (error) {
-      console.log("Erron in APP.js" + error)
-      setLandingPage("Auth");
-    }
-  };
 
   const authStack = createNativeStackNavigator({
     initialRouteName: "Intro",
@@ -189,7 +190,9 @@ export default function App() {
       <StatusBar style="dark" backgroundColor="#111111" />
         <ParamsProvider >
           <MQTTProvider>
+      <Provider store={store}>
             <Navigation />
+      </Provider>
           </MQTTProvider>
         </ParamsProvider>
     </>

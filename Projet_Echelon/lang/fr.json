@@ -159,8 +159,18 @@
         }
     },
     "Notifications": {
-        "intruder": "Présence d'un intrus",
-        "speed": "Vitesse inhabituelle d'ECHELON",
-        "obstacle": "Obstacle rencontré"
+        "alert": "Attention!",
+        "button": "Ok",
+        "text": {
+            "type": "Type",
+            "date": "Date",
+            "time": "Heure",
+            "no_notifications": "Aucune notification."
+        },
+        "type": {
+            "distance": "Objet détecté (Distance)",
+            "sound": "Objet détecté (Son)",
+            "speed": "Objet en mouvement - Vol possible détecté !"
+        }
     }
 }

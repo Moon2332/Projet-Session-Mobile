@@ -7,10 +7,14 @@ import { useParams } from '../../useParams';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowUpRightFromSquare, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { logout } from '../../api/user';
+import { useDispatch, useSelector } from 'react-redux';
+import AlertModal from '../../composants/AlertModal';
+import { setValue } from '../../store/sliceAlertModal';
 
 const Parameters = () => {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
+  const dispatch = useDispatch()
 
   const { fontSize, mode, langue, speedUnit, updateFontSize, updateMode, updateLanguage, updateSpeedUnit } = useParams();
 
@@ -18,6 +22,11 @@ const Parameters = () => {
   const [modeU, setMode] = useState(mode);
   const [lang, setLangue] = useState(langue);
   const [speed, setSpeedUnit] = useState(speedUnit);
+
+  const setAlert = useSelector((state) => state.alertModalSlice.value)
+  const message = t("Notifications.type.speed")
+  const [modalVisible, setModalVisible] = useState(setAlert);
+
 
   const langues = [
     { value: 'en', label: t("Parameters.language.english") },
@@ -58,6 +67,10 @@ const Parameters = () => {
 
     stocker();
   }, [modeU, fontS, lang, speed]);
+
+  useEffect(() => {
+    setModalVisible(setAlert);
+  }, [setAlert]);
 
   const dynamicStyles = {
     container: {
@@ -153,7 +166,7 @@ const Parameters = () => {
                 maxHeight={300}
                 labelField="label"
                 valueField="value"
-                value={speed} 
+                value={speed}
                 onChange={item => setSpeedUnit(item.value)}
                 style={[styles.dropdown, dynamicStyles.dropdown]}
                 itemTextStyle={{ fontSize: parseInt(fontS) }}
@@ -166,7 +179,7 @@ const Parameters = () => {
               <Text style={[styles.textLabel, dynamicStyles.textLabel, { fontSize: parseInt(fontS) + 4 }]}>
                 {modeU ? t("Parameters.mode.light") : t("Parameters.mode.dark")}
               </Text>
-              <Switch value={modeU} onValueChange={(newValue) => setMode(newValue)}  />
+              <Switch value={modeU} onValueChange={(newValue) => setMode(newValue)} />
             </View>
 
             <TouchableOpacity
@@ -187,6 +200,16 @@ const Parameters = () => {
               </Text>
             </TouchableOpacity>
           </View>
+
+          {
+            modalVisible &&
+            <AlertModal
+              visible={modalVisible}
+              onClose={() => dispatch(setValue(false))}
+              mode={mode}
+              message={message}
+            />
+          }
         </SafeAreaView>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -200,13 +223,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollview: {
-      padding: 10,
+    padding: 10,
   },
   containerView: {
-      paddingHorizontal: 10,
-      justifyContent: "center",
-      alignContent:"center",
-      paddingVertical: '10%'
+    paddingHorizontal: 10,
+    justifyContent: "center",
+    alignContent: "center",
+    paddingVertical: '10%'
   },
   section: {
     marginBottom: 20,

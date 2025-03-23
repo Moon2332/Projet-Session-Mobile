@@ -9,24 +9,30 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import { useMQTT } from '../../useMQTT';
 import useBD from '../../useBD';
+import { useDispatch, useSelector } from 'react-redux';
+import AlertModal from '../../composants/AlertModal';
+import { setValue } from '../../store/sliceAlertModal';
 
-const Home = ({route}) => {
+const Home = ({ route }) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const dispatch = useDispatch()
   const { fontSize, mode } = useParams();
 
   const [isActivated, setIsActivated] = useState(false);
-  const [imageData, setImageData] = useState(null);  
-  const [textData, setTextData] = useState(null);
-
   const { client, connected, sendMessage } = useMQTT();
+  const setAlert = useSelector((state) => state.alertModalSlice.value)
+  const message = t("Notifications.type.speed")
+  const [modalVisible, setModalVisible] = useState(setAlert);
+  console.log(message)
+  console.log(setAlert)
 
   useEffect(() => {
     if (client && connected) {
       console.log('HomeScreen: MQTT Client is connected');
     }
   }, [client, connected]);
-  
+
   const dynamicStyles = {
     container: {
       backgroundColor: mode ? '#f0f4f8' : '#181818',
@@ -45,13 +51,17 @@ const Home = ({route}) => {
   };
 
   useEffect(() => {
-    if (route.params?.success){
+    if (route.params?.success) {
       Toast.show({
         type: 'success',
         text1: t(route.params.success)
       });
     }
   }, [route]);
+
+  useEffect(() => {
+    setModalVisible(setAlert);
+  }, [setAlert]);
 
   const handleActivate = () => {
     try {
@@ -73,14 +83,18 @@ const Home = ({route}) => {
     }
   }
 
+  const handleCloseModal = () => {
+    dispatch(setValue(false))
+  };
+
   return (
     <SafeAreaView style={[styles.container, dynamicStyles.container]}>
       <View style={styles.containerView}>
-        { 
+        {
           !isActivated &&
           <>
             <Image source={require("../../assets/R.png")} style={styles.image} />
-            
+
             <TouchableOpacity
               style={[styles.launchButton, dynamicStyles.launchButton]}
               onPress={() => handleActivate()}
@@ -103,19 +117,11 @@ const Home = ({route}) => {
           </>
         }
 
-        { 
+        {
           isActivated &&
           <>
-            <Text style={[styles.title, dynamicStyles.textLabel]}>{ t("Home.title.activated")}</Text>
+            <Text style={[styles.title, dynamicStyles.textLabel]}>{t("Home.title.activated")}</Text>
             <Image source={require("../../assets/R.png")} style={styles.image} />
-
-            {imageData ? (
-              <Image source={{ uri: `data:image/png;base64,${imageData}` }} style={styles.image} />
-            ) : (
-              (
-                <Text style={styles.textMessage}>{textData}</Text>
-              ) 
-            )}
 
             <TouchableOpacity
               style={[styles.launchButton, dynamicStyles.mappingButton]}
@@ -130,6 +136,15 @@ const Home = ({route}) => {
         }
       </View>
       <Toast />
+      {
+        modalVisible &&
+        <AlertModal
+          visible={modalVisible}
+          setVisible={() => handleCloseModal()}
+          mode={mode}
+          message={message}
+        />
+      }
     </SafeAreaView>
   );
 };
@@ -152,7 +167,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     fontWeight: 'bold',
     textAlign: 'center',
-    fontFamily:"serif",
+    fontFamily: "serif",
   },
   image: {
     width: 300,

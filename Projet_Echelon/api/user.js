@@ -103,9 +103,10 @@ export const refreshToken = async () => {
           Authorization: `Bearer ${user.token}`,
         },
       });
+      console.log(response.status)
       const data = await response.json();
-  
       if(response.status === 200){
+        console.log("Response 200")
         saveUser(data)
         return data;
       }

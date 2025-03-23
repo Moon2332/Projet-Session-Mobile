@@ -9,8 +9,7 @@ export const useMQTT = () => useContext(MQTTContext);
 export const MQTTProvider = ({ children }) => {
   const clientRef = useRef(null);
   const [connected, setConnected] = useState(false);
-  const [notifications_mqtt, setNotifications_mqtt] = useState([])
-  console.log(notifications_mqtt)
+  const [notification_mqtt, setNotification_mqtt] = useState(null)
 
   useEffect(() => {
     if (!clientRef.current) {
@@ -23,17 +22,10 @@ export const MQTTProvider = ({ children }) => {
         sync: {},
       });
 
-      const mqttClient = new Paho.MQTT.Client('172.16.207.140', 9002, 'UNAME2');
+      const mqttClient = new Paho.MQTT.Client('172.16.203.149', 9002, 'UNAME2');
+      // const mqttClient = new Paho.MQTT.Client('192.168.2.237', 9002, 'UNAME2');
+      mqttClient.onMessageArrived = onMessageArrived;
       mqttClient.onConnectionLost = onConnectionLost;
-      mqttClient.onMessageArrived = (message) => {
-        console.log("Message arrived:", message.payloadString);
-        if (message.payloadString === "Start" || message.payloadString === "Stop"){
-          //
-        } else {
-          const newNotification = JSON.parse(message.payloadString);
-          setNotifications_mqtt((prevNotifications) => [...prevNotifications, newNotification]);
-        }
-      };
       mqttClient.connect({
         onSuccess: () => {
           console.log('Connected successfully!');
@@ -51,10 +43,8 @@ export const MQTTProvider = ({ children }) => {
         },
         onFailure: onConnectFailure,
       });
-      
 
       clientRef.current = mqttClient;
-
     }
   }, []);
 
@@ -71,26 +61,30 @@ export const MQTTProvider = ({ children }) => {
   };
 
   const onMessageArrived = (message) => {
-    console.log("Message arrived:", message.payloadString);
-    if (message.payloadString === "Start" || message.payloadString === "Stop"){
-      //
-    } else {
-      const newNotification = JSON.parse(message.payloadString);
-      setNotifications_mqtt((prevNotifications) => [...prevNotifications, newNotification]);
+    // console.log("Message arrived:", message.payloadString);
+    try {
+      if (message.payloadString === "Start" || message.payloadString === "Stop") {
+        // 
+      } else {
+        const newNotification = JSON.parse(message.payloadString);
+        setNotification_mqtt(newNotification);
+      }
+    } catch (error) {
+      console.error('Error parsing message:', error, message.payloadString);
     }
   };
 
   const sendMessage = (topic, message) => {
     console.log("Sending message to topic:", topic, message);
     if (clientRef.current && clientRef.current.isConnected()) {
-      clientRef.current.publish(topic, message, 0, false);
+      clientRef.current.send(topic, message, 0, false);
     } else {
       console.log('Not connected, cannot send message');
     }
   };
 
   return (
-    <MQTTContext.Provider value={{ client: clientRef.current, connected, notifications_mqtt, sendMessage, setNotifications_mqtt }}>
+    <MQTTContext.Provider value={{ client: clientRef.current, connected, notification_mqtt, sendMessage }}>
       {children}
     </MQTTContext.Provider>
   );

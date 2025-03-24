@@ -106,7 +106,7 @@ const Intro = ({route}) => {
               <Text style={styles.subtitle}>{t('subtitle')}</Text>
             </View>
 
-            <Image source={require("../../assets/R.png")} style={styles.image} />
+            <Image source={require("../../assets/Cam.png")} style={styles.image} />
 
             <TouchableOpacity
               style={styles.button}

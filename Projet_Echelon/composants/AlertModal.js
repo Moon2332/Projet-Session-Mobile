@@ -3,13 +3,17 @@ import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import { useParams } from '../useParams';
 
 const AlertModal = ({
   visible,
   setVisible,
-  mode,
-  message,
 }) => {
+
+  const { mode } = useParams();
+
+  const { t } = useTranslation();
+
   const dynamicStyles = StyleSheet.create({
     container: {
       flex: 1,
@@ -69,11 +73,9 @@ const AlertModal = ({
     }
   });
 
-  const { t } = useTranslation();
-
   return (
     <View>
-      <Modal transparent={true} animationType="fade" visible={visible} onRequestClose={() => setVisible()}>
+      <Modal transparent={true} animationType="fade" visible={visible} onRequestClose={() => setVisible(false)}>
         <View style={dynamicStyles.container}>
           <View style={dynamicStyles.modalContent}>
             <View style={dynamicStyles.iconContainer}>
@@ -81,11 +83,11 @@ const AlertModal = ({
               <Text style={dynamicStyles.title}>{t("Notifications.alert")}</Text>
             </View>
 
-            <Text style={dynamicStyles.message}>{message}</Text>
+            <Text style={dynamicStyles.message}>{t("Notifications.type.speed")}</Text>
 
             <TouchableOpacity
               style={[dynamicStyles.button, dynamicStyles.cancelButton]}
-              onPress={() => setVisible()}
+              onPress={() => setVisible(false)}
             >
               <Text style={dynamicStyles.buttonText}>{t("Notifications.button")}</Text>
             </TouchableOpacity>

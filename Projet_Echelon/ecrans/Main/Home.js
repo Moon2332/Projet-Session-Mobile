@@ -8,24 +8,14 @@ import { faCircleStop, faPlay, faRoute } from '@fortawesome/free-solid-svg-icons
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import { useMQTT } from '../../useMQTT';
-import useBD from '../../useBD';
-import { useDispatch, useSelector } from 'react-redux';
-import AlertModal from '../../composants/AlertModal';
-import { setValue } from '../../store/sliceAlertModal';
 
 const Home = ({ route }) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const dispatch = useDispatch()
-  const { fontSize, mode } = useParams();
+  const { fontSize, mode } = useParams()
 
   const [isActivated, setIsActivated] = useState(false);
   const { client, connected, sendMessage } = useMQTT();
-  const setAlert = useSelector((state) => state.alertModalSlice.value)
-  const message = t("Notifications.type.speed")
-  const [modalVisible, setModalVisible] = useState(setAlert);
-  console.log(message)
-  console.log(setAlert)
 
   useEffect(() => {
     if (client && connected) {
@@ -59,10 +49,6 @@ const Home = ({ route }) => {
     }
   }, [route]);
 
-  useEffect(() => {
-    setModalVisible(setAlert);
-  }, [setAlert]);
-
   const handleActivate = () => {
     try {
       sendMessage("echelon", "Start")
@@ -83,10 +69,6 @@ const Home = ({ route }) => {
     }
   }
 
-  const handleCloseModal = () => {
-    dispatch(setValue(false))
-  };
-
   return (
     <SafeAreaView style={[styles.container, dynamicStyles.container]}>
       <View style={styles.containerView}>
@@ -94,7 +76,7 @@ const Home = ({ route }) => {
           !isActivated &&
           <>
             <Image source={require("../../assets/Echelon.png")} style={styles.image} />
-            
+
             <TouchableOpacity
               style={[styles.launchButton, dynamicStyles.launchButton]}
               onPress={() => handleActivate()}
@@ -120,16 +102,8 @@ const Home = ({ route }) => {
         {
           isActivated &&
           <>
-            <Text style={[styles.title, dynamicStyles.textLabel]}>{ t("Home.title.activated")}</Text>
+            <Text style={[styles.title, dynamicStyles.textLabel]}>{t("Home.title.activated")}</Text>
             <Image source={require("../../assets/EchelonActive.png")} style={styles.image} />
-
-            {imageData ? (
-              <Image source={{ uri: `data:image/png;base64,${imageData}` }} style={styles.image} />
-            ) : (
-              (
-                <Text style={styles.textMessage}>{textData}</Text>
-              ) 
-            )}
 
             <TouchableOpacity
               style={[styles.launchButton, dynamicStyles.mappingButton]}
@@ -144,15 +118,6 @@ const Home = ({ route }) => {
         }
       </View>
       <Toast />
-      {
-        modalVisible &&
-        <AlertModal
-          visible={modalVisible}
-          setVisible={() => handleCloseModal()}
-          mode={mode}
-          message={message}
-        />
-      }
     </SafeAreaView>
   );
 };

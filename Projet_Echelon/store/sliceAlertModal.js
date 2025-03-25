@@ -6,14 +6,17 @@ const alertModalSlice = createSlice({
     value: false,
   },
   reducers:{
-    setValue:(state, action) => {
-      state.value = action.payload;
-    }
+    showAlert:(state) => {
+      state.value = true
+    }, 
+    hideAlert:(state) => {
+      state.value = false
+    } 
   }
 })
 
 export const { 
-  setValue
+  showAlert, hideAlert
 } = alertModalSlice.actions;
 
 export default alertModalSlice.reducer;

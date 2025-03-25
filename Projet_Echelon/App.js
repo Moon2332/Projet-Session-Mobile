@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ActivityIndicator, View } from 'react-native';
 import { createStaticNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -18,26 +18,32 @@ import Account from './ecrans/Autres/Account';
 import { deleteUserInfo } from './api/secureStore';
 import MappingEdit from './ecrans/Main/Mapping_Edit';
 import { MQTTProvider } from './useMQTT';
+// import { ModalProvider } from './useAlertModal';
 import { StatusBar } from 'expo-status-bar';
 import store from './store/store';
 import { Provider } from 'react-redux';
 
+
 export default function App() {
   const [landingPage, setLandingPage] = useState("Auth");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const isUserLoggedIn = async () => {
       // deleteUserInfo()
       try {
+        setIsLoading(true)
         const response = await refreshToken();
         console.log("Response in APP.js", response)
-        // if (response !== null)
+        if (response !== null)
           setLandingPage("Menu");
-        // else
-        //   setLandingPage("Auth");
+        else
+          setLandingPage("Auth");
       } catch (error) {
         console.log("Erron in APP.js" + error)
         setLandingPage("Auth");
+      } finally {
+        setIsLoading(false)
       }
     };
 
@@ -111,7 +117,8 @@ export default function App() {
             fontSize: 16,
             fontFamily: 'Georgia',
             fontWeight: 300,
-          }
+          },
+          tabBarBadge: null,
         },
       },
     },
@@ -188,13 +195,22 @@ export default function App() {
   return (
     <>
       <StatusBar style="dark" backgroundColor="#111111" />
+      <Provider store={store}>
         <ParamsProvider >
           <MQTTProvider>
-      <Provider store={store}>
+            {/* <ModalProvider> */}
             <Navigation />
-      </Provider>
+            {
+              isLoading && (
+                <View style={styles.loading}>
+                  <ActivityIndicator size="large" color="#FF6347" />
+                </View>
+              )
+            }
+            {/* </ModalProvider> */}
           </MQTTProvider>
         </ParamsProvider>
+      </Provider>
     </>
   );
 }
@@ -206,4 +222,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  loading: {
+    flex:1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });

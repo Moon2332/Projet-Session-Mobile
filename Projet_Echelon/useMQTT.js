@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import init from 'react_native_mqtt';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 const MQTTContext = createContext();
 
 export const useMQTT = () => useContext(MQTTContext);
@@ -28,7 +27,7 @@ export const MQTTProvider = ({ children }) => {
       mqttClient.onConnectionLost = onConnectionLost;
       mqttClient.connect({
         onSuccess: () => {
-          console.log('Connected successfully!');
+          console.log('Connected successfully to MQTT!');
           setConnected(true);
 
           mqttClient.subscribe('echelon', {
@@ -61,9 +60,9 @@ export const MQTTProvider = ({ children }) => {
   };
 
   const onMessageArrived = (message) => {
-    // console.log("Message arrived:", message.payloadString);
+    console.log("Message arrived:", message.payloadString);
     try {
-      if (message.payloadString === "Start" || message.payloadString === "Stop") {
+      if (message.payloadString === "Start" || message.payloadString === "Stop" || message.payloadString === "Test" || message.payloadString === "Test 1" || message.payloadString === "Stop" || message.payloadString === "Test" || message.payloadString === "Binted") {
         // 
       } else {
         const newNotification = JSON.parse(message.payloadString);

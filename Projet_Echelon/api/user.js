@@ -2,7 +2,7 @@ import { deleteUserInfo, getUserInfo, saveUserInfo } from "./secureStore";
 
 const baseUrl = process.env.EXPO_PUBLIC_API_URL;
 
-export const login = async (email, password) => {
+export const login = async (email, password, session) => {
   try {
     const response = await fetch(`${baseUrl}login`, {
       method: 'POST',
@@ -18,7 +18,7 @@ export const login = async (email, password) => {
     const data = await response.json();
     
     if(response.status === 200){
-      saveUser(data)
+      if (session) saveUser(data)
       return data;
     }
     else {
@@ -30,7 +30,7 @@ export const login = async (email, password) => {
   }
 };
 
-export const signup = async (email, firstname, lastname, password) => {
+export const signup = async (email, firstname, lastname, password, session) => {
   try {
     const response = await fetch(`${baseUrl}signup`, {
       method: 'POST',
@@ -49,7 +49,6 @@ export const signup = async (email, firstname, lastname, password) => {
     const data = await response.json();
 
     if(response.status === 200){
-      saveUser(data)
       return data;
     }
     else
@@ -95,6 +94,7 @@ export const refreshToken = async () => {
     }
     else{
       console.log("There is a user")
+      console.log(baseUrl)
       const response = await fetch(`${baseUrl}refreshToken`, {
         method: 'POST',
         headers: {
@@ -103,6 +103,7 @@ export const refreshToken = async () => {
           Authorization: `Bearer ${user.token}`,
         },
       });
+      console.log("There is a user after response")
       console.log(response.status)
       const data = await response.json();
       if(response.status === 200){

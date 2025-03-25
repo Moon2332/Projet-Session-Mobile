@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View, Switch, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import '../../i18n'
 import { useTranslation } from 'react-i18next'
@@ -9,21 +9,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 import { login } from '../../api/user';
 import Toast from 'react-native-toast-message';
+import { useParams } from '../../useParams'
 
-const Intro = ({route}) => {
+const Intro = ({ route }) => {
   const { t } = useTranslation()
   const navigation = useNavigation()
 
   const [visible, setVisible] = useState(true)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [session, setSession] = useState(false)
   const [error, setError] = useState([]);
   const [isError, setIsError] = useState(false)
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
-
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(prevState => !prevState)
-  }
+  const [isPasswordVisible, setIsPasswordVisible] = useState(true)
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeText = (value, setInput) => {
     setInput(value);
@@ -57,21 +56,22 @@ const Intro = ({route}) => {
 
   const submitForm = async () => {
     if (validateForm()) {
+      setIsLoading(true)
       try {
-            const response = await login(email, password);
-            navigation.reset({
-              index:0,
-              routes:[
-                {
-                  name:'Menu',
-                  params:{screen:'Home'}
-                }
-              ]
-            })
-            Toast.show({
-              type: 'success',
-              text1: t(response.message)
-            });
+        const response = await login(email, password, session);
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'Menu',
+              params: { screen: 'Home' }
+            }
+          ]
+        })
+        Toast.show({
+          type: 'success',
+          text1: t(response.message)
+        });
       } catch (error) {
         console.log("Error - " + error)
         const parsedData = JSON.parse(error.message);
@@ -80,20 +80,22 @@ const Intro = ({route}) => {
           text1: t(parsedData.message),
           text2: t(parsedData.message2)
         });
+      } finally {
+        setIsLoading(false)
       }
     }
   }
 
   useEffect(() => {
-    if(route.params) {
-      if(route.params.success) {
+    if (route.params) {
+      if (route.params.success) {
         Toast.show({
           type: 'success',
           text1: route.params.success,
         });
       }
     }
-  }, [ route ])
+  }, [route])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -128,6 +130,7 @@ const Intro = ({route}) => {
                 value={email}
                 onChangeText={(value) => onChangeText(value, setEmail)}
                 keyboardType='email-address'
+                fontSize={16}
                 error={error.errorEmail}
               />
 
@@ -135,12 +138,17 @@ const Intro = ({route}) => {
                 label={t("InputFields.password")}
                 value={password}
                 onChangeText={(value) => onChangeText(value, setPassword)}
-                isPassword={!isPasswordVisible}
                 error={error.errorPassword}
+                fontSize={16}
+                toggleVisibility={() => setIsPasswordVisible(!isPasswordVisible)}
+                isPassword={isPasswordVisible}
+                showEyeIcon={true}
               />
-              <TouchableOpacity onPress={() => togglePasswordVisibility()} style={styles.eyeIcon}>
-                <FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeSlash} size={24} />
-              </TouchableOpacity>
+
+              <View style={styles.switchSection}>
+                <Text style={{ fontSize: 16 }}>{t("InputFields.session")}</Text>
+                <Switch value={session} onValueChange={(newValue) => setSession(newValue)} />
+              </View>
             </View>
 
             <TouchableOpacity
@@ -161,8 +169,14 @@ const Intro = ({route}) => {
           </>
         }
         <Toast />
+        {
+          isLoading && (
+            <View style={styles.loading}>
+              <ActivityIndicator size="large" color="#FF6347" />
+            </View>
+          )
+        }
       </View>
-      
     </SafeAreaView>
   )
 }
@@ -181,26 +195,33 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     justifyContent: "center",
-    fontFamily:"serif",
+    fontFamily: "serif",
     width: '80%',
   },
   title: {
     fontSize: 64,
     fontWeight: 'bold',
     textAlign: 'center',
-    fontFamily:"serif"
+    fontFamily: "serif"
+  },
+  switchSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    marginTop: 20,
+    marginBottom: 5,
   },
   title_pages: {
     fontSize: 40,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 50,
-    fontFamily:"serif"
+    fontFamily: "serif"
   },
   subtitle: {
     fontSize: 30,
     textAlign: 'center',
-    fontFamily:"serif"
+    fontFamily: "serif"
   },
   image: {
     height: 300,
@@ -216,7 +237,7 @@ const styles = StyleSheet.create({
   },
   txtButton: {
     fontSize: 20,
-    fontFamily:"serif"
+    fontFamily: "serif"
   },
   noAccountRow: {
     flexDirection: 'row'
@@ -224,12 +245,22 @@ const styles = StyleSheet.create({
   txtNoAccount: {
     color: 'blue',
     borderBottomWidth: 1,
-    fontFamily:"serif"
+    fontFamily: "serif"
   },
   eyeIcon: {
     position: 'absolute',
     right: 5,
     top: '65%',
     padding: 10,
-},
+  },
+  loading: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 })

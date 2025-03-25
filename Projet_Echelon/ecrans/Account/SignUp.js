@@ -1,33 +1,34 @@
-import { Platform, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, ScrollView } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, ScrollView, Switch } from 'react-native'
 import React, { useState } from 'react'
 import '../../i18n'
 import { useTranslation } from 'react-i18next'
 import { useNavigation } from '@react-navigation/native'
 import CustomInput from '../../composants/CustomInput'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useParams } from '../../useParams'
 import { signup, login } from '../../api/user'
 
 const SignUp = () => {
     const { t } = useTranslation()
     const navigation = useNavigation()
-    const { fontSize, mode, langue } = useParams();
 
     const [lastName, setLastName] = useState("")
     const [firstName, setFirstName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordC, setPasswordC] = useState("")
+    const [session, setSession] = useState(false)
     const [error, setError] = useState([]);
     const [isError, setIsError] = useState(false);
 
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false)
-    const [isPasswordCVisible, setIsPasswordCVisible] = useState(false)
+    const [isPasswordVisible, setIsPasswordVisible] = useState(true)
+    const [isPasswordCVisible, setIsPasswordCVisible] = useState(true)
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const onChangeText = (value, setInput) => {
         setInput(value);
 
-        if(isError)
+        if (isError)
             validateForm();
     }
 
@@ -83,21 +84,20 @@ const SignUp = () => {
     }
 
     const submitForm = async () => {
-        console.log("CALLED")
         if (validateForm()) {
-            console.log("CALLED FORM OK")
-            const response = await signup(email, firstName, lastName, password)
+            setIsLoading(true)
             try {
-                await login(email, password);
+                const response = await signup(email, firstName, lastName, password)
+                await login(email, password, session);
                 navigation.reset({
                     index: 0,
                     routes: [
                         {
                             name: 'Menu',
-                            params: { 
+                            params: {
                                 screen: 'Home',
                                 params: {
-                                    success: response.message 
+                                    success: response.message
                                 }
                             }
                         }
@@ -110,6 +110,8 @@ const SignUp = () => {
                     text1: t(parsedData.message),
                     text2: t(parsedData.message2)
                 });
+            } finally {
+                setIsLoading(false)
             }
         }
     }
@@ -123,16 +125,13 @@ const SignUp = () => {
                 <SafeAreaView>
                     <View style={styles.containerView}>
                         <Text style={styles.title_pages}>{t('titles_pages.create')}</Text>
-
                         <View style={styles.inputContainer}>
-
                             <CustomInput
                                 label={t("InputFields.lastname")}
                                 value={lastName}
                                 onChangeText={(value) => onChangeText(value, setLastName)}
                                 error={error.errorLastName}
-                                mode={mode}
-                                fontSize={fontSize}
+                                fontSize={16}
                             />
 
                             <CustomInput
@@ -140,8 +139,7 @@ const SignUp = () => {
                                 value={firstName}
                                 onChangeText={(value) => onChangeText(value, setFirstName)}
                                 error={error.errorFirstName}
-                                mode={mode}
-                                fontSize={fontSize}
+                                fontSize={16}
                             />
 
                             <CustomInput
@@ -150,8 +148,7 @@ const SignUp = () => {
                                 onChangeText={(value) => onChangeText(value, setEmail)}
                                 keyboardType='email-address'
                                 error={error.errorEmail}
-                                mode={mode}
-                                fontSize={fontSize}
+                                fontSize={16}
                             />
 
                             <CustomInput
@@ -159,30 +156,26 @@ const SignUp = () => {
                                 value={password}
                                 onChangeText={(value) => onChangeText(value, setPassword)}
                                 error={error.errorPassword}
-                                mode={mode}
                                 toggleVisibility={() => setIsPasswordVisible(!isPasswordVisible)}
-                                isPasswordVisible={isPasswordVisible}
+                                isPassword={isPasswordVisible}
                                 showEyeIcon={true}
-                                fontSize={fontSize}
+                                fontSize={16}
                             />
-                            {/* <TouchableOpacity onPress={() => togglePasswordVisibility()} style={styles.eyeIcon1}>
-                                <FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeSlash} size={24} />
-                            </TouchableOpacity> */}
 
                             <CustomInput
                                 label={t("InputFields.confirm_password")}
                                 value={passwordC}
                                 onChangeText={(value) => onChangeText(value, setPasswordC)}
                                 error={error.errorPasswordC}
-                                mode={mode}
-                                fontSize={fontSize}
+                                fontSize={16}
                                 toggleVisibility={() => setIsPasswordCVisible(!isPasswordCVisible)}
-                                isPasswordVisible={isPasswordCVisible}
+                                isPassword={isPasswordCVisible}
                                 showEyeIcon={true}
                             />
-                            {/* <TouchableOpacity onPress={() => togglePasswordCVisibility()} style={styles.eyeIcon2}>
-                                <FontAwesomeIcon icon={isPasswordCVisible ? faEye : faEyeSlash} size={24} />
-                            </TouchableOpacity> */}
+                            <View style={styles.switchSection}>
+                                <Text style={{ fontSize: 16 }}>{t("InputFields.session")}</Text>
+                                <Switch value={session} onValueChange={(newValue) => setSession(newValue)} />
+                            </View>
                         </View>
 
                         <View style={styles.buttonContainer}>
@@ -200,9 +193,14 @@ const SignUp = () => {
                                 <Text style={styles.txtButton}>{t("Account.buttons.create")} !</Text>
                             </TouchableOpacity>
                         </View>
-
-
                     </View>
+                    {
+          isLoading && (
+            <View style={styles.loading}>
+              <ActivityIndicator size="large" color="#FF6347" />
+            </View>
+          )
+        }
                 </SafeAreaView>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -225,30 +223,37 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         justifyContent: "center",
-        fontFamily:"serif",
+        fontFamily: "serif",
         width: '90%',
     },
     title: {
         fontSize: 80,
         fontWeight: 'bold',
         textAlign: 'center',
-        fontFamily:"serif"
+        fontFamily: "serif"
     },
     title_pages: {
         fontSize: 40,
         fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 30,
-        fontFamily:"serif"
+        fontFamily: "serif"
     },
     subtitle: {
         fontSize: 30,
         textAlign: 'center',
-        fontFamily:"serif"
+        fontFamily: "serif"
     },
     image: {
         height: 300,
         width: 300
+    },
+    switchSection: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        marginTop: 20,
+        marginBottom: 5,
     },
     button: {
         borderWidth: 2,
@@ -259,7 +264,7 @@ const styles = StyleSheet.create({
     },
     txtButton: {
         fontSize: 20,
-        fontFamily:"serif"
+        fontFamily: "serif"
     },
     noAccountRow: {
         flexDirection: 'row'
@@ -267,7 +272,7 @@ const styles = StyleSheet.create({
     txtNoAccount: {
         color: 'blue',
         borderBottomWidth: 1,
-        fontFamily:"serif"
+        fontFamily: "serif"
     },
     eyeIcon1: {
         position: 'absolute',
@@ -284,5 +289,15 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between'
-    }
+    },
+    loading: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }
 })

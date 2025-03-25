@@ -2,13 +2,13 @@
     "Success": "Success",
     "Error": "Error",
     "Delete": "Do you really want to delete your account?",
-    "Attention": "Attention! Changing the language will restart the application",
-    "subtitle": "Always watching over you",
+    "Attention": "Warning! Changing the language will restart the app",
+    "subtitle": "Always by your side",
     "titles_pages": {
         "authentification": "Authentication",
         "create": "Create an account",
         "parameters": "Settings",
-        "mapping": "Route List",
+        "mapping": "Route list",
         "mapping_add": "Add a route",
         "mapping_edit": "Edit a route",
         "notifications": "Notifications"
@@ -16,7 +16,7 @@
     "Account": {
         "no_account": "No account",
         "confirmation": "Confirmation",
-        "delete_last_item_warning": "Deleting this will automatically delete the route. Will you proceed ?",
+        "delete_last_item_warning": "Deleting this item will delete the route. Do you want to continue?",
         "buttons": {
             "yes": "Yes",
             "no": "No",
@@ -37,13 +37,14 @@
     "InputFields": {
         "email": "Email",
         "password": "Password",
+        "session": "Keep session active",
         "old_password": "Old password",
         "new_password": "New password",
         "confirm_password": "Confirm password",
         "confirm_new_password": "Confirm new password",
         "firstname": "First name",
         "lastname": "Last name",
-        "placeholder": "Enter route name",
+        "placeholder": "Enter the route name",
         "forward": "Move forward",
         "backward": "Move backward",
         "left": "Turn left",
@@ -62,7 +63,7 @@
             "confirm_password": "Password confirmation is required"
         },
         "password_constraints": {
-            "greater_than_8": "Password must be at least 8 characters long.",
+            "greater_than_8": "Password must be at least 8 characters.",
             "upper_case": "Password must contain at least one uppercase letter.",
             "lower_case": "Password must contain at least one lowercase letter.",
             "special_caracter": "Password must contain at least one special character.",
@@ -76,23 +77,23 @@
         },
         "mapping": {
             "add": "Error saving the route",
-            "edit": "Error modifying the route",
+            "edit": "Error editing the route",
             "delete": "Error deleting the route"
         }
     },
     "Messages": {
         "logout": {
-            "success": "Successfully logged out",
-            "error": "Error logging out!"
+            "success": "Logout successful",
+            "error": "Error during logout!"
         },
         "login": {
-            "success": "Successfully logged in",
-            "error": "Error logging in",
+            "success": "Login successful",
+            "error": "Error during login",
             "error2": "Incorrect password or email"
         },
         "signup": {
             "success": "Account created!",
-            "error": "Error creating account!"
+            "error": "Error creating the account!"
         },
         "password": {
             "success": "Password changed successfully",
@@ -100,8 +101,8 @@
         },
         "no_changes": "No changes made",
         "user": {
-            "success": "Information(s) updated successfully",
-            "error": "Error updating information(s)"
+            "success": "Information updated successfully",
+            "error": "Error updating information"
         },
         "delete": {
             "success": "Account successfully deleted",
@@ -109,7 +110,7 @@
         },
         "instructions": {
             "success": "Route saved successfully",
-            "error": "Error creating the route",
+            "error": "Error creating route",
             "delete": "Item deleted successfully"
         },
         "notifications": {
@@ -118,7 +119,7 @@
         },
         "mapping": {
             "add": "Route saved successfully",
-            "edit": "Item modified successfully",
+            "edit": "Item edited successfully",
             "delete": "Item deleted successfully"
         }
     },
@@ -159,8 +160,18 @@
         }
     },
     "Notifications": {
-        "intruder": "Intruder presence",
-        "speed": "ECHELON unusual speed",
-        "obstacle": "Obstacle encountered"
+        "alert": "Warning!",
+        "button": "Ok",
+        "text": {
+            "type": "Type",
+            "date": "Date",
+            "time": "Time",
+            "no_notifications": "No notifications."
+        },
+        "type": {
+            "distance": "Object detected (Distance)",
+            "sound": "Object detected (Sound)",
+            "speed": "Moving object - Potential theft detected!"
+        }
     }
 }

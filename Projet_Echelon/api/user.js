@@ -1,4 +1,4 @@
-import { deleteUserInfo, getUserInfo, saveUserInfo } from "./secureStore";
+import { deleteUserInfo, getUserInfo, saveUserInfo, saveUserToken, getUserToken, deleteUserToken } from "./secureStore";
 
 const baseUrl = process.env.EXPO_PUBLIC_API_URL;
 
@@ -19,6 +19,7 @@ export const login = async (email, password, session) => {
     
     if(response.status === 200){
       if (session) saveUser(data)
+      else saveUserToken(data.token)
       return data;
     }
     else {
@@ -61,20 +62,26 @@ export const signup = async (email, firstname, lastname, password, session) => {
 
 export const logout = async () => {
   try {
-    const user = await getUserInfo();
+    const user = await getUserInfo()
+    const token = await getUserToken()
+    
     const response = await fetch(`${baseUrl}logout`, {
       method: 'POST',
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user !== undefined ? user.token : token}`,
       },
     });
     
     const data = await response.json();
 
     if(response.status === 200){
-      deleteUserInfo();
+      if (user === undefined) {
+        await deleteUserToken();
+      } else {
+        await deleteUserInfo();
+      }
       return data;
     }
     else

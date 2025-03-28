@@ -1,11 +1,11 @@
 {
     "Success": "Succès",
     "Error": "Erreur",
-    "Delete": "Voulez-vous vraiment supprimer votre compte ?",
-    "Attention": "Attention ! Changer la langue redémarrera l'application",
+    "Delete": "Êtes-vous sûr de vouloir supprimer votre compte ?",
+    "Attention": "Attention ! Le changement de langue entraînera le redémarrage de l'application.",
     "subtitle": "Toujours à vos côtés",
     "empty": "Liste vide",
-    "mapping": "Voulez vraiment supprimé la route suivante ? ",
+    "mapping": "Êtes-vous vraiment sûr de vouloir supprimer cet itinéraire ?",
     "titles_pages": {
         "authentification": "Authentification",
         "create": "Créer un compte",
@@ -18,8 +18,8 @@
     "Account": {
         "no_account": "Aucun compte",
         "confirmation": "Confirmation",
-        "logout": "Souhaitez-vous vraiment vous déconnecté(e) ?",
-        "delete": "Souhaitez-vous vraiment supprimé votre compte ?",
+        "logout": "Souhaitez-vous vraiment vous déconnecter ?",
+        "delete": "Souhaitez-vous vraiment supprimer votre compte ?",
         "delete_last_item_warning": "La suppression de cet élément entraînera la suppression de l'itinéraire. Voulez-vous continuer ?",
         "buttons": {
             "yes": "Oui",
@@ -41,7 +41,7 @@
     "InputFields": {
         "email": "Email",
         "password": "Mot de passe",
-        "session": "Garder la session active",
+        "session": "Rester connecté",
         "old_password": "Ancien mot de passe",
         "new_password": "Nouveau mot de passe",
         "confirm_password": "Confirmer le mot de passe",
@@ -61,7 +61,7 @@
             "firstname": "Le prénom est requis",
             "email": {
                 "empty": "L'email est requis",
-                "invalid": "L'email n'est pas valide"
+                "invalid": "L'email est invalide"
             },
             "password": "Le mot de passe est requis",
             "confirm_password": "La confirmation du mot de passe est requise"
@@ -96,7 +96,7 @@
             "error2": "Mot de passe ou email incorrect"
         },
         "signup": {
-            "success": "Compte créé !",
+            "success": "Compte créé avec succès !",
             "error": "Erreur lors de la création du compte !"
         },
         "password": {

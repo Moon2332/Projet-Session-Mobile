@@ -4,6 +4,8 @@
     "Delete": "Voulez-vous vraiment supprimer votre compte ?",
     "Attention": "Attention ! Changer la langue redémarrera l'application",
     "subtitle": "Toujours à vos côtés",
+    "empty": "Liste vide",
+    "mapping": "Voulez vraiment supprimé la route suivante ? ",
     "titles_pages": {
         "authentification": "Authentification",
         "create": "Créer un compte",
@@ -16,6 +18,8 @@
     "Account": {
         "no_account": "Aucun compte",
         "confirmation": "Confirmation",
+        "logout": "Souhaitez-vous vraiment vous déconnecté(e) ?",
+        "delete": "Souhaitez-vous vraiment supprimé votre compte ?",
         "delete_last_item_warning": "La suppression de cet élément entraînera la suppression de l'itinéraire. Voulez-vous continuer ?",
         "buttons": {
             "yes": "Oui",

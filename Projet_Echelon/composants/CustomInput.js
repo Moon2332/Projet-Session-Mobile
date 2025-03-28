@@ -12,7 +12,8 @@ const CustomInput = ({
   mode,
   toggleVisibility,
   showEyeIcon,
-  fontSize
+  fontSize,
+  keyboardType = 'default'
 }) => {
 
   const dynamicStyles = {
@@ -55,6 +56,7 @@ const CustomInput = ({
         <TextInput
           style={dynamicStyles.input}
           value={value}
+          keyboardType={keyboardType}
           onChangeText={onChangeText}
           secureTextEntry={isPassword}
         />

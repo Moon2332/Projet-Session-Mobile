@@ -3,6 +3,7 @@ import * as SecureStore from "expo-secure-store";
 
 export const saveUserInfo = async (user) => {
       try {
+        console.log(user)
         await SecureStore.setItemAsync("user_echelon", JSON.stringify(user));
       } catch (e) {
         console.error("Erreur lors de la sauvegarde", e);

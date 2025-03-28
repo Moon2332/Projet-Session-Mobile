@@ -10,12 +10,16 @@ import Toast from 'react-native-toast-message';
 import { useMQTT } from '../../useMQTT';
 
 const Home = ({ route }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
-  const { fontSize, mode } = useParams()
+  const { fontSize, mode, langue } = useParams()
 
   const [isActivated, setIsActivated] = useState(false);
   const { client, connected, sendMessage } = useMQTT();
+
+  useEffect(() => {
+    i18n.changeLanguage(langue)
+  }, [])
 
   useEffect(() => {
     if (client && connected) {

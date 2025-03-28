@@ -62,7 +62,7 @@ export const MQTTProvider = ({ children }) => {
   const onMessageArrived = (message) => {
     console.log("Message arrived:", message.payloadString);
     try {
-      if (message.payloadString === "Start" || message.payloadString === "Stop" || message.payloadString === "Test" || message.payloadString === "Test 1" || message.payloadString === "Stop" || message.payloadString === "Test" || message.payloadString === "Binted") {
+      if (message.payloadString === "Start" || message.payloadString === "Stop" || message.payloadString === "Test" || message.payloadString === "Start1" || message.payloadString === "Stop" || message.payloadString === "Test" || message.payloadString === "Binted") {
         // 
       } else {
         const newNotification = JSON.parse(message.payloadString);

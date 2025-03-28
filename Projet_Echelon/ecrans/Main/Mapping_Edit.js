@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, Alert, Button, Modal } from 'react-native';
 import useBD from '../../useBD';
 import { useNavigation } from '@react-navigation/native';
 import { useParams } from '../../useParams';
@@ -15,7 +15,7 @@ const MappingEdit = ({ route }) => {
     const [title, setTitle] = useState("");
     const [editedInstructions, setEditedInstructions] = useState([]);
     const [isChanged, setIsChanged] = useState(false);
-
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const { item_edit } = route.params;
 
     useEffect(() => {
@@ -63,7 +63,7 @@ const MappingEdit = ({ route }) => {
                 [
                     {
                         text: t("Account.buttons.no"),
-                        onPress: () => {},
+                        onPress: () => { },
                     },
                     {
                         text: t("Account.buttons.yes"),
@@ -141,6 +141,62 @@ const MappingEdit = ({ route }) => {
             fontSize: parseInt(fontSize),
             color: mode ? '#ffffff' : '#2f3640',
         },
+        overlay: {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        modalContent: {
+            backgroundColor: mode ? '#ffffff' : '#2c3e50',
+            padding: 20,
+            borderRadius: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        modalButtons: {
+            flexDirection: 'row',
+            marginTop: 20,
+        },
+        modalContainer: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: mode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+          },
+          modalContent: {
+            width: '90%',
+            padding: 20,
+            backgroundColor: mode ? '#2F2F2F' : '#FFFFFF',
+            borderRadius: 35,
+            elevation: 5,
+            shadowColor: mode ? '#fff' : '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+          },
+          modalButtons: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginTop: 10,
+          },
+          button: {
+            backgroundColor: mode ? '#FF5733' : '#33FF57',
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            borderRadius: 5,
+            margin: 5,
+            alignItems: 'center',
+          },
+          buttonText: {
+            color: mode ? '#FFFFFF' : '#000000',
+            fontSize: 16,
+            fontWeight: 'bold',
+          },
     };
 
     return (
@@ -162,13 +218,40 @@ const MappingEdit = ({ route }) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => removeInstruction()}
+                    onPress={() => setIsModalVisible(true)}
                     style={styles.saveButton}
-                    disabled={!isChanged}
                 >
                     <Text style={styles.saveButtonText}>{t("Account.buttons.delete")}</Text>
                 </TouchableOpacity>
             </View>
+
+            <Modal
+                visible={isModalVisible}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={() => setIsModalVisible(false)}
+            >
+                <View style={dynamicStyles.modalContainer}>
+                    <View style={dynamicStyles.modalContent}>
+                        <Text style={[{ fontSize: 18, textAlign: 'center' }, dynamicStyles.textLabel]}>{t("mapping")}</Text>
+                        <Text style={[{ fontSize: 20, fontWeight: '900', textAlign: 'center'  }, dynamicStyles.textLabel]}>" {title} "</Text>
+                        <View style={dynamicStyles.modalButtons}>
+                            <TouchableOpacity
+                                style={dynamicStyles.button}
+                                onPress={() => setIsModalVisible(false)}
+                            >
+                                <Text style={dynamicStyles.buttonText}>{t("Account.buttons.no")}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={dynamicStyles.button}
+                                onPress={() => removeInstruction()}
+                            >
+                                <Text style={dynamicStyles.buttonText}>{t("Account.buttons.yes")}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
 
             <Toast />
         </View>

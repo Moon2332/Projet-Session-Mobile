@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, ScrollView, Switch } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, ScrollView, Switch, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import '../../i18n'
 import { useTranslation } from 'react-i18next'

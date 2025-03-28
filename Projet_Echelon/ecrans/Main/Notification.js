@@ -16,6 +16,8 @@ const Notification = () => {
     const navigation = useNavigation();
 
     const { client, connected, notification_mqtt } = useMQTT();
+    const { notifications } = useBD()
+    // console.log(notifications)
     const [lastFetched, setLastFetched] = useState(null);
 
     const { addNotification } = useBD()
@@ -114,7 +116,15 @@ const Notification = () => {
         },
         cardText: {
             color: mode ? '#333' : '#fff',
-            fontSize: (parseInt(fontSize) + 10),
+            fontSize: parseInt(fontSize),
+        },
+        icon: {
+            width: parseInt(fontSize) > 16 ? 50 : 30,
+            height: parseInt(fontSize) > 16 ? 50 : 30,
+            marginRight: 10,
+            position: 'absolute',
+            top: parseInt(fontSize) > 16 ? 60 : 25,
+            right: 10,
         },
     };
 
@@ -132,7 +142,7 @@ const Notification = () => {
         return (
             <Pressable onPress={() => renderPicture(item)}>
                 <View style={[styles.card, dynamicStyles.card, speedStyle]}>
-                    <Image source={getImageForType(item.type)} style={styles.icon} />
+                    <Image source={getImageForType(item.type)} style={dynamicStyles.icon} />
 
                     <View style={styles.textContainer}>
                         <Text style={[styles.cardText, dynamicStyles.cardText]}>{t("Notifications.text.type")}: 
@@ -223,14 +233,6 @@ const styles = StyleSheet.create({
         width: 300,
         height: 300,
         marginBottom: 30,
-    },
-    icon: {
-        width: 30,
-        height: 30,
-        marginRight: 10,
-        position: 'absolute',
-        top: 25,
-        right: 10,
     },
     textContainer: {
         flex: 1,

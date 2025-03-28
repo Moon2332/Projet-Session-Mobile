@@ -28,7 +28,7 @@ const Mapping = ({ route }) => {
 
     useEffect(() => {
         getInstructions();
-        console.log("In use effect mapping", instructions);
+        // console.log("In use effect mapping", instructions);
     }, []);
 
     useLayoutEffect(() => {
@@ -109,7 +109,7 @@ const Mapping = ({ route }) => {
 
     const listEmptyComponent = () => {
         return (
-            <Text>Empty</Text>
+            <Text>{t("Empty")}</Text>
         )
     }
 

@@ -11,13 +11,17 @@ const useBD = () => {
 
   const [lastFetched, setLastFetched] = useState(null);
 
-  const { t } = useTranslation()
-
   useEffect(() => {
     const getBD = async () => {
       try {
         bdInstructions.current = await SQLite.openDatabaseAsync("bd_instructions.db");
         bdNotifications.current = await SQLite.openDatabaseAsync("bd_notifications.db");
+
+        if (bdInstructions.current && bdNotifications.current) {
+          console.log("Databases initialized");
+        } else {
+          console.log("Failed to initialize databases");
+        }
 
         await createInstructionTables();
         await createNotificationTables();
@@ -52,7 +56,7 @@ const useBD = () => {
     if (bdInstructions.current) {
       try {
         const result = await bdInstructions.current.getAllAsync(`SELECT * FROM instructions`);
-        // console.log("In hook", result)
+        console.log(result)
         setInstructions(result);
       } catch (e) {
         console.log("Error fetching instructions", e);

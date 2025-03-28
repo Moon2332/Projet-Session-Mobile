@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Switch, TouchableOpacity, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, Text, View, Switch, TouchableOpacity, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, Modal, Button } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +17,7 @@ const Parameters = () => {
   const [modeU, setMode] = useState(mode);
   const [lang, setLangue] = useState(langue);
   const [speed, setSpeedUnit] = useState(speedUnit);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const langues = [
     { value: 'en', label: t("Parameters.language.english") },
@@ -74,6 +75,41 @@ const Parameters = () => {
     },
     buttonSignOut: {
       backgroundColor: modeU ? '#ff9f43' : '#e74c3c',
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: mode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+    },
+    modalContent: {
+      width: '90%',
+      padding: 20,
+      backgroundColor: mode ? '#2F2F2F' : '#FFFFFF',
+      borderRadius: 35,
+      elevation: 5,
+      shadowColor: mode ? '#fff' : '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+    },
+    modalButtons: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginTop: 10,
+    },
+    button: {
+      backgroundColor: modeU ? '#FF5733' : '#33FF57',
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 5,
+      margin: 5,
+      alignItems: 'center',
+    },
+    buttonText: {
+      color: modeU ? '#FFFFFF' : '#000000',
+      fontSize: 16,
+      fontWeight: 'bold',
     },
   };
 
@@ -177,7 +213,7 @@ const Parameters = () => {
 
             <TouchableOpacity
               style={[styles.buttonSignOut, dynamicStyles.buttonSignOut]}
-              onPress={() => signout()}
+              onPress={() => setIsModalVisible(true)}
             >
               <FontAwesomeIcon icon={faRightFromBracket} size={parseInt(fontS) + 10} />
               <Text style={{ fontSize: parseInt(fontS) + 4, marginLeft: 10 }}>
@@ -185,6 +221,33 @@ const Parameters = () => {
               </Text>
             </TouchableOpacity>
           </View>
+
+          <Modal
+            visible={isModalVisible}
+            transparent={true}
+            animationType="fade"
+            onRequestClose={() => setIsModalVisible(false)}
+          >
+            <View style={dynamicStyles.modalContainer}>
+              <View style={dynamicStyles.modalContent}>
+                <Text style={{ fontSize: 18 }}>{t("Account.logout")}</Text>
+                <View style={dynamicStyles.modalButtons}>
+                  <TouchableOpacity
+                    style={dynamicStyles.button}
+                    onPress={() => setIsModalVisible(false)}
+                  >
+                    <Text style={dynamicStyles.buttonText}>{t("Account.buttons.no")}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={dynamicStyles.button}
+                    onPress={() => signout()}
+                  >
+                    <Text style={dynamicStyles.buttonText}>{t("Account.buttons.yes")}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
         </SafeAreaView>
       </ScrollView>
     </KeyboardAvoidingView>

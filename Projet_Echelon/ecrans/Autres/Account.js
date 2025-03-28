@@ -1,4 +1,4 @@
-import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import i18next from 'i18next';
 import '../../i18n';
@@ -18,9 +18,9 @@ import CustomModal from '../../composants/CustomModal';
 import AlertModal from '../../composants/AlertModal';
 
 const Account = () => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const navigation = useNavigation();
-    const { fontSize, mode, langue } = useParams();
+    const { fontSize, mode } = useParams();
 
     const [id, setID] = useState("");
     const [lastName, setLastName] = useState("");
@@ -33,6 +33,8 @@ const Account = () => {
     const [visible, setVisible] = useState([]);
     const [visibleAlert, setVisibleAlert] = useState([]);
     const [isError, setisError] = useState([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isPasswordCVisible, setIsPasswordCVisible] = useState(false);
@@ -119,8 +121,8 @@ const Account = () => {
         const user = await getUserInfo();
 
         try {
-            if(email != user.email || firstName != user.firstname || lastName != user.lastname) {
-                if (validateForm()){
+            if (email != user.email || firstName != user.firstname || lastName != user.lastname) {
+                if (validateForm()) {
                     const response = await update(id, lastName, firstName, email);
                     setFirstName(response.user.firstname);
                     setLastName(response.user.lastname);
@@ -148,7 +150,7 @@ const Account = () => {
 
     const editPassword = async () => {
         try {
-            if (validateFormPassword()){
+            if (validateFormPassword()) {
                 const response = await updatePassword(passwordA, password, passwordC);
 
                 Toast.show({
@@ -236,6 +238,41 @@ const Account = () => {
             color: mode ? '#333' : '#fff',
             fontFamily: 'serif',
         },
+        modalContainer: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: mode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+          },
+          modalContent: {
+            width: '90%',
+            padding: 20,
+            backgroundColor: mode ? '#2F2F2F' : '#FFFFFF',
+            borderRadius: 35,
+            elevation: 5,
+            shadowColor: mode ? '#fff' : '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+          },
+          modalButtons: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginTop: 10,
+          },
+          buttonModal: {
+            backgroundColor: mode ? '#FF5733' : '#33FF57',
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            borderRadius: 5,
+            margin: 5,
+            alignItems: 'center',
+          },
+          buttonText: {
+            color: mode ? '#FFFFFF' : '#000000',
+            fontSize: 16,
+            fontWeight: 'bold',
+          },
     };
 
     return (
@@ -300,17 +337,9 @@ const Account = () => {
                             mode={mode}
                         />
 
-                        <AlertModal
-                            visible={visibleAlert}
-                            setVisible={setVisibleAlert}
-                            onPressConfirm={drop}
-                            mode={mode}
-                            message={t("Delete")}
-                        />
-
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity 
-                                onPress={() => edit()} 
+                            <TouchableOpacity
+                                onPress={() => edit()}
                                 style={[styles.button, dynamicStyles.button]}
                             >
                                 <FontAwesomeIcon icon={faFloppyDisk} size={parseInt(fontSize) + 4} />
@@ -319,8 +348,8 @@ const Account = () => {
                                 </Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity 
-                                onPress={() => setVisible(true)} 
+                            <TouchableOpacity
+                                onPress={() => setVisible(true)}
                                 style={[styles.button, dynamicStyles.button]}
                             >
                                 <FontAwesomeIcon icon={faPenToSquare} size={parseInt(fontSize) + 4} />
@@ -329,8 +358,8 @@ const Account = () => {
                                 </Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity 
-                                onPress={() => setVisibleAlert(true)} 
+                            <TouchableOpacity
+                                onPress={() => setIsModalVisible(true)}
                                 style={[styles.button, dynamicStyles.button, { backgroundColor: '#FF3B30' }]}
                             >
                                 <FontAwesomeIcon icon={faTrashCan} size={parseInt(fontSize) + 4} />
@@ -340,7 +369,34 @@ const Account = () => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    
+
+                    <Modal
+                        visible={isModalVisible}
+                        transparent={true}
+                        animationType="fade"
+                        onRequestClose={() => setIsModalVisible(false)}
+                    >
+                        <View style={dynamicStyles.modalContainer}>
+                            <View style={dynamicStyles.modalContent}>
+                                <Text style={{ fontSize: 18 }}>{t("Account.delete")}</Text>
+                                <View style={dynamicStyles.modalButtons}>
+                                    <TouchableOpacity
+                                        style={dynamicStyles.buttonModal}
+                                        onPress={() => setIsModalVisible(false)}
+                                    >
+                                        <Text style={dynamicStyles.buttonText}>{t("Account.buttons.no")}</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={dynamicStyles.buttonModal}
+                                        onPress={() => drop()}
+                                    >
+                                        <Text style={dynamicStyles.buttonText}>{t("Account.buttons.yes")}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
+
                     <Toast />
                 </SafeAreaView>
             </ScrollView>
@@ -376,7 +432,7 @@ const styles = StyleSheet.create({
     backButton: {
         position: 'absolute',
         left: 10,
-        top: 0, 
+        top: 0,
         padding: 10,
     },
     buttonContainer: {

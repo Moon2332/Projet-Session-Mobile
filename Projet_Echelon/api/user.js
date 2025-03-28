@@ -18,8 +18,13 @@ export const login = async (email, password, session) => {
     const data = await response.json();
     
     if(response.status === 200){
-      if (session) saveUser(data)
-      else saveUserToken(data.token)
+      saveUser(data)
+
+      if (session) 
+        saveUserToken(data.token)
+      else 
+        saveUserToken("")
+
       return data;
     }
     else {
@@ -187,7 +192,7 @@ export const deleteUser = async () => {
 const saveUser = (data)=>{
   const user = {
     token: data.token,
-    id: data.user.id,
+    id: data.user.id.toString(),
     email: data.user.email,
     firstname: data.user.firstname,
     lastname: data.user.lastname,

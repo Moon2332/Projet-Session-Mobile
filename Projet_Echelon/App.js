@@ -15,10 +15,9 @@ import Mapping from './ecrans/Main/Mapping';
 import MappingCreate from './ecrans/Main/Mapping_Create';
 import { refreshToken } from './api/user';
 import Account from './ecrans/Autres/Account';
-import { deleteUserInfo } from './api/secureStore';
+import { deleteUserInfo, getUserToken } from './api/secureStore';
 import MappingEdit from './ecrans/Main/Mapping_Edit';
 import { MQTTProvider } from './useMQTT';
-// import { ModalProvider } from './useAlertModal';
 import { StatusBar } from 'expo-status-bar';
 import store from './store/store';
 import { Provider } from 'react-redux';
@@ -30,15 +29,18 @@ export default function App() {
 
   useEffect(() => {
     const isUserLoggedIn = async () => {
-      // deleteUserInfo()
       try {
         setIsLoading(true)
-        const response = await refreshToken();
-        console.log("Response in APP.js", response)
-        if (response !== null)
-          setLandingPage("Menu");
-        else
-          setLandingPage("Auth");
+        const token = await getUserToken();
+        if (token) {
+          const response = await refreshToken();
+          if (response !== null)
+            setLandingPage("Menu");
+          else
+            setLandingPage("Auth");
+        } else {
+          setLandingPage("Auth")
+        }
       } catch (error) {
         console.log("Erron in APP.js" + error)
         setLandingPage("Auth");
@@ -198,7 +200,6 @@ export default function App() {
       <Provider store={store}>
         <ParamsProvider >
           <MQTTProvider>
-            {/* <ModalProvider> */}
             <Navigation />
             {
               isLoading && (
@@ -207,7 +208,6 @@ export default function App() {
                 </View>
               )
             }
-            {/* </ModalProvider> */}
           </MQTTProvider>
         </ParamsProvider>
       </Provider>
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loading: {
-    flex:1,
+    flex: 1,
     position: 'absolute',
     top: 0,
     left: 0,

@@ -1,5 +1,6 @@
 {
     "Success": "Succès",
+    "connectionLost": "Connexion perdue. Veillez fermer l'application, et réesayez plus tard.",
     "Error": "Erreur",
     "Delete": "Êtes-vous sûr de vouloir supprimer votre compte ?",
     "Attention": "Attention ! Le changement de langue entraînera le redémarrage de l'application.",

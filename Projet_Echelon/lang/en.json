@@ -1,6 +1,7 @@
 {
     "Success": "Success",
     "Error": "Error",
+    "connectionLost": "Lost connection. Please close the app and try again later.",
     "Delete": "Are you sure you want to delete your account?",
     "Attention": "Warning! Changing the language will restart the app.",
     "subtitle": "Always by your side",

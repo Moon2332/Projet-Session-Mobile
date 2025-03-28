@@ -56,7 +56,7 @@ const useBD = () => {
     if (bdInstructions.current) {
       try {
         const result = await bdInstructions.current.getAllAsync(`SELECT * FROM instructions`);
-        console.log(result)
+        // console.log(result)
         setInstructions(result);
       } catch (e) {
         console.log("Error fetching instructions", e);

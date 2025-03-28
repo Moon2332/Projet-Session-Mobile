@@ -70,7 +70,7 @@ const Notification = () => {
                 if (new Date(date) > new Date(lastFetched)) {
                     addNotification(type, image, date);
                     setLastFetched(date);
-                    if (type !== "sound" && type !== "distance") {
+                    if (type === "acc") {
                         setVisibleAlert(true)
                         setVisibleL(true)
                     } else {
